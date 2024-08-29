@@ -1,6 +1,6 @@
-import { UserI } from "./User.interface";
+import UserI from "./User.interface";
 
-export interface RepositoryUser{
+export default interface RepositoryUser{
     register(user: UserI): Promise<void>
     searchEmail(email: string): Promise<UserI>
 }
