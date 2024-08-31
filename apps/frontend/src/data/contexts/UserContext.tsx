@@ -1,9 +1,10 @@
+'use client'
 import { createContext, useCallback, useMemo } from "react";
 import { UserContextProps } from "../interfaces";
 import useAPI from "../hooks/useApi";
 import useSection from "../hooks/useSection";
-import { useRouter } from "next/router";
 import { UserI } from "@wallet/core";
+import { useRouter } from "next/navigation";
 
 const UserContext = createContext<UserContextProps>({} as any)
 

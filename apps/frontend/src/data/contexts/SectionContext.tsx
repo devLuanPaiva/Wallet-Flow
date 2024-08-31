@@ -1,3 +1,4 @@
+'use client'
 import { createContext, useCallback, useEffect, useMemo, useState } from "react";
 import { SectionContextProps } from "../interfaces";
 import { jwtDecode } from 'jwt-decode'
