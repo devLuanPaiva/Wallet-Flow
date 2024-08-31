@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { RepositoryUser, UserI } from '@wallet/core';
-import { PrismaService } from 'src/db/prisma.service';
+import { PrismaService } from '../db/prisma.service';
 
 @Injectable()
 export class UserRepository implements RepositoryUser {
   constructor(private readonly prismaService: PrismaService) {}
+
   async register(user: UserI): Promise<void> {
     await this.prismaService.user.upsert({
       where: { id: user.id ?? -1 },
@@ -12,7 +13,9 @@ export class UserRepository implements RepositoryUser {
       create: user as any,
     });
   }
-  async searchEmail(email: string): Promise<UserI | null> {
-    return await this.prismaService.user.findUnique({ where: { email } });
+  async searchEmail(email: string): Promise<UserI> {
+    return this.prismaService.user.findUnique({
+      where: { email },
+    });
   }
 }

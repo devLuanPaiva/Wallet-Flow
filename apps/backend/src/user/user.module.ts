@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
-import { AuthMiddleware } from 'src/auth/auth.middleware';
 import { PrismaModule } from 'src/db/prima.module';
 import { UserRepository } from './user.repository';
 import { UserController } from './user.controller';
-import { BcryptProvider } from 'src/auth/bcrypt.provider';
+import { BcryptProvider } from './bcrypt.provider';
+import { UserMidddleware } from './user.middleware';
 
 @Module({
   imports: [PrismaModule],
-  exports: [AuthMiddleware, UserRepository],
+  exports: [UserMidddleware, UserRepository],
   controllers: [UserController],
-  providers: [AuthMiddleware, UserRepository, BcryptProvider],
+  providers: [UserMidddleware, UserRepository, BcryptProvider],
 })
 export class UserModule {}
