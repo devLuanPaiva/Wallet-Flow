@@ -6,19 +6,15 @@ export default class User {
     private readonly crypt: ProviderCryptography
   ) {}
 
-  async register(userProps: UserI): Promise<void> {
-    const user = await this.repo.searchEmail(userProps.email);
-    if (user) {
-      throw new Error("Email já existe!");
-    }
-    const passwordCryptography = await this.crypt.cryptography(
-      userProps.password
-    );
-
+  async register(user: UserI): Promise<void> {
+    const existingUser = await this.repo.searchEmail(user.email);
+    if (existingUser) throw new Error("Usuário já cadastrado");
+    const passwordCryptography = await this.crypt.cryptography(user.password);
     const newUser: UserI = {
       ...user,
       password: passwordCryptography,
     };
+
     await this.repo.register(newUser);
   }
   async login(email: string, password: string): Promise<UserI | null> {
