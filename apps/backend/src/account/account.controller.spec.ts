@@ -47,4 +47,31 @@ describe('AccountController', () => {
       },
     });
   });
+  it('should deposit money into account', async () => {
+    const value = 75;
+    const accountId = 3;
+    const userLogged: UserI = {
+      id: 3,
+      email: 'joanadoe@gmail.com',
+      name: 'joanadoe',
+    };
+
+    const updatedAccount: Partial<AccountI> = {
+      transferKey: 1234567809,
+      bankBalance: 175,
+    };
+
+    const depositSpy = jest
+      .spyOn(prismaService.account, 'update')
+      .mockResolvedValue(updatedAccount as any);
+
+    await accountController.deposity(accountId, value, userLogged);
+
+    expect(depositSpy).toHaveBeenCalledWith({
+      where: { id: accountId },
+      data: {
+        bankBalance: { increment: value },
+      },
+    });
+  });
 });
