@@ -10,7 +10,7 @@ const UserContext = createContext<UserContextProps>({} as any)
 
 export function UserProvider({ children }: any) {
     const { httpPOST } = useAPI()
-    const { clearSection, createSection, loading, user } = useSection()
+    const { clearSection, createSection, loading, entity } = useSection()
     const router = useRouter()
 
     const register = useCallback(async (user: UserI) => {
@@ -29,13 +29,13 @@ export function UserProvider({ children }: any) {
 
     const contextValue = useMemo(() => {
         return {
-            user,
+            entity,
             register,
             login,
             logout,
             loading,
         }
-    }, [loading, user, login, register, logout])
+    }, [loading, entity, login, register, logout])
 
     return (
         <UserContext.Provider value={contextValue}>
