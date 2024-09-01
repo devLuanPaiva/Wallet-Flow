@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { AccountI, RepositoryAccount } from '@wallet/core';
-import { PrismaService } from 'src/db/prisma.service';
+import { PrismaService } from '../db/prisma.service';
 
 @Injectable()
 export class AccountRepository implements RepositoryAccount {

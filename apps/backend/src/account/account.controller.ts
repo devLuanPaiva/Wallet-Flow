@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { AccountRepository } from './account.repository';
 import { AccountI, UserI } from '@wallet/core';
-import { UserLogged } from 'src/user/user.decorator';
+import { UserLogged } from '../user/user.decorator';
 
 @Controller('account')
 export class AccountController {
