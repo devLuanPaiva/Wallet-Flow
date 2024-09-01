@@ -23,24 +23,22 @@ export default class Account {
     await this.repo.createAccount(newAccount);
   }
 
-  async chackBalance(): Promise<number> {
-    return await this.repo.chackBalance();
+  async chackBalance(id: number): Promise<number> {
+    return await this.repo.chackBalance(id);
   }
 
-  async deposity(value: number): Promise<void> {
+  async deposity(value: number, id: number): Promise<void> {
     if (value <= 0) throw new Error("Valor deve ser maior que R$ 0,00.");
-    await this.repo.deposity(value);
+    await this.repo.deposity(value, id);
   }
 
-  async transfer(value: number, recipient: AccountI): Promise<void> {
-    const balance = await this.chackBalance();
+  async transfer(value: number, id: number, transferKey: number): Promise<void> {
+    const balance = await this.chackBalance(id);
     if (balance < value) throw new Error("Saldo insuficiente.");
 
-    const existingAccount = await this.repo.searchAccountKey(
-      recipient.transferKey
-    );
+    const existingAccount = await this.repo.searchAccountKey(transferKey);
     if (!existingAccount) throw new Error("Conta de destino não encontrada.");
 
-    await this.repo.transfer(value, existingAccount);
+    await this.repo.transfer(value, id, transferKey);
   }
 }
