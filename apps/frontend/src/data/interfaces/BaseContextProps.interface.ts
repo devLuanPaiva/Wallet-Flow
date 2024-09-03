@@ -1,27 +1,27 @@
-import { AccountI, UserI } from "@wallet/core";
-export interface BaseContextProps<T> {
-  entity: T | null;
+import {  AccountI, UserI } from "@wallet/core";
+export interface BaseContextProps {
+  user: UserI | null;
   loading: boolean;
 }
-export interface SectionContextProps extends BaseContextProps<UserI> {
+export interface SectionContextProps extends BaseContextProps {
   token: string | null;
   createSection: (jwt: string) => void;
   clearSection: () => void;
 }
-export interface UserContextProps extends BaseContextProps<UserI> {
+export interface UserContextProps extends BaseContextProps {
   login: (user: Partial<UserI>) => Promise<void>;
   register: (user: UserI) => Promise<void>;
   logout: () => void;
 }
 
 export interface AccountContextProps {
-  createAccount: (account: AccountI) => Promise<void>;
+  createAccount: (account: Partial<AccountI>) => Promise<void>;
   deposit: (value: number, accountId: number) => Promise<void>;
   transfer: (
     value: number,
     accountId: number,
-    transferKey: number
+    transferKey: bigint
   ) => Promise<void>;
   checkBalance: (accountId: number) => Promise<number>;
-  searchAccountKey(transferKey: number): Promise<AccountI>;
+  
 }

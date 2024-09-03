@@ -22,7 +22,11 @@ export class AccountController {
   @Post('register')
   createAccount(@Body() account: AccountI, @UserLogged() userLogged: UserI) {
     if (account.user.id !== userLogged.id) {
-      throw new HttpException('Usuário não autorizado', 401);
+      console.log(
+        `user account ${account.user.id} | user loggerd ${userLogged.id}`,
+      );
+
+      throw new HttpException('Usuário não autorizado.', 401);
     }
     return this.repo.createAccount(account);
   }
@@ -41,14 +45,18 @@ export class AccountController {
 
   @Get('search/:transferKey')
   searchAccountKey(
-    @Param('transferKey') transferKey: number,
+    @Param('transferKey') transferKey: bigint,
   ): Promise<AccountI> {
     return this.repo.searchAccountKey(transferKey);
+  }
+  @Get('searchAccount/user/:id')
+  searchAccount(@Param('id') id: number): Promise<AccountI> {
+    return this.repo.searchAccount(id);
   }
 
   @Put('transfer/:transferKey')
   transfer(
-    @Param('transferKey') transferKey: number,
+    @Param('transferKey') transferKey: bigint,
     @Body('value') value: number,
     @Body('id') id: number,
     @UserLogged() userLogged: UserI,

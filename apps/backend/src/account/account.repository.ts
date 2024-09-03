@@ -48,9 +48,16 @@ export class AccountRepository implements RepositoryAccount {
       throw error;
     }
   }
-  async searchAccountKey(transferKey: number): Promise<AccountI> {
+  async searchAccount(userId: number): Promise<AccountI> {
+    const result: any = await this.prismaService.account.findMany({
+      where: { userId: Number(userId) },
+      include: { user: true },
+    });
+    return result;
+  }
+  async searchAccountKey(transferKey: bigint): Promise<AccountI> {
     const account = await this.prismaService.account.findFirst({
-      where: { transferKey: Number(transferKey) },
+      where: { transferKey: BigInt(transferKey) },
       include: { user: true },
     });
 
@@ -64,7 +71,7 @@ export class AccountRepository implements RepositoryAccount {
   async transfer(
     value: number,
     id: number,
-    transferKey: number,
+    transferKey: bigint,
   ): Promise<void> {
     if ((await this.chackBalance(id)) < value) {
       throw new Error('Saldo insuficiente.');
@@ -77,7 +84,7 @@ export class AccountRepository implements RepositoryAccount {
         },
       });
       const recipientAccount = await this.prismaService.account.findFirst({
-        where: { transferKey: Number(transferKey) },
+        where: { transferKey: BigInt(transferKey) },
       });
       if (!recipientAccount) {
         throw new Error('Conta do destinatário não encontrada.');

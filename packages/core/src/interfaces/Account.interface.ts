@@ -2,7 +2,7 @@ import UserI from "./User.interface";
 
 export default interface AccountI{
     id?: number;
-    transferKey: number;
+    transferKey: bigint;
     bankBalance: number;
     user: UserI;
 }
