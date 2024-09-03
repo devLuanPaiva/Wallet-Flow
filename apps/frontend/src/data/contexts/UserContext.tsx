@@ -10,38 +10,38 @@ const UserContext = createContext<UserContextProps>({} as any)
 
 export function UserProvider({ children }: any) {
     const { httpPOST } = useAPI()
-    const { clearSection, createSection, loading, entity } = useSection()
-    const router = useRouter()
-
+    const { clearSection, createSection, loading, user } = useSection()
+    const router = useRouter();
+  
     const register = useCallback(async (user: UserI) => {
-        await httpPOST('user/register', user)
-    }, [httpPOST])
-
+      await httpPOST('user/register', user);
+    }, [httpPOST]);
+  
     const login = useCallback(async (user: Partial<UserI>) => {
-        const token = await httpPOST('user/login', user);
-        createSection(token);
+      const token = await httpPOST('user/login', user);
+      createSection(token);
     }, [createSection, httpPOST]);
-
+  
     const logout = useCallback(() => {
-        clearSection();
-        router.push("/");
+      clearSection();
+      router.push("/");
     }, [router, clearSection]);
-
+  
     const contextValue = useMemo(() => {
-        return {
-            entity,
-            register,
-            login,
-            logout,
-            loading,
-        }
-    }, [loading, entity, login, register, logout])
-
+      return {
+        loading,
+        user,
+        login,
+        register,
+        logout,
+      };
+    }, [loading, user, login, register, logout]);
     return (
-        <UserContext.Provider value={contextValue}>
-            {children}
-        </UserContext.Provider>
-    )
-}
-
-export default UserContext
+      <UserContext.Provider value={contextValue}>
+        {children}
+      </UserContext.Provider>
+    );
+  }
+  
+  export default UserContext;
+  

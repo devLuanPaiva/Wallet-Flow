@@ -10,14 +10,14 @@ export function SectionProvider(props: any) {
     const storageKey = 'user-authorization'
     const [loading, setLoading] = useState(true)
     const [token, setToken] = useState<string | null>(null)
-    const [entity, setEntity] = useState<UserI | null>(null)
+    const [user, setUser] = useState<UserI | null>(null)
 
     const loadSection = useCallback(function () {
         try {
             setLoading(true)
             const state = getState()
             setToken(state?.token ?? null)
-            setEntity(state?.user ?? null)
+            setUser(state?.user ?? null)
         } finally {
             setLoading(false)
         }
@@ -35,7 +35,7 @@ export function SectionProvider(props: any) {
     const clearSection = useCallback(() => {
         sessionStorage.removeItem(storageKey)
         setToken(null)
-        setEntity(null)
+        setUser(null)
     }, [])
 
     function getState(): { token: string, user: UserI } | null {
@@ -66,10 +66,10 @@ export function SectionProvider(props: any) {
     const contextValue = useMemo(() => ({
         loading,
         token,
-        entity,
+        user,
         createSection,
         clearSection,
-    }), [loading, token, entity, createSection, clearSection])
+    }), [loading, token, user, createSection, clearSection])
 
     return (
         <SectionContext.Provider value={contextValue}>
