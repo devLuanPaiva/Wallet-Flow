@@ -18,10 +18,10 @@ const Header = () => {
         <Link href="#" className="text-black rounded-md px-4 py-2 hover:bg-purple-500 hover:text-white ">Promoções</Link>
       </nav>
 
-      <div className='bg-purple-600 clip-triangle w-[20%] h-[80px] flex justify-end items-center p-3 -mr-4'>
-        <button className="z-10 bg-white text-black rounded-md px-4 py-2 hover:bg-gray-50">
+      <div className='bg-purple-600 clip-triangle w-[30%] h-[80px] flex justify-end items-center p-3 -mr-4'>
+        <Link href='/Account/create' className="z-10 bg-white text-black rounded-md px-4 py-2 hover:bg-gray-50">
           <span className="relative z-10">Criar Conta</span>
-        </button>
+        </Link>
       </div>
     </header>
   );
