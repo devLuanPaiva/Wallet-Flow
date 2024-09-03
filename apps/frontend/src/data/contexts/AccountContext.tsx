@@ -1,4 +1,5 @@
-import React, { createContext, useCallback, useEffect, useMemo, useState } from "react";
+'use client'
+import React, { createContext, useCallback, useMemo } from "react";
 import { AccountContextProps } from "../interfaces";
 import useUser from "../hooks/useUser";
 import useAPI from "../hooks/useApi";
@@ -6,15 +7,23 @@ import { AccountI } from "@wallet/core";
 
 export const AccountContext = createContext({} as AccountContextProps)
 export function AccountProvider({ children, }: { readonly children: React.ReactNode; }) {
-    const { entity } = useUser()
+    const { user } = useUser()
     const { httpGET, httpPOST, httpPUT } = useAPI()
-    const [account, setAccount] = useState<AccountI>()
+
+    const fetchAccount = useCallback(async (): Promise<AccountI> =>{
+        try {
+            const response = await httpGET(`account/searchAccount/user/${user!.id}`)
+            return response[0]
+        } catch (error) {
+            console.error('Erro ao carregar contas: ', error)
+            throw error
+        }
+    }, [httpGET, user])
 
     const searchAccountKey = useCallback(
-        async function (transferKey: number): Promise<AccountI> {
+        async function (transferKey: bigint): Promise<AccountI> {
             try {
                 const response = await httpGET(`account/search/${transferKey}`)
-                setAccount(response.data)
                 return response.data
 
             } catch (error) {
@@ -23,18 +32,13 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
             }
         }, [httpGET]
     )
-    useEffect(() => {
-        if (entity?.account?.transferKey) {
-            searchAccountKey(entity.account.transferKey)
-        }
-    }, [entity, searchAccountKey])
 
-    const createAccount = useCallback(async (account: AccountI) => {
-        if (!entity) return
+    const createAccount = useCallback(async (account: Partial<AccountI>) => {
+        if (!user) return
         try {
             await httpPOST('account/register', {
-                user: entity.id,
-                transferKey: account.transferKey,
+                user: user,
+                transferKey: account.transferKey?.toString(),
                 bankBalance: account.bankBalance,
             })
 
@@ -42,7 +46,7 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
             console.error('Erro ao cadastrar conta: ', error)
             throw error
         }
-    }, [httpPOST, entity])
+    }, [httpPOST, user])
 
     const deposit = useCallback(async (value: number, accountId: number) => {
         try {
@@ -64,7 +68,7 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
         }
     }, [httpGET])
 
-    const transfer = useCallback(async (value: number, accountId: number, transferKey: number) => {
+    const transfer = useCallback(async (value: number, accountId: number, transferKey: bigint) => {
         try {
             await httpPUT(`account/transfer/${accountId}`, {
                 value: value,
@@ -79,15 +83,14 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
 
     const contextValue = useMemo(() => {
         return {
-            account,
             searchAccountKey,
             deposit,
             createAccount,
             checkBalance,
             transfer,
-
+            fetchAccount
         }
-    }, [account, deposit, searchAccountKey, createAccount, checkBalance, transfer])
+    }, [ deposit, searchAccountKey, createAccount, checkBalance, transfer, fetchAccount])
 
     return (
         <AccountContext.Provider value={contextValue}>

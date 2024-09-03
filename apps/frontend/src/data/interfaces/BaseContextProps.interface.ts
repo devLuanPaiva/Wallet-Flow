@@ -1,4 +1,4 @@
-import {  AccountI, UserI } from "@wallet/core";
+import { AccountI, UserI } from "@wallet/core";
 export interface BaseContextProps {
   user: UserI | null;
   loading: boolean;
@@ -23,5 +23,5 @@ export interface AccountContextProps {
     transferKey: bigint
   ) => Promise<void>;
   checkBalance: (accountId: number) => Promise<number>;
-  
+  fetchAccount: () => Promise<AccountI>;
 }
