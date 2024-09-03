@@ -23,6 +23,12 @@ export default class Account {
     await this.repo.createAccount(newAccount);
   }
 
+  async searchAccount(userId: number): Promise<AccountI> {
+    const account = await this.repo.searchAccount(userId);
+    if (!account) throw new Error("Conta não encontrada.");
+    return account;
+  }
+
   async chackBalance(id: number): Promise<number> {
     return await this.repo.chackBalance(id);
   }
@@ -32,7 +38,11 @@ export default class Account {
     await this.repo.deposity(value, id);
   }
 
-  async transfer(value: number, id: number, transferKey: number): Promise<void> {
+  async transfer(
+    value: number,
+    id: number,
+    transferKey: bigint
+  ): Promise<void> {
     const balance = await this.chackBalance(id);
     if (balance < value) throw new Error("Saldo insuficiente.");
 
