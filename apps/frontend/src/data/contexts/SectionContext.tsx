@@ -68,7 +68,7 @@ export function SectionProvider(props: any) {
         token,
         user,
         createSection,
-        clearSection
+        clearSection,
     }), [loading, token, user, createSection, clearSection])
 
     return (

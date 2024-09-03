@@ -13,11 +13,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Account {
+  id          Int   @id @default(autoincrement())
+  transferKey BigInt   @unique
+  bankBalance Float
+  user        User  @relation(fields: [userId], references: [id])
+  userId      Int
+
+  @@map("account")
+}
+
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
+  id       Int       @id @default(autoincrement())
+  email    String    @unique
   name     String
   password String
-  
+  Account  Account[]
+
   @@map("user")
 }
