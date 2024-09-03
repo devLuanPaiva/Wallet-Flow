@@ -25,7 +25,7 @@ export class AccountRepository implements RepositoryAccount {
       await this.prismaService.account.create({
         data: {
           user: { connect: { id: account.user.id } },
-          transferKey: account.transferKey,
+          transferKey: BigInt(account.transferKey),
           bankBalance: account.bankBalance,
         },
       });
@@ -53,7 +53,11 @@ export class AccountRepository implements RepositoryAccount {
       where: { userId: Number(userId) },
       include: { user: true },
     });
-    return result;
+
+    return result.map((account: AccountI) => ({
+      ...account,
+      transferKey: account.transferKey.toString(),
+    }));
   }
   async searchAccountKey(transferKey: bigint): Promise<AccountI> {
     const account = await this.prismaService.account.findFirst({
@@ -65,7 +69,10 @@ export class AccountRepository implements RepositoryAccount {
       throw new Error('Conta não encontrada.');
     }
 
-    return account;
+    return {
+      ...account,
+      transferKey: account.transferKey.toString(),
+    };
   }
 
   async transfer(

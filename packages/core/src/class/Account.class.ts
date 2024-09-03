@@ -5,7 +5,7 @@ export default class Account {
 
   async createAccount(account: AccountI): Promise<void> {
     const existingAccount = await this.repo.searchAccountKey(
-      account.transferKey
+      BigInt(account.transferKey)
     );
     if (existingAccount)
       throw new Error("Chave de transferência já cadastrada.");
