@@ -1,3 +1,4 @@
+'use client'
 import { SectionProvider } from "@/data/contexts/SectionContext";
 import { UserProvider } from "@/data/contexts/UserContext";
 
