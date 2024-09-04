@@ -1,9 +1,10 @@
 'use client'
 import useAccount from "@/data/hooks/useAccount";
 import { useAccountData } from "@/data/hooks/useAccountData";
+import { IconCurrencyDollar, IconKey } from "@tabler/icons-react";
 import { useState } from "react";
 
-export default function AccountTransfer(){
+export default function AccountTransfer() {
     const { transfer } = useAccount();
     const [valueDeposity, setValueDeposity] = useState<number>();
     const [transferKey, setTransferKey] = useState<bigint>();
@@ -27,6 +28,7 @@ export default function AccountTransfer(){
             <form onSubmit={handleDeposit} className="flex flex-col justify-center items-center gap-4 rounded-lg bg-white px-6 shadow-lg w-[550px] h-[300px]">
                 <h2 className="text-2xl relative z-20 md:text-3xl lg:text-5xl font-bold text-center text-purple-950 dark:text-purple-900 font-sans tracking-tight">Realizar Transferência</h2>
                 <label className="w-[100%] flex justify-center relative">
+                    <IconCurrencyDollar size={20} className="absolute left-2 top-3 text-purple-500" />
                     <input
                         type="number"
                         placeholder="Valor"
@@ -36,6 +38,7 @@ export default function AccountTransfer(){
                     />
                 </label>
                 <label className="w-[100%] flex justify-center relative">
+                    <IconKey size={20} className="absolute left-2 top-3 text-purple-500" />
                     <input
                         type="number"
                         placeholder="Chave de Transferência"

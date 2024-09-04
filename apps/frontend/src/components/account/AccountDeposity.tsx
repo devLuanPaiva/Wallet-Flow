@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import useAccount from "@/data/hooks/useAccount";
 import { useAccountData } from "@/data/hooks/useAccountData";
+import { IconCurrencyDollar } from "@tabler/icons-react";
 
 export default function AccountDeposity() {
     const { deposit } = useAccount();
@@ -27,6 +28,7 @@ export default function AccountDeposity() {
             <form onSubmit={handleDeposit} className="flex flex-col justify-center items-center gap-4 rounded-lg bg-white px-6 shadow-lg w-[550px] h-[200px]">
                 <h2 className="text-2xl relative z-20 md:text-3xl lg:text-5xl font-bold text-center text-purple-950 dark:text-purple-900 font-sans tracking-tight">Realizar Deposito</h2>
                 <label className="w-[100%] flex justify-center relative">
+                    <IconCurrencyDollar size={20} className="absolute left-2 top-3 text-purple-500" />
                     <input
                         type="number"
                         placeholder="Valor"

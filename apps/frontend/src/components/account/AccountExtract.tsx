@@ -9,7 +9,6 @@ export default function AccountExtract() {
     const { account, loading } = useAccountData();
     const [loadingTransactions, setLoadingTransactions] = useState(true);
     const [transactions, setTransactions] = useState<TransactionsI[]>([]);
-    const [transactionId, setTransactionId] = useState<number | undefined>(undefined);
     const reverseTransactions = true;
 
     useEffect(() => {
