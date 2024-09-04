@@ -24,7 +24,7 @@ describe('AccountController', () => {
         id: 3,
         email: 'joanadoe@gmail.com',
       },
-      transferKey: 1234567809,
+      transferKey: BigInt(1234567809),
       bankBalance: 100,
     };
     const userLogged: UserI = {
@@ -57,7 +57,7 @@ describe('AccountController', () => {
     };
 
     const updatedAccount: Partial<AccountI> = {
-      transferKey: 1234567809,
+      transferKey: BigInt(1234567809),
       bankBalance: 175,
     };
 
