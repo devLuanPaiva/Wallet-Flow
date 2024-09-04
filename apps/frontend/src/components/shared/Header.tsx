@@ -2,7 +2,6 @@ import Link from 'next/link';
 import React from 'react';
 import logo from '../../../public/banners/8483839.png'
 import Image from 'next/image';
-import useUser from '@/data/hooks/useUser';
 
 const Header = () => {
   return (
@@ -14,7 +13,7 @@ const Header = () => {
       <nav className="space-x-4">
         <Link href="#" className="text-black rounded-md px-4 py-2 hover:bg-purple-500 hover:text-white ">Home</Link>
         <Link href="/Account" className="text-black rounded-md px-4 py-2 hover:bg-purple-500 hover:text-white ">Conta</Link>
-        <Link href="#" className="text-black rounded-md px-4 py-2 hover:bg-purple-500 hover:text-white ">Contatos</Link>
+        <Link href="/Account/extract" className="text-black rounded-md px-4 py-2 hover:bg-purple-500 hover:text-white ">Extrato</Link>
         <Link href="#" className="text-black rounded-md px-4 py-2 hover:bg-purple-500 hover:text-white ">Promoções</Link>
       </nav>
 
