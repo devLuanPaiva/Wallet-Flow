@@ -28,7 +28,7 @@ export default function AccountForm() {
     return (
         <section className="mt-5">
             <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center gap-4 rounded-lg bg-white px-6 shadow-lg w-[550px] h-[300px]">
-                <h1 className="text-2xl relative z-20 md:text-4xl lg:text-7xl font-bold text-center text-purple-950 dark:text-purple-900 font-sans tracking-tight">Criar Conta</h1>
+                <h2 className="text-2xl relative z-20 md:text-3xl lg:text-5xl font-bold text-center text-purple-950 dark:text-purple-900 font-sans tracking-tight">Criar Conta</h2>
                 <label className="w-[100%] flex justify-center relative">
                     <input
                         type="number"
