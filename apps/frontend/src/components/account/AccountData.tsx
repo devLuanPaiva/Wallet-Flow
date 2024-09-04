@@ -1,29 +1,10 @@
 'use client'
-import React, { useEffect, useState } from 'react';
-import useAccount from "@/data/hooks/useAccount";
-import { AccountI } from "@wallet/core";
 import { IconPigOff } from '@tabler/icons-react';
 import Link from 'next/link';
+import { useAccountData } from '@/data/hooks/useAccountData';
 
 export default function AccountData() {
-    const { fetchAccount } = useAccount();
-    const [account, setAccount] = useState<AccountI | null>(null);
-    const [loading, setLoading] = useState(true);
-    useEffect(() => {
-        async function loadAccount() {
-            try {
-                const fetchedAccount = await fetchAccount();
-                setAccount(fetchedAccount);
-            } catch (error) {
-                console.error('Erro ao carregar a conta: ', error);
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        loadAccount();
-    }, [fetchAccount]);
-
+    const { account, loading } = useAccountData()
     if (loading) {
         return <p>Carregando...</p>;
     }
@@ -31,10 +12,10 @@ export default function AccountData() {
         <>
             {
                 account ? (
-                    <section className="flex flex-col justify-center items-center gap-4 rounded-lg bg-white px-6 shadow-lg w-[550px] h-[300px]">
-                        <h1 className="text-2xl relative z-20 md:text-4xl lg:text-7xl font-bold text-center text-purple-950 dark:text-purple-900 font-sans tracking-tight">
+                    <section className="flex flex-col justify-center items-center gap-4 rounded-lg bg-white px-6 shadow-lg w-[550px] h-[200px]">
+                        <h2 className="text-2xl relative z-20 md:text-3xl lg:text-5xl font-bold text-center text-purple-950 dark:text-purple-900 font-sans tracking-tight">
                             Dados de Conta
-                        </h1>
+                        </h2>
                         <div className='w-full flex flex-col justify-start align-top'>
                             <p className='text-purple-950'>Usuário da Conta: {account.user.name}</p>
                             <p className='text-purple-950'>Email do usuário: {account.user.email}</p>
