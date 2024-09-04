@@ -3,7 +3,7 @@ import React, { createContext, useCallback, useMemo } from "react";
 import { AccountContextProps } from "../interfaces";
 import useUser from "../hooks/useUser";
 import useAPI from "../hooks/useApi";
-import { AccountI } from "@wallet/core";
+import { AccountI, TransactionsI } from "@wallet/core";
 
 export const AccountContext = createContext({} as AccountContextProps)
 export function AccountProvider({ children, }: { readonly children: React.ReactNode; }) {
@@ -81,6 +81,27 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
         }
     }, [httpPUT])
 
+    const getAccountTransactions = useCallback(async function (accountId: number): Promise<TransactionsI[]> {
+        try{
+            const response = await httpGET(`getAccountTransactions/${accountId}`)
+            return response;
+        }catch (error) {
+            console.error('Erro ao verificar saldo: ', error)
+            throw error
+        }
+    }, [httpGET])
+    const reverse = useCallback(async (transactionId: number, reversed: boolean) => {
+        try {
+            await httpPUT(`reversalOperation`,{
+                transactionId: transactionId,
+                reversed: reversed,
+            })
+        } catch (error) {
+            console.error('Erro ao reverter transação: ', error)
+            throw error
+        }
+    },[httpPUT])
+
     const contextValue = useMemo(() => {
         return {
             searchAccountKey,
@@ -88,9 +109,11 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
             createAccount,
             checkBalance,
             transfer,
-            fetchAccount
+            fetchAccount,
+            reverse,
+            getAccountTransactions,
         }
-    }, [ deposit, searchAccountKey, createAccount, checkBalance, transfer, fetchAccount])
+    }, [ deposit, searchAccountKey, createAccount, checkBalance, transfer, fetchAccount, reverse, getAccountTransactions])
 
     return (
         <AccountContext.Provider value={contextValue}>
