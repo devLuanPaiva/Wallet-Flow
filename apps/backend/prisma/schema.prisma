@@ -1,0 +1,50 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                   Int              @id @default(autoincrement())
+  transferKey          BigInt           @unique
+  bankBalance          Float
+  user                 User             @relation(fields: [userId], references: [id])
+  userId               Int
+  transactions         TransactionLog[] @relation("AccountTransactions")
+  receivedTransactions TransactionLog[] @relation("RecipientTransactions")
+
+  @@map("account")
+}
+
+model User {
+  id       Int       @id @default(autoincrement())
+  email    String    @unique
+  name     String
+  password String
+  Account  Account[]
+
+  @@map("user")
+}
+
+model TransactionLog {
+  id                 Int      @id @default(autoincrement())
+  type               String 
+  value              Float
+  account            Account  @relation("AccountTransactions", fields: [accountId], references: [id])
+  accountId          Int
+  recipientAccount   Account? @relation("RecipientTransactions", fields: [recipientAccountId], references: [id])
+  recipientAccountId Int?
+  reversed           Boolean  @default(false) 
+  createdAt          DateTime @default(now())
+
+  @@map("transaction_log")
+}
