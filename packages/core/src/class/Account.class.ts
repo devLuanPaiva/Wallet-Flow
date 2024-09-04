@@ -1,4 +1,5 @@
 import { AccountI, RepositoryAccount } from "../account";
+import { TransactionsI } from "../transactions";
 
 export default class Account {
   constructor(private readonly repo: RepositoryAccount) {}
@@ -50,5 +51,12 @@ export default class Account {
     if (!existingAccount) throw new Error("Conta de destino não encontrada.");
 
     await this.repo.transfer(value, id, transferKey);
+  }
+
+  async getAccountTransactions(accountId: number): Promise<TransactionsI[]> {
+    return await this.repo.getAccountTransactions(accountId);
+  }
+  async reverse(transactionId: number, reversed: boolean): Promise<void>{
+    await this.repo.reverse(transactionId, reversed);
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AccountI, RepositoryAccount } from '@wallet/core';
+import { AccountI, RepositoryAccount, TransactionsI } from '@wallet/core';
 import { PrismaService } from '../db/prisma.service';
 
 @Injectable()
@@ -41,6 +41,13 @@ export class AccountRepository implements RepositoryAccount {
         where: { id: Number(id) },
         data: {
           bankBalance: { increment: value },
+        },
+      });
+      await this.prismaService.transactionLog.create({
+        data: {
+          type: 'DEPOSIT',
+          value: value,
+          accountId: Number(id),
         },
       });
     } catch (error) {
@@ -103,9 +110,85 @@ export class AccountRepository implements RepositoryAccount {
           bankBalance: { increment: value },
         },
       });
+      await this.prismaService.transactionLog.create({
+        data: {
+          type: 'TRANSFER',
+          value: value,
+          accountId: Number(id),
+          recipientAccountId: Number(recipientAccount.id),
+        },
+      });
     } catch (error) {
       console.error('Error updating appointment:', error);
       throw error;
     }
+  }
+
+  async getAccountTransactions(accountId: number): Promise<TransactionsI[]> {
+    try {
+      const transactions = await this.prismaService.transactionLog.findMany({
+        where: {
+          OR: [
+            { accountId: Number(accountId) },
+            { recipientAccountId: Number(accountId) },
+          ],
+        },
+        include: {
+          account: true,
+          recipientAccount: true,
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+
+      return transactions;
+    } catch (error) {
+      console.error('Error fetching transactions:', error);
+      throw new Error('Erro ao buscar transações da conta.');
+    }
+  }
+  async reverse(transactionId: number, reversed: boolean): Promise<void> {
+    const transaction = await this.prismaService.transactionLog.findUnique({
+      where: { id: transactionId },
+    });
+
+    if (!transaction) {
+      throw new Error('Transação não encontrada.');
+    }
+
+    if (transaction.type === 'DEPOSIT') {
+      await this.prismaService.account.update({
+        where: { id: transaction.accountId },
+        data: {
+          bankBalance: { decrement: transaction.value },
+        },
+      });
+    } else if (transaction.type === 'TRANSFER') {
+      await this.prismaService.account.update({
+        where: { id: transaction.accountId },
+        data: {
+          bankBalance: { increment: transaction.value },
+        },
+      });
+
+      if (transaction.recipientAccountId) {
+        await this.prismaService.account.update({
+          where: { id: transaction.recipientAccountId },
+          data: {
+            bankBalance: { decrement: transaction.value },
+          },
+        });
+      }
+    } else {
+      throw new Error('Tipo de transação inválido.');
+    }
+
+    await this.prismaService.transactionLog.update({
+      where: { id: Number(transactionId) },
+      data: {
+        reversed: Boolean(reversed),
+      },
+    });
   }
 }
