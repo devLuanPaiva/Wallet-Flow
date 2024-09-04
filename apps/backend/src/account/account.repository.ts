@@ -142,7 +142,19 @@ export class AccountRepository implements RepositoryAccount {
         },
       });
 
-      return transactions;
+      return transactions.map((transaction: TransactionsI) => ({
+        ...transaction,
+        account: {
+          ...transaction.account,
+          transferKey: transaction.account.transferKey.toString(),
+        },
+        recipientAccount: transaction.recipientAccount
+          ? {
+              ...transaction.recipientAccount,
+              transferKey: transaction.recipientAccount.transferKey.toString(),
+            }
+          : undefined,
+      }));
     } catch (error) {
       console.error('Error fetching transactions:', error);
       throw new Error('Erro ao buscar transações da conta.');

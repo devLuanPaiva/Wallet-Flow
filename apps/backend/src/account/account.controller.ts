@@ -76,8 +76,8 @@ export class AccountController {
 
   @Put('reversalOperation')
   reverseOperation(
-    @Body() transactionId: number,
-    reversed: boolean,
+    @Body('transactionId') transactionId: number,
+    @Body('reversed') reversed: boolean,
   ): Promise<void> {
     return this.repo.reverse(transactionId, reversed);
   }
