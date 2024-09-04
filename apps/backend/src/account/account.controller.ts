@@ -8,7 +8,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { AccountRepository } from './account.repository';
-import { AccountI, UserI } from '@wallet/core';
+import { AccountI, TransactionsI, UserI } from '@wallet/core';
 import { UserLogged } from '../user/user.decorator';
 
 @Controller('account')
@@ -65,5 +65,20 @@ export class AccountController {
       throw new HttpException('Usuário não autorizado', 401);
     }
     return this.repo.transfer(value, id, transferKey);
+  }
+
+  @Get('getAccountTransactions/:accountId')
+  getAccountTransactions(
+    @Param('accountId') accountId: number,
+  ): Promise<TransactionsI[]> {
+    return this.repo.getAccountTransactions(accountId);
+  }
+
+  @Put('reversalOperation')
+  reverseOperation(
+    @Body('transactionId') transactionId: number,
+    @Body('reversed') reversed: boolean,
+  ): Promise<void> {
+    return this.repo.reverse(transactionId, reversed);
   }
 }

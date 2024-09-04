@@ -1,4 +1,4 @@
-import { AccountI, UserI } from "@wallet/core";
+import { AccountI, TransactionsI, UserI } from "@wallet/core";
 export interface BaseContextProps {
   user: UserI | null;
   loading: boolean;
@@ -24,4 +24,6 @@ export interface AccountContextProps {
   ) => Promise<void>;
   checkBalance: (accountId: number) => Promise<number>;
   fetchAccount: () => Promise<AccountI>;
+  getAccountTransactions(accountId: number): Promise<TransactionsI[]>
+  reverse(transactionId: number, reversed: boolean): Promise<void>
 }
