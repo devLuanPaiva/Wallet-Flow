@@ -50,7 +50,7 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
 
     const deposit = useCallback(async (value: number, accountId: number) => {
         try {
-            await httpPUT(`account/deposit/${accountId}`, { value: value })
+            await httpPUT(`account/deposity/${accountId}`, { value: value })
 
         } catch (error) {
             console.error('Erro ao depositar dinheiro: ', error)
@@ -70,9 +70,9 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
 
     const transfer = useCallback(async (value: number, accountId: number, transferKey: bigint) => {
         try {
-            await httpPUT(`account/transfer/${accountId}`, {
+            await httpPUT(`account/transfer/${transferKey}`, {
                 value: value,
-                transferKey: transferKey
+                id: accountId
             }
             )
         } catch (error) {
@@ -83,7 +83,7 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
 
     const getAccountTransactions = useCallback(async function (accountId: number): Promise<TransactionsI[]> {
         try{
-            const response = await httpGET(`getAccountTransactions/${accountId}`)
+            const response = await httpGET(`account/getAccountTransactions/${accountId}`)
             return response;
         }catch (error) {
             console.error('Erro ao verificar saldo: ', error)
@@ -92,7 +92,7 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
     }, [httpGET])
     const reverse = useCallback(async (transactionId: number, reversed: boolean) => {
         try {
-            await httpPUT(`reversalOperation`,{
+            await httpPUT(`account/reversalOperation`,{
                 transactionId: transactionId,
                 reversed: reversed,
             })
