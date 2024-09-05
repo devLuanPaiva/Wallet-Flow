@@ -1,6 +1,7 @@
 'use client'
 import useUser from "@/data/hooks/useUser"
 import { usePathname, useRouter } from "next/navigation"
+import LoadingComponent from "./LoadingComponent"
 
 export default function UserForce(props: any) {
     const { user, loading } = useUser()
@@ -16,9 +17,7 @@ export default function UserForce(props: any) {
         )
     }
     if (!user?.email && loading) return (
-        <section className="flex justify-center items-center h-screen relative">
-            <h2 className="text-gradient text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black pb-2">Carregando...</h2>
-        </section>
+        <LoadingComponent/>
     );
     if (!user?.email) return redirect(`/auth?destiny=${path}`)
         

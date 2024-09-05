@@ -11,7 +11,7 @@ const Header = () => {
       </figure>
 
       <nav className="space-x-4">
-        <Link href="#" className="text-black rounded-md px-4 py-2 hover:bg-purple-500 hover:text-white ">Home</Link>
+        <Link href="/home" className="text-black rounded-md px-4 py-2 hover:bg-purple-500 hover:text-white ">Home</Link>
         <Link href="/Account" className="text-black rounded-md px-4 py-2 hover:bg-purple-500 hover:text-white ">Conta</Link>
         <Link href="/Account/extract" className="text-black rounded-md px-4 py-2 hover:bg-purple-500 hover:text-white ">Extrato</Link>
         <Link href="#" className="text-black rounded-md px-4 py-2 hover:bg-purple-500 hover:text-white ">Promoções</Link>

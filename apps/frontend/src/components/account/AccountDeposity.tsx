@@ -1,27 +1,23 @@
 'use client'
 import React, { useState } from "react";
 import useAccount from "@/data/hooks/useAccount";
-import { useAccountData } from "@/data/hooks/useAccountData";
 import { IconCurrencyDollar } from "@tabler/icons-react";
+import { AccountProps } from "@/data/interfaces";
 
-export default function AccountDeposity() {
+export default function AccountDeposity({ account }: Readonly<AccountProps>) {
     const { deposit } = useAccount();
     const [valueDeposity, setValueDeposity] = useState<number>();
-    const { account, loading } = useAccountData();
 
     const handleDeposit = async (e: any) => {
         e.preventDefault()
         try {
-            await deposit(valueDeposity!, account!.id!);
+            await deposit(valueDeposity!, account.id!);
             alert("Depósito realizado com sucesso!");
         } catch (error) {
             alert("Erro ao realizar depósito.");
         }
     };
 
-    if (loading) {
-        return <p>Carregando...</p>;
-    }
 
     return (
         <section className="mt-5">
