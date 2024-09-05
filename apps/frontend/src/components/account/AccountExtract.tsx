@@ -3,6 +3,7 @@ import useAccount from "@/data/hooks/useAccount";
 import { useAccountData } from "@/data/hooks/useAccountData";
 import { TransactionsI } from "@wallet/core";
 import { useEffect, useState } from "react";
+import LoadingComponent from "../shared/LoadingComponent";
 
 export default function AccountExtract() {
     const { getAccountTransactions, reverse } = useAccount();
@@ -51,7 +52,7 @@ export default function AccountExtract() {
     };
 
     if (loading || loadingTransactions) {
-        return <p>Carregando...</p>;
+        return <LoadingComponent/>
     }
 
 

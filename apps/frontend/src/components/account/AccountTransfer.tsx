@@ -1,28 +1,25 @@
 'use client'
 import useAccount from "@/data/hooks/useAccount";
-import { useAccountData } from "@/data/hooks/useAccountData";
+import { AccountProps } from "@/data/interfaces";
 import { IconCurrencyDollar, IconKey } from "@tabler/icons-react";
 import { useState } from "react";
 
-export default function AccountTransfer() {
+export default function AccountTransfer({ account }: Readonly<AccountProps>) {
     const { transfer } = useAccount();
     const [valueDeposity, setValueDeposity] = useState<number>();
     const [transferKey, setTransferKey] = useState<bigint>();
-    const { account, loading } = useAccountData();
 
     const handleDeposit = async (e: any) => {
         e.preventDefault()
         try {
-            await transfer(valueDeposity!, account!.id!, transferKey!);
+            await transfer(valueDeposity!, account.id!, transferKey!);
             alert("Transferencia realizada com sucesso!");
         } catch (error) {
             alert("Erro ao realizar depósito.");
         }
     };
 
-    if (loading) {
-        return <p>Carregando...</p>;
-    }
+
     return (
         <section className="mt-5">
             <form onSubmit={handleDeposit} className="flex flex-col justify-center items-center gap-4 rounded-lg bg-white px-6 shadow-lg w-[550px] h-[300px]">
