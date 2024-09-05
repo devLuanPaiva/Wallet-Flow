@@ -2,8 +2,8 @@
 import useUser from "@/data/hooks/useUser";
 import { IconEye, IconEyeOff, IconMail, IconPassword, IconUser } from "@tabler/icons-react";
 import Image from "next/image";
-import imgBunner from '../../../public/banners/4234239.jpg'
-import logo from '../../../public/banners/8490233.png'
+import imgBunner from '../../../public/banners/4234239.jpg';
+import logo from '../../../public/banners/8490233.png';
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -45,15 +45,15 @@ export default function UserForm() {
     }
 
     return (
-        <section className="flex justify-center items-center h-screen relative bg-purple-200">
-            <Image src={imgBunner} fill alt="cartões empilhados" className="object-right-bottom" />
-            <section className="flex justify-center items-center gap-10 absolute top-0 left-0 w-full h-full px-10 ">
-                <form className="flex flex-col justify-center items-center gap-4 rounded-lg bg-white p-6 shadow-lg w-[550px] h-[500px] ml-[25%]">
-                    <figure>
-                        <Image src={logo} alt="logo" width={150} height={120}/>
+        <section className="flex justify-center items-center min-h-screen relative bg-purple-200">
+            <Image src={imgBunner} fill alt="cartões empilhados" className="object-cover" />
+            <section className="flex justify-center items-center gap-6 absolute inset-0 px-6 md:px-10">
+                <form className="flex flex-col justify-center items-center gap-4 rounded-lg bg-white p-4 shadow-lg w-full max-w-[400px] md:max-w-[550px] md:p-6 h-auto">
+                    <figure className="mb-4">
+                        <Image src={logo} alt="logo" width={150} height={120} />
                     </figure>
                     {mode === 'register' && (
-                        <label className="w-[100%] flex justify-center relative">
+                        <label className="w-full flex justify-center relative">
                             <IconUser size={20} className="absolute left-2 top-3 text-purple-500" />
                             <input
                                 required
@@ -61,11 +61,11 @@ export default function UserForm() {
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 placeholder="Nome"
-                                className="bg-purple-100 text-gray-900 w-[100%] px-4 py-2 rounded-md border border-purple-300 indent-3"
+                                className="bg-purple-100 text-gray-900 w-full px-4 py-2 rounded-md border border-purple-300 indent-3"
                             />
                         </label>
                     )}
-                    <label className="w-[100%] flex justify-center relative">
+                    <label className="w-full flex justify-center relative">
                         <IconMail size={20} className="absolute left-2 top-3 text-purple-500" />
                         <input
                             required
@@ -73,10 +73,10 @@ export default function UserForm() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="E-mail"
-                            className="bg-purple-100 text-gray-900 w-[100%] px-4 py-2 rounded-md border border-purple-300 indent-3"
+                            className="bg-purple-100 text-gray-900 w-full px-4 py-2 rounded-md border border-purple-300 indent-3"
                         />
                     </label>
-                    <label className="w-[100%] flex justify-center relative">
+                    <label className="w-full flex justify-center relative">
                         <IconPassword size={20} className="absolute left-2 top-3 text-purple-500" />
                         <input
                             required
@@ -84,30 +84,30 @@ export default function UserForm() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Senha"
-                            className="bg-purple-100 text-gray-900 w-[100%] px-4 py-2 rounded-md border border-purple-300 indent-3"
+                            className="bg-purple-100 text-gray-900 w-full px-4 py-2 rounded-md border border-purple-300 indent-3"
                         />
-                        <button onClick={(e) => { e.preventDefault(); changeButton() }} className="absolute top-2.5 right-3">
+                        <button onClick={(e) => { e.preventDefault(); changeButton(); }} className="absolute top-2.5 right-3">
                             {!toggleButton ? <IconEye size={20} className="text-purple-500" /> : <IconEyeOff size={20} className="text-purple-500" />}
                         </button>
                     </label>
-                    <div className="flex gap-5 w-[100%]">
+                    <div className="flex justify-end flex-col md:flex-row gap-3 w-full">
                         <button
                             onClick={(e) => {
                                 e.preventDefault();
-                                router.push('/')
+                                router.push('/');
                             }}
-                            className="bg-gray-600 text-white font-semibold text-base md:text-lg py-2 px-4 rounded-md hover:bg-gray-700 flex-1"
+                            className="bg-gray-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-700 w-full md:w-auto"
                         >
                             Cancelar
                         </button>
-                        <button onClick={handleSubmit} className="bg-purple-600 text-white font-semibold text-base md:text-lg py-2 px-4 rounded-md hover:bg-purple-700 flex-1">
+                        <button onClick={handleSubmit} className="bg-purple-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-purple-700 w-full md:w-auto">
                             {mode === 'access' ? 'Entrar' : 'Cadastrar'}
                         </button>
                     </div>
-                    <div className="flex gap-5 justify-center">
+                    <div className="flex justify-center mt-4">
                         {mode === 'access' ? (
                             <button
-                                onClick={(e) => { e.preventDefault(); setMode('register') }}
+                                onClick={(e) => { e.preventDefault(); setMode('register'); }}
                                 type="button"
                                 className="text-purple-600 hover:text-purple-800"
                             >
@@ -115,7 +115,7 @@ export default function UserForm() {
                             </button>
                         ) : (
                             <button
-                                onClick={(e) => { e.preventDefault(); setMode('access') }}
+                                onClick={(e) => { e.preventDefault(); setMode('access'); }}
                                 className="text-purple-600 hover:text-purple-800"
                             >
                                 Já tem conta? Entre na plataforma!
@@ -125,5 +125,5 @@ export default function UserForm() {
                 </form>
             </section>
         </section>
-    )
+    );
 }
