@@ -15,7 +15,7 @@ export default function AccountPage() {
   }
 
   return account ? (
-    <div className="flex flex-col items-center h-screen relative bg-purple-200 p-4">
+    <div className="flex flex-col items-center relative p-4">
       <AccountDate account={account} />
       <AccountDeposity account={account} />
       <AccountTransfer account={account} />
