@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react'
 import UserForm from "../src/components/user/UserForm";
 import useUser from '../src/data/hooks/useUser';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -40,12 +40,28 @@ describe('UserForm Component', () => {
         expect(screen.getByText(/Entrar/i)).toBeInTheDocument();
     });
 
-    it('switches to the register form and submits registration', async()=>{
+    it('switches to the register form and submits registration', async () => {
         render(<UserForm />);
 
-        fireEvent.click(screen.getByText(/Cadastre-se/i))
+        // Use findByText to wait for the text to appear
+        const registerButton = await screen.findByText(/Cadastre-se!/i);
+        fireEvent.click(registerButton);
 
-        expect(screen.getByPlaceholderText(/Nome/i)).toBeInTheDocument()
-        expect(screen.getByText(/Cadastrar/i)).toBeInTheDocument()
-    })
+        expect(screen.getByPlaceholderText(/Nome/i)).toBeInTheDocument();
+        expect(screen.getByText(/Cadastrar/i)).toBeInTheDocument();
+        
+        fireEvent.change(screen.getByPlaceholderText(/Nome/i), { target: { value: 'John' } });
+        fireEvent.change(screen.getByPlaceholderText(/E-mail/i), { target: { value: 'john@example.com' } });
+        fireEvent.change(screen.getByPlaceholderText(/Senha/i), { target: { value: 'Senha123#' } });
+
+        await act(async () => {
+            fireEvent.click(screen.getByText(/Cadastrar/i));
+        });
+
+        expect(mockRegister).toHaveBeenCalledWith({
+            email: 'john@example.com',
+            password: 'Senha123#',
+            name: 'John'
+        });
+    });
 });
