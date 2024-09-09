@@ -10,18 +10,25 @@
     "test": "jest"
   },
   "dependencies": {
+    "@radix-ui/react-alert-dialog": "^1.1.1",
+    "@radix-ui/react-slot": "^1.1.0",
     "@tabler/icons-react": "^3.14.0",
     "@tanstack/react-query": "^5.53.1",
+    "@types/react-transition-group": "^4.4.11",
     "@wallet/core": "*",
     "@wallet/ui": "*",
+    "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.3.31",
+    "lucide-react": "^0.439.0",
     "next": "14.2.7",
     "react": "^18",
     "react-dom": "^18",
     "react-query": "^3.39.3",
+    "react-transition-group": "^4.4.5",
     "sharp": "^0.33.5",
-    "tailwind-merge": "^2.5.2"
+    "tailwind-merge": "^2.5.2",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.0",
