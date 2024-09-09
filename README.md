@@ -1,81 +1,89 @@
-# Turborepo starter
+# Wallet Flow
 
-This is an official starter Turborepo.
+**Wallet Flow** é uma aplicação web de carteira virtual, onde o usuário pode:
 
-## Using this example
+- Criar uma conta
+- Visualizar o saldo
+- Realizar depósitos
+- Transferir saldo para outra conta de outro usuário
+- Visualizar o extrato das operações realizadas
+- Reverter operações
 
-Run the following command:
+## 🚀 Tecnologias Utilizadas
 
+O projeto foi desenvolvido com foco em aprendizado e boas práticas de arquitetura limpa. As seguintes tecnologias foram utilizadas:
+
+- **TurboRepo**: Para a organização da arquitetura em monorepo.
+- **Next.js**: Framework React para a construção da interface web.
+- **TailwindCSS**: Para estilização de componentes de forma eficiente e responsiva.
+- **Aceternity UI**: Para componentes de interface de usuário.
+- **Prisma**: ORM para interação com o banco de dados.
+- **SQLite**: Banco de dados leve e eficiente.
+- **Jest**: Para testes unitários e de integração.
+- **Git Flow**: Para gerenciamento de versão com uma estratégia clara de branches.
+
+## 🛠️ Funcionalidades
+
+- **Criação de contas**: Os usuários podem se registrar e criar uma conta.
+- **Depósitos e Transferências**: O sistema permite ao usuário fazer depósitos para si mesmo e transferências para outros usuários.
+- **Extrato de Operações**: Os usuários podem visualizar um histórico detalhado de todas as operações realizadas.
+- **Reversão de Operações**: Possibilidade de reverter operações.
+
+## 📚 Motivação e Objetivo
+
+Este projeto foi desenvolvido com o objetivo de ser enviado como parte de um teste técnico, além de oferecer uma oportunidade de aprendizado em relação a:
+
+- Arquitetura limpa
+- Melhores práticas de desenvolvimento de aplicações web
+- Uso das tecnologias mencionadas de forma eficiente
+
+## 🚧 Status do Projeto
+
+O projeto está **em desenvolvimento**, com as seguintes etapas ainda em andamento:
+
+- Tratamento de erros
+- Implementação de responsividade e refinamento de estilo
+- Finalização de regras de negócio
+- Testes em toda a aplicação (usando Jest)
+
+## 🐞 Problemas Conhecidos
+
+- Atualmente, é possível realizar operações com números negativos, o que precisa ser corrigido em futuras iterações.
+
+## 📦 Como rodar o projeto
+
+### Pré-requisitos
+
+- Node.js (versão recomendada: 18.x.x)
+- Yarn ou NPM
+
+### Instalação e execução
+1. Clone o repositório:
 ```sh
-npx create-turbo@latest
+git clone https://github.com/devLuanPaiva/Wallet-Flow.git
 ```
-
-## What's inside?
-
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
+2. Navege até a pasta do projeto:
+```sh
+cd barba-brutal
 ```
-cd my-turborepo
-pnpm build
+3. Instale as dependências:
+```bash
+npm install
+# ou 
+yarn install
 ```
+4. Inicie o servidor de desenvolvimento:
 
-### Develop
+    ```bash
+        npm run dev
+        # or
+        yarn dev
+        # or
+        pnpm dev
+        # or
+        bun dev
+        ```
+5. Abra o navegador e acesse `http://localhost:3000`.
 
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+## ✍️ Contribuições
+Sinta-se à vontade para contribuir com este projeto. Sugestões, correções de bugs e melhorias são sempre bem-vindas. Por favor, siga o fluxo de trabalho do Git Flow para submissão de pull requests.
