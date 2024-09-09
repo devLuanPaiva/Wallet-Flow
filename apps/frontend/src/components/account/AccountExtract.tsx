@@ -4,6 +4,18 @@ import { useAccountData } from "@/data/hooks/useAccountData";
 import { TransactionsI } from "@wallet/core";
 import { useEffect, useState } from "react";
 import LoadingComponent from "../shared/LoadingComponent";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger
+} from "../ui/alert-dialog";
+import { Alert, AlertTitle, AlertDescription } from "../ui/alert";
 
 export default function AccountExtract() {
     const { getAccountTransactions, reverse } = useAccount();
@@ -11,6 +23,10 @@ export default function AccountExtract() {
     const [loadingTransactions, setLoadingTransactions] = useState(true);
     const [transactions, setTransactions] = useState<TransactionsI[]>([]);
     const reverseTransactions = true;
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [showAlert, setShowAlert] = useState(false);
 
     useEffect(() => {
         async function loadTransactions() {
@@ -45,20 +61,34 @@ export default function AccountExtract() {
                             : transaction
                     )
                 );
+                setSuccessMessage("Transação revertida com sucesso!");
+                setIsAlertDialogOpen(false);
+                setShowAlert(true);
+                setErrorMessage(null);
             }
         } catch (error) {
             console.error('Erro ao reverter transação: ', error);
+            setErrorMessage("Erro ao reverter transação.");
+            setShowAlert(true);
         }
     };
 
     if (loading || loadingTransactions) {
-        return <LoadingComponent/>
+        return <LoadingComponent />
     }
 
 
     return (
         <section className="mt-5">
             <ul className="flex flex-col justify-center items-center gap-4 rounded-lg bg-white px-6 py-4 shadow-lg min-w-[550px] min-h-[200px]">
+                <Alert
+                    show={showAlert}
+                    onClose={() => setShowAlert(false)}
+                    variant={errorMessage ? "destructive" : "default"}
+                >
+                    <AlertTitle>{errorMessage ? "Erro" : "Sucesso"}</AlertTitle>
+                    <AlertDescription>{errorMessage ?? successMessage}</AlertDescription>
+                </Alert>
                 <h2 className="text-2xl relative z-20 md:text-3xl lg:text-5xl font-bold text-center text-purple-950 dark:text-purple-900 font-sans tracking-tight">Transações Bancárias</h2>
                 <div className="w-full flex flex-col gap-5">
                     {transactions.map((transaction) => (
@@ -76,13 +106,16 @@ export default function AccountExtract() {
                                 })}
                             </span>
                             <button
+
                                 onClick={() => handleReverseTransaction(transaction.id!)}
                                 disabled={transaction.reversed}
                                 className={`text-blue-500 hover:underline ${transaction.reversed ? 'cursor-not-allowed opacity-50' : ''}`}
                             >
                                 Reverter
                             </button>
+
                         </li>
+
                     ))}
                 </div>
             </ul>
