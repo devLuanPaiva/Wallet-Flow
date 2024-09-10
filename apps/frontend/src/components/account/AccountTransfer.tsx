@@ -44,7 +44,7 @@ export default function AccountTransfer({ account }: Readonly<AccountProps>) {
             setShowAlert(true);
             setErrorMessage(null);
         } catch (error) {
-            setErrorMessage("Erro ao realizar transefência.");
+            setErrorMessage(`${error}`);
             setShowAlert(true);
         }
     };

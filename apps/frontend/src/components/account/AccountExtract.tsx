@@ -4,17 +4,7 @@ import { useAccountData } from "@/data/hooks/useAccountData";
 import { TransactionsI } from "@wallet/core";
 import { useEffect, useState } from "react";
 import LoadingComponent from "../shared/LoadingComponent";
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger
-} from "../ui/alert-dialog";
+
 import { Alert, AlertTitle, AlertDescription } from "../ui/alert";
 
 export default function AccountExtract() {
@@ -24,7 +14,6 @@ export default function AccountExtract() {
     const [transactions, setTransactions] = useState<TransactionsI[]>([]);
     const reverseTransactions = true;
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
-    const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [showAlert, setShowAlert] = useState(false);
 
@@ -41,7 +30,7 @@ export default function AccountExtract() {
                     }
                 }
             } catch (error) {
-                console.error('Erro ao carregar as transações: ', error);
+                setErrorMessage(`${error}`);
                 setTransactions([]);
             } finally {
                 setLoadingTransactions(false);
@@ -62,13 +51,11 @@ export default function AccountExtract() {
                     )
                 );
                 setSuccessMessage("Transação revertida com sucesso!");
-                setIsAlertDialogOpen(false);
                 setShowAlert(true);
                 setErrorMessage(null);
             }
         } catch (error) {
-            console.error('Erro ao reverter transação: ', error);
-            setErrorMessage("Erro ao reverter transação.");
+            setErrorMessage(`${error}`);
             setShowAlert(true);
         }
     };

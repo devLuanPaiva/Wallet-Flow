@@ -46,9 +46,8 @@ export default function AccountForm() {
             setTransferKey(undefined)
             setInitialBalance(undefined)
         } catch (error) {
-            setErrorMessage("Erro ao criar conta.")
+            setErrorMessage(`${error}`);
             setShowAlert(true)
-            console.error('Erro ao criar conta: ', error)
         }
     }
 

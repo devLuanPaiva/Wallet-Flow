@@ -35,10 +35,10 @@ export default function AccountDeposity({ account }: Readonly<AccountProps>) {
             await deposit(valueDeposity, account.id!);
             setSuccessMessage("Depósito realizado com sucesso!");
             setIsAlertDialogOpen(false);
-            setShowAlert(true); 
+            setShowAlert(true);
             setErrorMessage(null);
         } catch (error) {
-            setErrorMessage("Erro ao realizar depósito.");
+            setErrorMessage(`${error}`);
             setShowAlert(true);
         }
     };
@@ -63,7 +63,7 @@ export default function AccountDeposity({ account }: Readonly<AccountProps>) {
                     <AlertDialogTrigger asChild>
                         <button
                             type="button"
-                           
+
                             className="bg-gradient-to-r from-purple-500 to-purple-600 text-white font-semibold text-base md:text-lg py-2 px-4 hover:from-purple-600 hover:to-purple-700 rounded"
                         >
                             Depositar
