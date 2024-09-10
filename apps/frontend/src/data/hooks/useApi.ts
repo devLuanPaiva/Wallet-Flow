@@ -68,9 +68,13 @@ export default function useAPI() {
     let content = "";
     try {
       content = await resp.text();
+      if (!resp.ok) {
+        const error = JSON.parse(content);
+        throw new Error(error.message || "Erro na requisição.");
+      }
       return JSON.parse(content);
-    } catch (e) {
-      return content;
+    } catch (error) {
+      throw error;
     }
   }
   return { httpGET, httpPOST, httpPUT };
