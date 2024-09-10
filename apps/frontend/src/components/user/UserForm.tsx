@@ -6,6 +6,7 @@ import imgBunner from '../../../public/banners/4234239.jpg';
 import logo from '../../../public/banners/8490233.png';
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Alert, AlertTitle, AlertDescription } from "../ui/alert";
 
 export default function UserForm() {
     const [mode, setMode] = useState<'access' | 'register'>('access');
@@ -16,6 +17,8 @@ export default function UserForm() {
     const router = useRouter();
     const params = useSearchParams();
     const { user, login, register } = useUser();
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [showAlert, setShowAlert] = useState(false);
 
     useEffect(() => {
         if (user?.email) {
@@ -26,9 +29,19 @@ export default function UserForm() {
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         if (mode === 'access') {
-            await login({ email, password });
+            try {
+                await login({ email, password });
+            } catch (error) {
+                setErrorMessage(`${error}`);
+                setShowAlert(true);
+            }
         } else {
-            await register({ email, password, name });
+            try {
+                await register({ email, password, name });
+            } catch (error) {
+                setErrorMessage(`${error}`);
+                setShowAlert(true);
+            }
         }
         clearForm();
     }
@@ -45,7 +58,16 @@ export default function UserForm() {
     }
 
     return (
+
         <section className="flex justify-center items-center min-h-screen relative bg-purple-200">
+            <Alert
+                show={showAlert}
+                onClose={() => setShowAlert(false)}
+                variant={errorMessage ? "destructive" : "default"}
+            >
+                <AlertTitle>{"Erro"}</AlertTitle>
+                <AlertDescription>{errorMessage}</AlertDescription>
+            </Alert>
             <Image src={imgBunner} fill alt="cartões empilhados" className="object-cover" />
             <section className="flex justify-center items-center gap-6 absolute inset-0 px-6 md:px-10">
                 <form className="flex flex-col justify-center items-center gap-4 rounded-lg bg-white p-4 shadow-lg w-full max-w-[400px] md:max-w-[550px] md:p-6 h-auto">

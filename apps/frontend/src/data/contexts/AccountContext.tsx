@@ -10,13 +10,12 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
     const { user } = useUser()
     const { httpGET, httpPOST, httpPUT } = useAPI()
 
-    const fetchAccount = useCallback(async (): Promise<AccountI> =>{
+    const fetchAccount = useCallback(async (): Promise<AccountI> => {
         try {
             const response = await httpGET(`account/searchAccount/user/${user!.id}`)
             return response[0]
-        } catch (error) {
-            console.error('Erro ao carregar contas: ', error)
-            throw error
+        } catch (error: any) {
+            throw error.message
         }
     }, [httpGET, user])
 
@@ -26,9 +25,9 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
                 const response = await httpGET(`account/search/${transferKey}`)
                 return response.data
 
-            } catch (error) {
-                console.error('Erro ao carregar conta: ', error)
-                throw error
+            } catch (error: any) {
+
+                throw error.message
             }
         }, [httpGET]
     )
@@ -42,9 +41,8 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
                 bankBalance: account.bankBalance,
             })
 
-        } catch (error) {
-            console.error('Erro ao cadastrar conta: ', error)
-            throw error
+        } catch (error: any) {
+            throw error.message
         }
     }, [httpPOST, user])
 
@@ -52,9 +50,8 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
         try {
             await httpPUT(`account/deposity/${accountId}`, { value: value })
 
-        } catch (error) {
-            console.error('Erro ao depositar dinheiro: ', error)
-            throw error
+        } catch (error: any) {
+            throw error.message
         }
     }, [httpPUT])
 
@@ -62,9 +59,8 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
         try {
             const response = await httpGET(`account/balance/${id}`)
             return response.data
-        } catch (error) {
-            console.error('Erro ao verificar saldo: ', error)
-            throw error
+        } catch (error: any) {
+            throw error.message
         }
     }, [httpGET])
 
@@ -75,32 +71,29 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
                 id: accountId
             }
             )
-        } catch (error) {
-            console.error('Erro ao transferir dinheiro: ', error)
-            throw error
+        } catch (error: any) {
+            throw error.message
         }
     }, [httpPUT])
 
     const getAccountTransactions = useCallback(async function (accountId: number): Promise<TransactionsI[]> {
-        try{
+        try {
             const response = await httpGET(`account/getAccountTransactions/${accountId}`)
             return response;
-        }catch (error) {
-            console.error('Erro ao verificar saldo: ', error)
-            throw error
+        } catch (error: any) {
+            throw error.message
         }
     }, [httpGET])
     const reverse = useCallback(async (transactionId: number, reversed: boolean) => {
         try {
-            await httpPUT(`account/reversalOperation`,{
+            await httpPUT(`account/reversalOperation`, {
                 transactionId: transactionId,
                 reversed: reversed,
             })
-        } catch (error) {
-            console.error('Erro ao reverter transação: ', error)
-            throw error
+        } catch (error: any) {
+            throw error.message
         }
-    },[httpPUT])
+    }, [httpPUT])
 
     const contextValue = useMemo(() => {
         return {
@@ -113,7 +106,7 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
             reverse,
             getAccountTransactions,
         }
-    }, [ deposit, searchAccountKey, createAccount, checkBalance, transfer, fetchAccount, reverse, getAccountTransactions])
+    }, [deposit, searchAccountKey, createAccount, checkBalance, transfer, fetchAccount, reverse, getAccountTransactions])
 
     return (
         <AccountContext.Provider value={contextValue}>

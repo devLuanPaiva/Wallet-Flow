@@ -1,8 +1,8 @@
-import AccountDeposity from "../components/account/AccountDeposity";
+import AccountDeposity from "../src/components/account/AccountDeposity";
 import { render, fireEvent, screen, waitFor } from "@testing-library/react"
-import useAccount from "../data/hooks/useAccount";
-import { AccountProvider } from "../data/contexts/AccountContext";
-import { AccountProps } from "../data/interfaces";
+import useAccount from "../src/data/hooks/useAccount";
+import { AccountProvider } from "../src/data/contexts/AccountContext";
+import { AccountProps } from "../src/data/interfaces";
 import "@testing-library/jest-dom"
 
 jest.mock('../data/hooks/useAccount')
