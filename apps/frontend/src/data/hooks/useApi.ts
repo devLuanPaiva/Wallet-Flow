@@ -74,7 +74,7 @@ export default function useAPI() {
       }
     }
 
-    return content;
+    return JSON.parse(content);
   }
 
   return { httpGET, httpPOST, httpPUT };
