@@ -42,8 +42,7 @@ export default function useAPI() {
     },
     [token]
   );
-  
-  
+
   const httpPUT = useCallback(
     async function (url: string, body: any): Promise<any> {
       try {
@@ -65,17 +64,18 @@ export default function useAPI() {
     [token]
   );
   async function extractData(resp: Response) {
-    let content = "";
-    try {
-      content = await resp.text();
-      if (!resp.ok) {
+    const content = await resp.text();
+    if (![200, 201, 204].includes(resp.status)) {
+      try {
         const error = JSON.parse(content);
         throw new Error(error.message || "Erro na requisição.");
+      } catch (parseError) {
+        throw new Error("Erro na requisição.");
       }
-      return JSON.parse(content);
-    } catch (error) {
-      throw error;
     }
+
+    return content;
   }
+
   return { httpGET, httpPOST, httpPUT };
 }
