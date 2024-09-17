@@ -55,7 +55,7 @@ export class AccountRepository implements RepositoryAccount {
       throw error;
     }
   }
-  async searchAccount(userId: number): Promise<AccountI | null> {
+  async searchAccount(userId: number): Promise<AccountI> {
     const result: any = await this.prismaService.account.findMany({
       where: { userId: Number(userId) },
       include: { user: true },
