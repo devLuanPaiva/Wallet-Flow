@@ -55,16 +55,20 @@ export class AccountRepository implements RepositoryAccount {
       throw error;
     }
   }
-  async searchAccount(userId: number): Promise<AccountI> {
+  async searchAccount(userId: number): Promise<AccountI | null> {
     const result: any = await this.prismaService.account.findMany({
       where: { userId: Number(userId) },
       include: { user: true },
     });
 
+    if (result.length === 0) {
+      throw new Error('Conta não encontrada.');
+    }
+
     return result.map((account: AccountI) => ({
       ...account,
       transferKey: account.transferKey.toString(),
-    }));
+    }))[0];
   }
   async searchAccountKey(transferKey: bigint): Promise<AccountI> {
     const account = await this.prismaService.account.findFirst({
