@@ -65,16 +65,15 @@ export default function useAPI() {
   );
   async function extractData(resp: Response) {
     const content = await resp.text();
+    const contentType = resp.headers.get("content-type");
     if (![200, 201, 204].includes(resp.status)) {
-      try {
         const error = JSON.parse(content);
-        throw new Error(error.message || "Erro na requisição.");
-      } catch (parseError) {
-        throw new Error("Erro na requisição.");
-      }
+        throw new Error(error.message || 'Erro na requisição');
     }
-
-    return JSON.parse(content);
+    if (contentType?.includes("application/json")) {
+      return JSON.parse(content);
+    }
+    return content;
   }
 
   return { httpGET, httpPOST, httpPUT };
