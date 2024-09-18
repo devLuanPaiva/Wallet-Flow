@@ -61,10 +61,14 @@ export class AccountRepository implements RepositoryAccount {
       include: { user: true },
     });
 
+    if (result.length === 0) {
+      throw new Error('Conta não encontrada.');
+    }
+
     return result.map((account: AccountI) => ({
       ...account,
       transferKey: account.transferKey.toString(),
-    }));
+    }))[0];
   }
   async searchAccountKey(transferKey: bigint): Promise<AccountI> {
     const account = await this.prismaService.account.findFirst({

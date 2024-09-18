@@ -4,8 +4,8 @@ import { useAccountData } from "@/data/hooks/useAccountData";
 import { TransactionsI } from "@wallet/core";
 import { useEffect, useState } from "react";
 import LoadingComponent from "../shared/LoadingComponent";
-
 import { Alert, AlertTitle, AlertDescription } from "../ui/alert";
+import NotAccount from "../shared/NotAccount";
 
 export default function AccountExtract() {
     const { getAccountTransactions, reverse } = useAccount();
@@ -65,7 +65,7 @@ export default function AccountExtract() {
     }
 
 
-    return (
+    return account ? (
         <section className="mt-5">
             <ul className="flex flex-col justify-center items-center gap-4 rounded-lg bg-white px-6 py-4 shadow-lg min-w-[550px] min-h-[200px]">
                 <Alert
@@ -107,6 +107,8 @@ export default function AccountExtract() {
                 </div>
             </ul>
         </section>
-    );
+    ) : (
+        <NotAccount />
+    )
 
 }
