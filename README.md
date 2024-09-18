@@ -40,15 +40,13 @@ Este projeto foi desenvolvido com o objetivo de ser enviado como parte de um tes
 ## 🚧 Status do Projeto
 
 O projeto está **em desenvolvimento**, com as seguintes etapas ainda em andamento:
-
-- Tratamento de erros
 - Implementação de responsividade e refinamento de estilo
 - Finalização de regras de negócio
 - Testes em toda a aplicação (usando Jest)
 
-## 🐞 Problemas Conhecidos
-
-- Atualmente, é possível realizar operações com números negativos, o que precisa ser corrigido em futuras iterações.
+## 🧩 Próximos Passos
+- Desenvolver a versão mobile
+- Realizar o deploy de todo o sistema
 
 ## 📦 Como rodar o projeto
 

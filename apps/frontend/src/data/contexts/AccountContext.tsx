@@ -13,7 +13,7 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
     const fetchAccount = useCallback(async (): Promise<AccountI> => {
         try {
             const response = await httpGET(`account/searchAccount/user/${user!.id}`)
-            return response[0]
+            return response
         } catch (error: any) {
             throw error.message
         }
@@ -23,7 +23,7 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
         async function (transferKey: bigint): Promise<AccountI> {
             try {
                 const response = await httpGET(`account/search/${transferKey}`)
-                return response.data
+                return response
 
             } catch (error: any) {
 
@@ -58,7 +58,7 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
     const checkBalance = useCallback(async function (id: number): Promise<number> {
         try {
             const response = await httpGET(`account/balance/${id}`)
-            return response.data
+            return response
         } catch (error: any) {
             throw error.message
         }

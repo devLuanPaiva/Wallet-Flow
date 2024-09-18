@@ -18,6 +18,8 @@ export default function UserForm() {
     const params = useSearchParams();
     const { user, login, register } = useUser();
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
     const [showAlert, setShowAlert] = useState(false);
 
     useEffect(() => {
@@ -38,6 +40,9 @@ export default function UserForm() {
         } else {
             try {
                 await register({ email, password, name });
+                setSuccessMessage("Conta criada com sucesso!");
+                setShowAlert(true);
+                setErrorMessage(null);
             } catch (error) {
                 setErrorMessage(`${error}`);
                 setShowAlert(true);
@@ -65,8 +70,8 @@ export default function UserForm() {
                 onClose={() => setShowAlert(false)}
                 variant={errorMessage ? "destructive" : "default"}
             >
-                <AlertTitle>{"Erro"}</AlertTitle>
-                <AlertDescription>{errorMessage}</AlertDescription>
+                <AlertTitle>{errorMessage ? "Erro" : "Sucesso"}</AlertTitle>
+                <AlertDescription>{errorMessage ?? successMessage}</AlertDescription>
             </Alert>
             <Image src={imgBunner} fill alt="cartões empilhados" className="object-cover" />
             <section className="flex justify-center items-center gap-6 absolute inset-0 px-6 md:px-10">
