@@ -15,9 +15,9 @@ import { UserLogged } from '../user/user.decorator';
 export class AccountController {
   constructor(private readonly repo: AccountRepository) {}
 
-  @Get('chack/:id')
-  chackBalance(@Param('id') id: number): Promise<number> {
-    return this.repo.chackBalance(id);
+  @Get('check/:id')
+  checkBalance(@Param('id') id: number): Promise<number> {
+    return this.repo.checkBalance(id);
   }
   @Post('register')
   createAccount(@Body() account: AccountI, @UserLogged() userLogged: UserI) {

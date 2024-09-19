@@ -30,8 +30,8 @@ export default class Account {
     return account;
   }
 
-  async chackBalance(id: number): Promise<number> {
-    return await this.repo.chackBalance(id);
+  async checkBalance(id: number): Promise<number> {
+    return await this.repo.checkBalance(id);
   }
 
   async deposity(value: number, id: number): Promise<void> {
@@ -44,7 +44,7 @@ export default class Account {
     id: number,
     transferKey: bigint
   ): Promise<void> {
-    const balance = await this.chackBalance(id);
+    const balance = await this.checkBalance(id);
     if (balance < value) throw new Error("Saldo insuficiente.");
 
     const existingAccount = await this.repo.searchAccountKey(transferKey);

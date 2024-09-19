@@ -5,7 +5,7 @@ import { PrismaService } from '../db/prisma.service';
 @Injectable()
 export class AccountRepository implements RepositoryAccount {
   constructor(private readonly prismaService: PrismaService) {}
-  async chackBalance(id: number): Promise<number> {
+  async checkBalance(id: number): Promise<number> {
     const account = await this.prismaService.account.findUnique({
       where: { id: Number(id) },
       select: {
@@ -91,7 +91,7 @@ export class AccountRepository implements RepositoryAccount {
     id: number,
     transferKey: bigint,
   ): Promise<void> {
-    if ((await this.chackBalance(id)) < value) {
+    if ((await this.checkBalance(id)) < value) {
       throw new Error('Saldo insuficiente.');
     }
     try {
