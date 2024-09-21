@@ -71,3 +71,5 @@ export function SectionProvider(props: any) {
         </SectionContext.Provider>
     )
 }
+
+export default SectionContext
