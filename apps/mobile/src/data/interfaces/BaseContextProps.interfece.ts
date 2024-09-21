@@ -1,6 +1,6 @@
 import { UserI } from "@wallet/core";
 export interface BaseContextProps {
-  use: UserI;
+  user: UserI | null;
   loading: boolean;
 }
 export interface SectionContextProps extends BaseContextProps {
