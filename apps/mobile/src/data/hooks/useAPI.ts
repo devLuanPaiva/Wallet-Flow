@@ -1,8 +1,7 @@
 import { useCallback } from "react";
 import useSection from "./useSection";
-import { API_URL } from "react-native-dotenv";
 
-const URL_BASE = API_URL;
+const URL_BASE = "http://192.168.2.103:3001";
 
 export default function useAPI() {
   const { token } = useSection();
