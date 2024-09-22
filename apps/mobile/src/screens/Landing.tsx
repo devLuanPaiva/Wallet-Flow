@@ -22,7 +22,7 @@ export default function Landing({ navigation }: any) {
                 </Text>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => navigation.navigate('AuthPage')}
+                    onPress={() => navigation.navigate('Access')}
                 >
                     <Text style={styles.buttonText}>Acessar</Text>
                 </TouchableOpacity>
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fff', 
+        backgroundColor: "#1f1b2e",
     },
     main: {
         alignItems: 'center',
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 32,
         fontWeight: 'bold',
-        color: '#000',
+        color: "#fff",
         textAlign: 'center',
     },
     gradientText: {
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginVertical: 16,
         textAlign: 'center',
-        color: '#666',
+        color: '#ccc',
     },
     button: {
         backgroundColor: '#4f46e5',
