@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { createContext, useCallback, useMemo, useState } from "react";
+import React, { createContext, useCallback, useEffect, useMemo, useState } from "react";
 import { SectionContextProps } from "../interfaces";
 import { jwtDecode } from 'jwt-decode';
 import { UserI } from "@wallet/core";
@@ -22,6 +22,10 @@ export function SectionProvider(props: any) {
             setLoading(false);
         }
     }, []);
+    useEffect(() => {
+        loadSection()
+    }, [loadSection])
+
     const createSection = useCallback(async (jwt: string) => {
         await AsyncStorage.setItem(storageKey, jwt)
         await loadSection()
