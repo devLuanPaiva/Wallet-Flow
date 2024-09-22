@@ -16,17 +16,16 @@ export default function useFormUser() {
   const validate = () => {
     let errors: any = {};
 
-    if (!name.trim() || !email.trim || !password.trim) {
-      errors.name = "Todas as Informações são obrigatórias.";
-      return;
+    if (!name) {
+      errors.name = "Nome é obrigatório";
     }
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      errors.email = "Email inválido";
-      return;
+    if (!password) {
+      errors.password = "Senha é obrigatória";
     }
-    if (password.length < 8) {
-      errors.password = "Senha precisa ter no mínimo 8 caracteres";
-      return;
+    if (!email) {
+      errors.email = "E-mail é obrigatório";
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      errors.email = "E-mail inválido";
     }
     setErrors(errors);
     return Object.keys(errors).length === 0;
