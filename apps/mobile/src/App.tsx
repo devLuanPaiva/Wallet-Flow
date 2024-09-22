@@ -4,26 +4,29 @@ import Landing from './screens/Landing'
 import Access from './screens/Access'
 import { SectionProvider } from './data/contexts/SectionContext'
 import { UserProvider } from './data/contexts/UserContext'
+import Toast from 'react-native-toast-message'
 const Stack = createNativeStackNavigator()
 export default function App() {
     return (
-        <NavigationContainer>
-            <SectionProvider>
-                <UserProvider>
-                    <Stack.Navigator initialRouteName='Home'>
-                        <Stack.Screen
-                            name='Landing' component={Landing}
-                            options={{ headerShown: false }}
-                        />
-                        <Stack.Screen
-                            name='Access'
-                            component={Access}
-                            options={{ headerShown: false }}
-                        />
-                    </Stack.Navigator>
-
-                </UserProvider>
-            </SectionProvider>
-        </NavigationContainer>
+        <>
+            <NavigationContainer>
+                <SectionProvider>
+                    <UserProvider>
+                        <Stack.Navigator initialRouteName='Home'>
+                            <Stack.Screen
+                                name='Landing' component={Landing}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name='Access'
+                                component={Access}
+                                options={{ headerShown: false }}
+                            />
+                        </Stack.Navigator>
+                    </UserProvider>
+                </SectionProvider>
+            </NavigationContainer>
+            <Toast/>
+        </>
     )
 }

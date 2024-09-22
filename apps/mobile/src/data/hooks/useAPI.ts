@@ -8,15 +8,14 @@ export default function useAPI() {
   const { token } = useSection();
   const httpGET = useCallback(
     async function (url: string): Promise<any> {
-
       const path = url.startsWith("/") ? url : `/${url}`;
       try {
-        const response = await fetch(`${URL_BASE}${path}`, {
+        const resp = await fetch(`${URL_BASE}${path}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        return extractData(response);
+        return extractData(resp);
       } catch (err) {
         console.error("Error ao executar requisição:", err);
         throw err;
@@ -45,20 +44,6 @@ export default function useAPI() {
     },
     [token]
   );
-  const httpDELETE = useCallback(
-    async function (urL: string): Promise<any> {
-      const path = urL.startsWith("/") ? urL : `/${urL}`;
-      const resp = await fetch(`${URL_BASE}${path}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return extractData(resp);
-    },
-    [token]
-  );
 
   const httpPUT = useCallback(
     async function (url: string, body: any): Promise<any> {
@@ -82,13 +67,16 @@ export default function useAPI() {
   );
 
   async function extractData(resp: Response) {
-    let content = "";
-    try {
-      content = await resp.text();
-      return JSON.parse(content);
-    } catch (e) {
-      return content;
+    const content = await resp.text();
+    const contentType = resp.headers.get("content-type");
+    if (![200, 201, 204].includes(resp.status)) {
+      const error = JSON.parse(content);
+      throw new Error(error.message || "Erro na requisição");
     }
+    if (contentType?.includes("application/json")) {
+      return JSON.parse(content);
+    }
+    return content;
   }
-  return { httpGET, httpPOST, httpDELETE, httpPUT };
+  return { httpGET, httpPOST, httpPUT };
 }
