@@ -6,12 +6,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import useAPI from '../src/data/hooks/useAPI';
 
-
 // Mock do Toast
 jest.mock('react-native-toast-message', () => ({
     show: jest.fn(),
 }));
-
 // Mock do hook useAPI
 jest.mock('../src/data/hooks/useAPI', () => ({
     __esModule: true,
@@ -19,6 +17,7 @@ jest.mock('../src/data/hooks/useAPI', () => ({
         httpPOST: jest.fn() // Inicializa o httpPost
     })),
 }));
+
 
 describe('Access Screen', () => {
     const mockShowToast = Toast.show;
@@ -94,5 +93,31 @@ describe('Access Screen', () => {
                 text2: 'Usuário já cadastrado',
             });
         });
-    })
+    });
+    test('should successfully login, store token in AsyncStorage, and create session', async () => {
+        mockHttpPOST.mockResolvedValueOnce({ token: 'mock-jwt-token' });
+
+        const { getByText, getByPlaceholderText } = render(
+            <NavigationContainer>
+                <UserProvider>
+                    <SectionProvider>
+                        <Access />
+                    </SectionProvider>
+                </UserProvider>
+            </NavigationContainer>
+        );
+
+        fireEvent.changeText(getByPlaceholderText('Digite seu e-mail'), 'teste@email.com');
+        fireEvent.changeText(getByPlaceholderText('Digite sua senha'), '123456');
+
+        fireEvent.press(getByText('Entrar'));
+
+        await waitFor(() => {
+            expect(mockHttpPOST).toHaveBeenCalledWith('user/login', { email: 'teste@email.com', password: '123456' });
+
+            // Verifica se o token retornado é o esperado
+            expect(mockHttpPOST).toHaveReturnedWith(Promise.resolve({ token: 'mock-jwt-token' }));
+
+        });
+    });
 });
