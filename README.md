@@ -1,4 +1,4 @@
-# Wallet Flow
+# 🤑 Wallet Flow 💴
 
 **Wallet Flow** é uma aplicação web de carteira virtual, onde o usuário pode:
 
@@ -21,6 +21,7 @@ O projeto foi desenvolvido com foco em aprendizado e boas práticas de arquitetu
 - **SQLite**: Banco de dados leve e eficiente.
 - **Jest**: Para testes unitários e de integração.
 - **Git Flow**: Para gerenciamento de versão com uma estratégia clara de branches.
+-**React Native Expo**: Para o desenvolvimento da versão mobile.
 
 ## 🛠️ Funcionalidades
 
@@ -43,6 +44,7 @@ O projeto está **em desenvolvimento**, com as seguintes etapas ainda em andamen
 - Implementação de responsividade e refinamento de estilo
 - Finalização de regras de negócio
 - Testes em toda a aplicação (usando Jest)
+- Desenvolvimento da versão mobile, com as telas de Landing e Access já implementadas. Ambas fazem requisições para registrar usuários e login, sendo testadas com sucesso em casos de registro e login (incluindo cenários de erro).
 
 ## 🧩 Próximos Passos
 - Desenvolver a versão mobile
