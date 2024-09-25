@@ -5,6 +5,7 @@ import Access from './screens/Access'
 import { SectionProvider } from './data/contexts/SectionContext'
 import { UserProvider } from './data/contexts/UserContext'
 import Toast from 'react-native-toast-message'
+import { AccountProvider } from './data/contexts/AccountContext'
 const Stack = createNativeStackNavigator()
 export default function App() {
     return (
@@ -12,17 +13,19 @@ export default function App() {
             <NavigationContainer>
                 <SectionProvider>
                     <UserProvider>
-                        <Stack.Navigator initialRouteName='Home'>
-                            <Stack.Screen
-                                name='Landing' component={Landing}
-                                options={{ headerShown: false }}
-                            />
-                            <Stack.Screen
-                                name='Access'
-                                component={Access}
-                                options={{ headerShown: false }}
-                            />
-                        </Stack.Navigator>
+                        <AccountProvider>
+                            <Stack.Navigator initialRouteName='Home'>
+                                <Stack.Screen
+                                    name='Landing' component={Landing}
+                                    options={{ headerShown: false }}
+                                />
+                                <Stack.Screen
+                                    name='Access'
+                                    component={Access}
+                                    options={{ headerShown: false }}
+                                />
+                            </Stack.Navigator>
+                        </AccountProvider>
                     </UserProvider>
                 </SectionProvider>
             </NavigationContainer>
