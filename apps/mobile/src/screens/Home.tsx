@@ -2,6 +2,7 @@ import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, View } from "r
 import { useAccountData } from "../data/hooks/useAccountData";
 import Balance from "../components/account/Balance";
 import ErrorContainer from "../components/shared/ErrorContainer";
+import Operations from "../components/account/Operations";
 
 export default function Home({ navigation }: any) {
   const { account, loading, error } = useAccountData()
@@ -18,18 +19,19 @@ export default function Home({ navigation }: any) {
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View style={styles.view}>
           <Balance account={account} />
+          <Operations />
         </View>
       </ScrollView>
     </SafeAreaView>
   ) : (
-    <ErrorContainer error={error!} navigation={navigation}/>
+    <ErrorContainer error={error!} navigation={navigation} />
   )
 }
 const styles = StyleSheet.create({
   areaView: {
     flex: 1,
     width: "100%",
-    backgroundColor: "#FFDBEC",
+    backgroundColor: "#F3f3f3",
   },
   scrollViewContent: {
     justifyContent: "flex-start",
@@ -38,11 +40,8 @@ const styles = StyleSheet.create({
   view: {
     width: "100%",
     justifyContent: "flex-start",
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#FFDBEC",
+    paddingVertical: 30,
+    paddingHorizontal: 15,
+    height: "100%"
   }
 });
