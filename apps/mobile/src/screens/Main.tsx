@@ -7,7 +7,7 @@ import Extract from "./Extract";
 const Tab = createBottomTabNavigator();
 
 export default function Main({ navigation }: any) {
-    const tab = (name: string, component: any, label: string, icon: string) => {
+    const tab = (name: string, component: any, label: string, icon: string, lib: string) => {
         return (
             <Tab.Screen
                 name={name}
@@ -19,12 +19,13 @@ export default function Main({ navigation }: any) {
                             <Icon
                                 nameIcon={icon as any}
                                 size={24}
-                                color={focused ? "#8A2BE2" : "#9370DB"} 
+                                color={focused ? "#fff" : "#f1f1f1"}
+                                lib={lib}
                             />
                             <Text
                                 style={{
                                     ...styles.tabScreenText,
-                                    color: focused ? "#8A2BE2" : "#9370DB", 
+                                    color: focused ? "#fff" : "#f1f1f1", 
                                 }}
                             >
                                 {label}
@@ -48,8 +49,8 @@ export default function Main({ navigation }: any) {
                     backgroundColor: "#4B0082", 
                 },
             }}>
-            {tab("Home", Home, "Início", "home-outline")}
-            {tab("Extract", Extract, "Extrato", "FontAwesome6")}
+            {tab("Home", Home, "Início", "home-outline", "Ionicons")}
+            {tab("Extract", Extract, "Extrato", "bank-transfer", "MaterialCommunityIcons")}
         </Tab.Navigator>
     );
 }

@@ -1,12 +1,30 @@
-import { Ionicons } from '@expo/vector-icons'
-import React from 'react'
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import React from 'react';
+
 export interface IconProps {
-    nameIcon: React.ComponentProps<typeof Ionicons>["name"]
-    color?: string
-    size?: number
+    nameIcon: string;
+    lib: string;
+    color?: string;
+    size?: number;
 }
+
 export default function Icon(props: Readonly<IconProps>) {
+    const { lib, nameIcon, size, color } = props;
+
+    const renderIcon = () => {
+        switch (lib) {
+            case 'Ionicons':
+                return <Ionicons name={nameIcon as any} size={size} color={color} />;
+            case 'MaterialCommunityIcons':
+                return <MaterialCommunityIcons name={nameIcon as any} size={size} color={color} />;
+            default:
+                return <Ionicons name="alert-circle-outline" size={size} color="red" />;
+        }
+    };
+
     return (
-        <Ionicons name={props.nameIcon} size={props.size ?? 28} {...props} />
-    )
+        <>
+            {renderIcon()}
+        </>
+    );
 }
