@@ -28,5 +28,5 @@ export default function RequireAuth({ children }: Readonly<ChildrenPops>) {
             </View>
         )
     }
-
+    return <>{children}</>
 }
