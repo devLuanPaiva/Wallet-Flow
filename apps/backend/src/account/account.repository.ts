@@ -22,6 +22,17 @@ export class AccountRepository implements RepositoryAccount {
 
   async createAccount(account: AccountI): Promise<void> {
     try {
+      if (account.transferKey.toString().length !== 10) {
+        throw new Error(
+          'A chave de transferência deve ter exatamente 10 dígitos.',
+        );
+      }
+      const bigKey = BigInt(account.transferKey);
+      const existingAccount = await this.searchAccountKey(bigKey);
+
+      if (existingAccount) {
+        throw new Error('Chave de transferência já cadastrada.');
+      }
       await this.prismaService.account.create({
         data: {
           user: { connect: { id: account.user.id } },

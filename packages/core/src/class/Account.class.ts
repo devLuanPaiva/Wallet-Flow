@@ -5,16 +5,17 @@ export default class Account {
   constructor(private readonly repo: RepositoryAccount) {}
 
   async createAccount(account: AccountI): Promise<void> {
-    const existingAccount = await this.repo.searchAccountKey(
-      BigInt(account.transferKey)
-    );
-    if (existingAccount)
-      throw new Error("Chave de transferência já cadastrada.");
     if (account.transferKey.toString().length !== 10) {
       throw new Error(
         "A chave de transferência deve ter exatamente 10 dígitos."
       );
     }
+    const existingAccount = await this.repo.searchAccountKey(
+      BigInt(account.transferKey)
+    );
+
+    if (existingAccount)
+      throw new Error("Chave de transferência já cadastrada.");
 
     const newAccount: AccountI = {
       ...account,
@@ -56,7 +57,7 @@ export default class Account {
   async getAccountTransactions(accountId: number): Promise<TransactionsI[]> {
     return await this.repo.getAccountTransactions(accountId);
   }
-  async reverse(transactionId: number, reversed: boolean): Promise<void>{
+  async reverse(transactionId: number, reversed: boolean): Promise<void> {
     await this.repo.reverse(transactionId, reversed);
   }
 }
