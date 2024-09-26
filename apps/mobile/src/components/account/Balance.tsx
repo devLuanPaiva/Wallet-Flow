@@ -1,8 +1,24 @@
 import { AccountProps } from "@/src/data/interfaces";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Animated } from "react-native";
 import Icon from "../shared/Icon";
+import { useEffect, useRef } from "react";
 
 export default function Balance({ account }: Readonly<AccountProps>) {
+    const animatedValue = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        Animated.timing(animatedValue, {
+            toValue: 1,
+            duration: 500, 
+            useNativeDriver: true, 
+        }).start();
+    }, [animatedValue]);
+
+    const translateY = animatedValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: [20, 0], 
+    });
+
     return (
         <View style={styles.card}>
             <View style={styles.header}>
@@ -12,12 +28,12 @@ export default function Balance({ account }: Readonly<AccountProps>) {
                     <Text style={styles.percentage}>1.33%</Text>
                 </View>
             </View>
-            <Text style={styles.balance}>
+            <Animated.Text style={[styles.balance, { transform: [{ translateY }] }]}>
                 {account.bankBalance.toLocaleString("pt-br", {
                     style: "currency",
                     currency: "BRL",
                 })}
-            </Text>
+            </Animated.Text>
         </View>
     );
 }
@@ -29,10 +45,10 @@ const styles = StyleSheet.create({
         padding: 20,
         marginVertical: 10,
         shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 8,
-        elevation: 3,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 7,
+        elevation: 4,
     },
     header: {
         flexDirection: "row",
