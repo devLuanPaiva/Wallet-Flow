@@ -13,10 +13,9 @@ export function useAccountData() {
       try {
         const fetchedAccount = await fetchAccount();
         setAccount(fetchedAccount);
-      } catch (error) {
-        console.error("Erro ao carregar a conta: ", error);
-        setError("Erro ao carregar a conta");
-      } finally {
+      } catch (error: any) {
+        setError(error)
+      }finally {
         setLoading(false);
       }
     }
