@@ -14,7 +14,8 @@ export default function useAPI() {
             Authorization: `Bearer ${token}`,
           },
         });
-        return extractData(resp);
+        const data = await extractData(resp);
+        return { data, ok: resp.ok };
       } catch (err) {
         console.error("Error ao executar requisição:", err);
         throw err;
@@ -35,7 +36,8 @@ export default function useAPI() {
           },
           body: JSON.stringify(body),
         });
-        return extractData(resp);
+        const data = await extractData(resp);
+        return { data, ok: resp.ok };
       } catch (err) {
         console.error("Error ao executar requisição:", err);
         throw err;
@@ -56,7 +58,8 @@ export default function useAPI() {
           },
           body: JSON.stringify(body),
         });
-        return extractData(resp);
+        const data = await extractData(resp);
+        return { data, ok: resp.ok };
       } catch (err) {
         console.error("Error ao executar requisição:", err);
         throw err;
