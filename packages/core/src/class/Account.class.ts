@@ -5,6 +5,9 @@ export default class Account {
   constructor(private readonly repo: RepositoryAccount) {}
 
   async createAccount(account: AccountI): Promise<void> {
+    const userHasAccount = await this.repo.searchAccount(account.user.id)
+    if (userHasAccount) throw new Error("Usuário já possui uma conta.");
+    
     if (account.transferKey.toString().length !== 10) {
       throw new Error(
         "A chave de transferência deve ter exatamente 10 dígitos."
