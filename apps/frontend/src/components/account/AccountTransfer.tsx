@@ -27,18 +27,8 @@ export default function AccountTransfer({ account }: Readonly<AccountProps>) {
     const [showAlert, setShowAlert] = useState(false);
 
     const handleDeposit = async () => {
-        if (!valueDeposity) {
-            setErrorMessage("Deve existir algum valor para ser transferido!");
-            setShowAlert(true);
-            return;
-        }
-        if (!transferKey) {
-            setErrorMessage("Deve existir um código de transferência válido!");
-            setShowAlert(true);
-            return;
-        }
         try {
-            await transfer(valueDeposity, account.id!, transferKey);
+            await transfer(valueDeposity!, account.id!, transferKey!);
             setSuccessMessage("Transferência realizada com sucesso!");
             setIsAlertDialogOpen(false);
             setShowAlert(true);
