@@ -19,7 +19,7 @@ export default function Home({ navigation }: any) {
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View style={styles.view}>
           <Balance account={account} />
-          <Operations />
+          <Operations account={account} />
         </View>
       </ScrollView>
     </SafeAreaView>

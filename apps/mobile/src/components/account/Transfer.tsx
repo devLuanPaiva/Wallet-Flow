@@ -1,13 +1,12 @@
 import useAccount from "@/src/data/hooks/useAccount";
-import { useAccountData } from "@/src/data/hooks/useAccountData";
+import { AccountProps } from "@/src/data/interfaces";
 import React, { useRef, useState } from "react";
-import { ActivityIndicator, Animated, Easing, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {  Animated, Easing, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
-export default function Transfer() {
+export default function Transfer({ account }: Readonly<AccountProps>) {
     const [transferKey, setTransferKey] = useState<bigint | undefined>();
     const [valueDeposity, setValueDeposity] = useState<number | null>(null);
     const { transfer, } = useAccount();
-    const { account, loading } = useAccountData()
 
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const slideAnim = useRef(new Animated.Value(-50)).current;
@@ -31,13 +30,7 @@ export default function Transfer() {
             useNativeDriver: true,
         }).start();
     }, []);
-    if (loading) {
-        return (
-            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                <ActivityIndicator size="large" color="#340057" />
-            </View>
-        )
-    }
+  
     return (
         <View style={styles.container}>
             <Animated.Text style={[styles.title, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}>
@@ -53,7 +46,7 @@ export default function Transfer() {
                     onChangeText={(text) => setTransferKey(BigInt(text))}
                 />
 
-                <Text style={styles.label}>Saldo Inicial</Text>
+                <Text style={styles.label}>Valor da Transferência</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Insira o valor"
@@ -77,9 +70,9 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 24,
         fontWeight: "bold",
+        color: "#340057",
         textAlign: "center",
-        marginBottom: 20,
-        color: "#333",
+        marginVertical: 20,
     },
     form: {
         backgroundColor: "#fff",
