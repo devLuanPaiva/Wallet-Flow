@@ -58,17 +58,17 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
 
     const deposit = useCallback(async (value: number, accountId: number) => {
         try {
-           const request = await httpPUT(`account/deposity/${accountId}`, { value: value })
-           if(request.ok){
-               Toast.show({
-                   type: 'success',
-                   text1: 'Depósito bem-sucedido!',
-                   text2: `Você realizou um depósito de ${value.toLocaleString("pt-br", {
-                       style: "currency",
-                       currency: "BRL",
-                   })}.`,
-               });
-           }
+            const request = await httpPUT(`account/deposity/${accountId}`, { value: value })
+            if (request.ok) {
+                Toast.show({
+                    type: 'success',
+                    text1: 'Depósito bem-sucedido!',
+                    text2: `Você realizou um depósito de ${value.toLocaleString("pt-br", {
+                        style: "currency",
+                        currency: "BRL",
+                    })}.`,
+                });
+            }
         } catch (error: any) {
             Toast.show({
                 type: 'error',
@@ -95,7 +95,7 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
                     id: accountId
                 }
             )
-            if(request.ok){
+            if (request.ok) {
                 Toast.show({
                     type: 'success',
                     text1: 'Transferência bem-sucedida!',
@@ -114,9 +114,11 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
         }
     }, [httpPUT])
 
-    const getAccountTransactions = useCallback(async function (accountId: number): Promise<TransactionsI[]> {
+    const getAccountTransactions = useCallback(async function (account: AccountI): Promise<TransactionsI[]> {
         try {
-            const response = await httpGET(`account/getAccountTransactions/${accountId}`)
+            const response = await httpGET(`account/getAccountTransactions/${account.id}`, {
+                account
+            })
             return response;
         } catch (error: any) {
             throw error.message
@@ -125,11 +127,11 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
 
     const reverse = useCallback(async (transactionId: number, reversed: boolean) => {
         try {
-           const request = await httpPUT(`account/reversalOperation`, {
+            const request = await httpPUT(`account/reversalOperation`, {
                 transactionId: transactionId,
                 reversed: reversed,
             })
-            if(request.ok){
+            if (request.ok) {
                 Toast.show({
                     type: 'success',
                     text1: 'Operação reversada com sucesso!',

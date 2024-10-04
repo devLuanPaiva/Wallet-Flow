@@ -69,8 +69,12 @@ export class AccountController {
 
   @Get('getAccountTransactions/:accountId')
   getAccountTransactions(
-    @Param('accountId') account: AccountI,
+    @Param('accountId') accountId: number,
+    @Body('account') account: AccountI,
   ): Promise<TransactionsI[]> {
+    if (accountId !== account.id) {
+      throw new HttpException('Usuário não autorizado', 401);
+    }
     return this.repo.getAccountTransactions(account);
   }
 

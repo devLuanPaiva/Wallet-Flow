@@ -6,13 +6,15 @@ const URL_BASE = process.env.NEXT_PUBLIC_URL_BASE;
 export default function useAPI() {
   const { token } = useSection();
   const httpGET = useCallback(
-    async function (url: string): Promise<any> {
+    async function (url: string, body?: any): Promise<any> {
       const path = url.startsWith("/") ? url : `/${url}`;
       try {
         const resp = await fetch(`${URL_BASE}${path}`, {
+          method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          body: JSON.stringify(body),
         });
         return extractData(resp);
       } catch (err) {
@@ -67,8 +69,8 @@ export default function useAPI() {
     const content = await resp.text();
     const contentType = resp.headers.get("content-type");
     if (![200, 201, 204].includes(resp.status)) {
-        const error = JSON.parse(content);
-        throw new Error(error.message || 'Erro na requisição');
+      const error = JSON.parse(content);
+      throw new Error(error.message || "Erro na requisição");
     }
     if (contentType?.includes("application/json")) {
       return JSON.parse(content);

@@ -6,16 +6,17 @@ const URL_BASE = "http://192.168.2.103:3001";
 export default function useAPI() {
   const { token } = useSection();
   const httpGET = useCallback(
-    async function (url: string): Promise<any> {
+    async function (url: string, body?: any): Promise<any> {
       const path = url.startsWith("/") ? url : `/${url}`;
       try {
         const resp = await fetch(`${URL_BASE}${path}`, {
+          method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          body: JSON.stringify(body),
         });
-        const data = await extractData(resp);
-        return { data, ok: resp.ok };
+        return extractData(resp)
       } catch (err) {
         console.error("Error ao executar requisição:", err);
         throw err;
@@ -36,8 +37,7 @@ export default function useAPI() {
           },
           body: JSON.stringify(body),
         });
-        const data = await extractData(resp);
-        return { data, ok: resp.ok };
+        return extractData(resp)
       } catch (err) {
         console.error("Error ao executar requisição:", err);
         throw err;
@@ -58,8 +58,7 @@ export default function useAPI() {
           },
           body: JSON.stringify(body),
         });
-        const data = await extractData(resp);
-        return { data, ok: resp.ok };
+        return extractData(resp)
       } catch (err) {
         console.error("Error ao executar requisição:", err);
         throw err;
