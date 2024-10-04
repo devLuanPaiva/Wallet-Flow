@@ -14,14 +14,13 @@ export default function ExtractAccount({ account }: Readonly<AccountProps>) {
     useEffect(() => {
         async function loadTransactions() {
             try {
-                if (account?.id) {
-                    const fetchedTransactions = await getAccountTransactions(account.id);
-                    if (Array.isArray(fetchedTransactions)) {
-                        setTransactions(fetchedTransactions);
-                    } else {
-                        setTransactions([]);
-                    }
+                const fetchedTransactions = await getAccountTransactions(account);
+                if (Array.isArray(fetchedTransactions)) {
+                    setTransactions(fetchedTransactions);
+                } else {
+                    setTransactions([]);
                 }
+
             } catch (error) {
                 setTransactions([]);
             } finally {

@@ -60,7 +60,7 @@ export default class Account {
     await this.repo.transfer(value, id, transferKey);
   }
 
-  async getAccountTransactions(account: AccountI): Promise<TransactionsI[]> {
+  async getAccountTransactions(account: Partial<AccountI>): Promise<TransactionsI[]> {
     return await this.repo.getAccountTransactions(account);
   }
   async reverse(transactionId: number, reversed: boolean): Promise<void> {

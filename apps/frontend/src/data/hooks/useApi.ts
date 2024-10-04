@@ -6,15 +6,13 @@ const URL_BASE = process.env.NEXT_PUBLIC_URL_BASE;
 export default function useAPI() {
   const { token } = useSection();
   const httpGET = useCallback(
-    async function (url: string, body?: any): Promise<any> {
+    async function (url: string): Promise<any> {
       const path = url.startsWith("/") ? url : `/${url}`;
       try {
         const resp = await fetch(`${URL_BASE}${path}`, {
-          method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(body),
         });
         return extractData(resp);
       } catch (err) {

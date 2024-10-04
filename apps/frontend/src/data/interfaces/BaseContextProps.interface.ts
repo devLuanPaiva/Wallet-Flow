@@ -24,6 +24,6 @@ export interface AccountContextProps {
   ) => Promise<void>;
   checkBalance: (accountId: number) => Promise<number>;
   fetchAccount: () => Promise<AccountI>;
-  getAccountTransactions(account: AccountI): Promise<TransactionsI[]>
+  getAccountTransactions(account: Partial<AccountI>): Promise<TransactionsI[]>
   reverse(transactionId: number, reversed: boolean): Promise<void>
 }

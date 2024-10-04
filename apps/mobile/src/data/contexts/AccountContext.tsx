@@ -114,11 +114,9 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
         }
     }, [httpPUT])
 
-    const getAccountTransactions = useCallback(async function (account: AccountI): Promise<TransactionsI[]> {
+    const getAccountTransactions = useCallback(async function (account: Partial<AccountI>): Promise<TransactionsI[]> {
         try {
-            const response = await httpGET(`account/getAccountTransactions/${account.id}`, {
-                account
-            })
+            const response = await httpGET(`account/getAccountTransactions/${account.id}/${account.transferKey}`)
             return response;
         } catch (error: any) {
             throw error.message

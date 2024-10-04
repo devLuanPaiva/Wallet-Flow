@@ -67,15 +67,16 @@ export class AccountController {
     return this.repo.transfer(value, id, transferKey);
   }
 
-  @Get('getAccountTransactions/:accountId')
+  @Get('getAccountTransactions/:accountId/:key')
   getAccountTransactions(
     @Param('accountId') accountId: number,
-    @Body('account') account: AccountI,
+    @Param('key') key: bigint,
   ): Promise<TransactionsI[]> {
-    if (accountId !== account.id) {
-      throw new HttpException('Usuário não autorizado', 401);
-    }
-    return this.repo.getAccountTransactions(account);
+    const ParseAccount = {
+      id: accountId,
+      transferKey: key,
+    };
+    return this.repo.getAccountTransactions(ParseAccount);
   }
 
   @Put('reversalOperation')

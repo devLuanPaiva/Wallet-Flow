@@ -100,7 +100,9 @@ export class AccountRepository implements RepositoryAccount {
     }
   }
 
-  async getAccountTransactions(account: AccountI): Promise<TransactionsI[]> {
+  async getAccountTransactions(
+    account: Partial<AccountI>,
+  ): Promise<TransactionsI[]> {
     try {
       const transactions = await this.prismaService.transactionLog.findMany({
         where: {
