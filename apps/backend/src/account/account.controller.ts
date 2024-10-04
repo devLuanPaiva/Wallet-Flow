@@ -69,9 +69,9 @@ export class AccountController {
 
   @Get('getAccountTransactions/:accountId')
   getAccountTransactions(
-    @Param('accountId') accountId: number,
+    @Param('accountId') account: AccountI,
   ): Promise<TransactionsI[]> {
-    return this.repo.getAccountTransactions(accountId);
+    return this.repo.getAccountTransactions(account);
   }
 
   @Put('reversalOperation')

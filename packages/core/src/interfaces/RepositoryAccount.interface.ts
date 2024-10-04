@@ -8,6 +8,6 @@ export default interface RepositoryAccount {
   checkBalance(id: number): Promise<number>;
   searchAccountKey(transferKey: bigint): Promise<AccountI | null>;
   searchAccount(userId: number): Promise<AccountI | null>;
-  getAccountTransactions(accountId: number): Promise<TransactionsI[]>
+  getAccountTransactions(account: AccountI): Promise<TransactionsI[]>
   reverse(transactionId: number, reversed: boolean): Promise<void>
 }
