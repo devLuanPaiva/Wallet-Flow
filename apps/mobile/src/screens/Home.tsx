@@ -3,6 +3,7 @@ import { useAccountData } from "../data/hooks/useAccountData";
 import Balance from "../components/account/Balance";
 import ErrorContainer from "../components/shared/ErrorContainer";
 import Operations from "../components/account/Operations";
+import UserData from "../components/user/User";
 
 export default function Home({ navigation }: any) {
   const { account, loading, error } = useAccountData()
@@ -18,6 +19,7 @@ export default function Home({ navigation }: any) {
     <SafeAreaView style={styles.areaView}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View style={styles.view}>
+          <UserData account={account} />
           <Balance account={account} />
           <Operations account={account} />
         </View>
