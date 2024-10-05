@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "../components/shared/Icon";
 import Home from "./Home";
-import Extract from "./Extract";
+import CreateAccount from "./CreateAccount";
 
 const Tab = createBottomTabNavigator();
 
@@ -18,7 +18,7 @@ export default function Main({ navigation }: any) {
                         <View style={styles.tabScreen}>
                             <Icon
                                 nameIcon={icon as any}
-                                size={24}
+                                size={30}
                                 color={focused ? "#fff" : "#f1f1f1"}
                                 lib={lib}
                             />
@@ -50,7 +50,7 @@ export default function Main({ navigation }: any) {
                 },
             }}>
             {tab("Home", Home, "Início", "home-outline", "Ionicons")}
-            {tab("Extract", Extract, "Extrato", "bank-transfer", "MaterialCommunityIcons")}
+            {tab("CreateAccount", CreateAccount, "Conta", "account-balance", "MaterialIcons")}
         </Tab.Navigator>
     );
 }
