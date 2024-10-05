@@ -21,11 +21,10 @@ export default function AccountExtract() {
         async function loadTransactions() {
             try {
                 if (account?.id) {
-                    const fetchedTransactions = await getAccountTransactions(account.id);
+                    const fetchedTransactions = await getAccountTransactions(account);
                     if (Array.isArray(fetchedTransactions)) {
                         setTransactions(fetchedTransactions);
                     } else {
-                        console.error('Transações recebidas não são um array: ', fetchedTransactions);
                         setTransactions([]);
                     }
                 }
