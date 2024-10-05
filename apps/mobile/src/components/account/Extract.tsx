@@ -2,12 +2,13 @@ import useAccount from "@/src/data/hooks/useAccount";
 import { AccountProps } from "@/src/data/interfaces";
 import { TransactionsI } from "@wallet/core";
 import { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, Animated, Easing, FlatList, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Animated, Easing, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function ExtractAccount({ account }: Readonly<AccountProps>) {
     const [loadingTransactions, setLoadingTransactions] = useState(true);
     const [transactions, setTransactions] = useState<TransactionsI[]>([]);
-    const { getAccountTransactions } = useAccount();
+    const { getAccountTransactions, reverse } = useAccount();
+    const reverseTransactions = true;
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const slideAnim = useRef(new Animated.Value(-50)).current;
 
@@ -20,7 +21,6 @@ export default function ExtractAccount({ account }: Readonly<AccountProps>) {
                 } else {
                     setTransactions([]);
                 }
-
             } catch (error) {
                 setTransactions([]);
             } finally {
@@ -46,6 +46,23 @@ export default function ExtractAccount({ account }: Readonly<AccountProps>) {
         }).start();
     }, []);
 
+    const handleReverseTransaction = async (transactionId: number) => {
+        try {
+            if (transactionId !== undefined) {
+                await reverse(transactionId, reverseTransactions);
+                setTransactions((prevTransactions) =>
+                    prevTransactions.map((transaction) =>
+                        transaction.id === transactionId
+                            ? { ...transaction, reversed: !transaction.reversed }
+                            : transaction
+                    )
+                );
+            }
+        } catch (error) {
+            console.error(`${error}`);
+        }
+    };
+
     if (loadingTransactions) {
         return (
             <View style={styles.loadingContainer}>
@@ -54,14 +71,27 @@ export default function ExtractAccount({ account }: Readonly<AccountProps>) {
         );
     }
 
-    const renderItem = ({ item }: any) => (
+    const renderItem = ({ item }: { item: TransactionsI }) => (
         <View style={styles.transactionCard}>
             <Text style={styles.transactionType}>
                 {item.type === 'DEPOSIT' ? 'Depósito' : 'Transferência'}
             </Text>
             <Text style={styles.transactionValue}>
-                {item.value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+                {item.value!.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
             </Text>
+
+            <TouchableOpacity
+                style={[
+                    styles.reverseButton,
+                    item.reversed ? styles.reversedButton : styles.notReversedButton,
+                ]}
+                onPress={() => handleReverseTransaction(item.id!)}
+                disabled={item.reversed}
+            >
+                <Text style={styles.reverseButtonText}>
+                    {item.reversed ? 'Revertido' : 'Reverter'}
+                </Text>
+            </TouchableOpacity>
         </View>
     );
 
@@ -75,7 +105,9 @@ export default function ExtractAccount({ account }: Readonly<AccountProps>) {
                 <FlatList
                     data={transactions}
                     renderItem={renderItem}
-                    keyExtractor={(item, index) => item.id!.toString()}
+                    keyExtractor={(item) => item.id!.toString()}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
                 />
             </Animated.View>
         </View>
@@ -109,7 +141,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFF",
         padding: 15,
         borderRadius: 8,
-        marginVertical: 10,
+        marginRight: 15,
+        width: 200,
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
@@ -126,5 +159,22 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#27AE60",
         marginTop: 5,
+    },
+    reverseButton: {
+        padding: 10,
+        borderRadius: 5,
+        marginTop: 10,
+        alignItems: "center",
+    },
+    reversedButton: {
+        backgroundColor: "#E74C3C",
+    },
+    notReversedButton: {
+        backgroundColor: "#3498DB",
+    },
+    reverseButtonText: {
+        color: "#FFF",
+        fontSize: 14,
+        fontWeight: "bold",
     },
 });
