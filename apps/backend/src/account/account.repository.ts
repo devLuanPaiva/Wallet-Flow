@@ -17,13 +17,17 @@ export class AccountRepository implements RepositoryAccount {
   }
 
   async createAccount(account: AccountI): Promise<void> {
-    await this.prismaService.account.create({
-      data: {
-        user: { connect: { id: account.user.id } },
-        transferKey: BigInt(account.transferKey),
-        bankBalance: account.bankBalance,
-      },
-    });
+    try {
+      await this.prismaService.account.create({
+        data: {
+          user: { connect: { id: account.user.id } },
+          transferKey: BigInt(account.transferKey),
+          bankBalance: account.bankBalance,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   async deposity(value: number, id: number): Promise<void> {
@@ -42,11 +46,10 @@ export class AccountRepository implements RepositoryAccount {
         },
       });
     } catch (error) {
-      console.error('Error updating appointment:', error);
       throw error;
     }
   }
-  async searchAccount(userId: number): Promise<AccountI | null> {
+  async searchAccount(userId: number): Promise<AccountI> {
     const account = await this.prismaService.account.findFirst({
       where: { userId: Number(userId) },
       include: { user: true },
@@ -56,7 +59,7 @@ export class AccountRepository implements RepositoryAccount {
       ? { ...account, transferKey: account.transferKey.toString() }
       : null;
   }
-  async searchAccountKey(transferKey: bigint): Promise<AccountI | null> {
+  async searchAccountKey(transferKey: bigint): Promise<AccountI> {
     const account = await this.prismaService.account.findFirst({
       where: { transferKey: BigInt(transferKey) },
       include: { user: true },

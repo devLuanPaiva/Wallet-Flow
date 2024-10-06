@@ -8,7 +8,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { AccountRepository } from './account.repository';
-import { AccountI, TransactionsI, UserI } from '@wallet/core';
+import { Account, AccountI, TransactionsI, UserI } from '@wallet/core';
 import { UserLogged } from '../user/user.decorator';
 
 @Controller('account')
@@ -16,23 +16,34 @@ export class AccountController {
   constructor(private readonly repo: AccountRepository) {}
 
   @Get('check/:id')
-  checkBalance(@Param('id') id: number): Promise<number> {
-    return this.repo.checkBalance(id);
+  async checkBalance(@Param('id') id: number): Promise<number> {
+    const account = new Account(this.repo);
+    try {
+      return await account.checkBalance(id);
+    } catch (error) {
+      throw new HttpException(error.message, 400);
+    }
   }
-  @Post('register')
-  createAccount(@Body() account: AccountI, @UserLogged() userLogged: UserI) {
-    if (account.user.id !== userLogged.id) {
-      console.log(
-        `user account ${account.user.id} | user loggerd ${userLogged.id}`,
-      );
 
+  @Post('register')
+  async createAccount(
+    @Body() accountData: AccountI,
+    @UserLogged() userLogged: UserI,
+  ) {
+    if (accountData.user.id !== userLogged.id) {
       throw new HttpException('Usuário não autorizado.', 401);
     }
-    return this.repo.createAccount(account);
+
+    const account = new Account(this.repo);
+    try {
+      return await account.createAccount(accountData);
+    } catch (error) {
+      throw new HttpException(error.message, 400);
+    }
   }
 
   @Put('deposity/:id')
-  deposity(
+  async deposity(
     @Param('id') id: number,
     @Body('value') value: number,
     @UserLogged() userLogged: UserI,
@@ -40,22 +51,38 @@ export class AccountController {
     if (!userLogged.id) {
       throw new HttpException('Usuário não autorizado', 401);
     }
-    return this.repo.deposity(value, id);
+
+    const account = new Account(this.repo);
+    try {
+      await account.deposity(value, id);
+    } catch (error) {
+      throw new HttpException(error.message, 400);
+    }
   }
 
   @Get('search/:transferKey')
-  searchAccountKey(
+  async searchAccountKey(
     @Param('transferKey') transferKey: bigint,
   ): Promise<AccountI> {
-    return this.repo.searchAccountKey(transferKey);
+    try {
+      return await this.repo.searchAccountKey(transferKey);
+    } catch (error) {
+      throw new HttpException(error.message, 400);
+    }
   }
+
   @Get('searchAccount/user/:id')
-  searchAccount(@Param('id') id: number): Promise<AccountI> {
-    return this.repo.searchAccount(id);
+  async searchAccount(@Param('id') id: number): Promise<AccountI> {
+    const account = new Account(this.repo);
+    try {
+      return await account.searchAccount(id);
+    } catch (error) {
+      throw new HttpException(error.message, 400);
+    }
   }
 
   @Put('transfer/:transferKey')
-  transfer(
+  async transfer(
     @Param('transferKey') transferKey: bigint,
     @Body('value') value: number,
     @Body('id') id: number,
@@ -64,11 +91,17 @@ export class AccountController {
     if (!userLogged.id) {
       throw new HttpException('Usuário não autorizado', 401);
     }
-    return this.repo.transfer(value, id, transferKey);
+
+    const account = new Account(this.repo);
+    try {
+      await account.transfer(value, id, transferKey);
+    } catch (error) {
+      throw new HttpException(error.message, 400);
+    }
   }
 
   @Get('getAccountTransactions/:accountId/:key')
-  getAccountTransactions(
+  async getAccountTransactions(
     @Param('accountId') accountId: number,
     @Param('key') key: bigint,
   ): Promise<TransactionsI[]> {
@@ -76,14 +109,25 @@ export class AccountController {
       id: accountId,
       transferKey: key,
     };
-    return this.repo.getAccountTransactions(ParseAccount);
+
+    const account = new Account(this.repo);
+    try {
+      return await account.getAccountTransactions(ParseAccount);
+    } catch (error) {
+      throw new HttpException(error.message, 400);
+    }
   }
 
   @Put('reversalOperation')
-  reverseOperation(
+  async reverseOperation(
     @Body('transactionId') transactionId: number,
     @Body('reversed') reversed: boolean,
   ): Promise<void> {
-    return this.repo.reverse(transactionId, reversed);
+    const account = new Account(this.repo);
+    try {
+      await account.reverse(transactionId, reversed);
+    } catch (error) {
+      throw new HttpException(error.message, 400);
+    }
   }
 }
