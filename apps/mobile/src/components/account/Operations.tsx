@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useState } from "react";
 import Icon from "../shared/Icon";
 import { AccountProps } from "@/src/data/interfaces";
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         backgroundColor: "#fff",
-        borderRadius: 15,
+        borderRadius: 10,
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.2,
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     },
     optionText: {
         marginTop: 10,
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: "600",
         color: "#333",
     },
