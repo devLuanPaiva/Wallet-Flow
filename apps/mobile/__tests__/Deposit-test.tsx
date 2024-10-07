@@ -53,5 +53,27 @@ describe('Deposity Component', () => {
         });
     });
 
+    it('should show success message on successful deposit', async () => {
+        const accountProps: AccountProps['account'] = {
+            id: 1,
+            transferKey: '1234567890',
+            bankBalance: 1000,
+            user: {
+                id: 1,
+                email: 'test@email.com',
+                name: 'Teste'
+            }
+        }
+        const { getByPlaceholderText, getByText } = render(<Deposity account={accountProps} />);
+
+        fireEvent.changeText(getByPlaceholderText('Insira o valor'), '200.00');
+        fireEvent.press(getByText('Depositar'));
+
+        await waitFor(() => {
+            expect(mockDeposit).toHaveBeenCalledWith(200.00, 1);
+            expect(mockDeposit).toHaveBeenCalledTimes(2);
+        });
+    });
+
     
 });
