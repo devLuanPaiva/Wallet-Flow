@@ -79,5 +79,31 @@ describe('Transfer Component', () => {
             expect(mockTransfer).toHaveBeenCalledWith(250, 1, BigInt('0987654321'));
             expect(mockTransfer).toHaveBeenCalledTimes(2);
         })
+    });
+    it('should show error message on failed transfer', async () => {
+        const accountProps: AccountProps['account'] = {
+            id: 1,
+            transferKey: '1234567890',
+            bankBalance: 1000,
+            user: {
+                id: 1,
+                email: 'test@email.com',
+                name: 'Teste'
+            }
+        };
+
+        const { getByPlaceholderText, getByText} = render(<Transfer account={accountProps} />);
+
+        fireEvent.changeText(getByPlaceholderText('Insira a chave de transferência'), '0987654321');
+        fireEvent.changeText(getByPlaceholderText('Insira o valor'), '25000');
+
+        fireEvent.press(getByText('Transferir'));
+        mockTransfer.mockImplementationOnce(()=>{
+            throw new Error('Transferencia não efetuada');
+        })
+
+        await waitFor(() => {
+            expect(mockTransfer).toHaveBeenCalledWith(25000, 1, BigInt('0987654321'));
+        })
     })
 });
