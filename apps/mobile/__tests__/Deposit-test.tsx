@@ -14,18 +14,17 @@ describe('Deposity Component', () => {
             deposit: mockDeposit,
         });
     });
-
-    it('should render correctly', () => {
-        const accountProps: AccountProps['account'] = {
+    
+    const accountProps: AccountProps['account'] = {
+        id: 1,
+        transferKey: '1234567890',
+        bankBalance: 1000,
+        user: {
             id: 1,
-            transferKey: '1234567890',
-            bankBalance: 1000,
-            user: {
-                id: 1,
-                email: 'test@email.com',
-                name: 'Teste'
-            }
-        }
+            email: 'test@email.com',
+        },
+    };
+    it('should render correctly', () => {
         const { getByText } = render(<Deposity account={accountProps} />);
         expect(getByText('Depositar Dinheiro')).toBeTruthy();
         expect(getByText('Valor do Depósito')).toBeTruthy();
@@ -33,16 +32,6 @@ describe('Deposity Component', () => {
     });
 
     it('should call deposit function with correct parameters', async () => {
-        const accountProps: AccountProps['account'] = {
-            id: 1,
-            transferKey: '1234567890',
-            bankBalance: 1000,
-            user: {
-                id: 1,
-                email: 'test@email.com',
-                name: 'Teste'
-            }
-        }
         const { getByPlaceholderText, getByText } = render(<Deposity account={accountProps} />);
 
         fireEvent.changeText(getByPlaceholderText('Insira o valor'), '100.50');
@@ -54,16 +43,6 @@ describe('Deposity Component', () => {
     });
 
     it('should show success message on successful deposit', async () => {
-        const accountProps: AccountProps['account'] = {
-            id: 1,
-            transferKey: '1234567890',
-            bankBalance: 1000,
-            user: {
-                id: 1,
-                email: 'test@email.com',
-                name: 'Teste'
-            }
-        }
         const { getByPlaceholderText, getByText } = render(<Deposity account={accountProps} />);
 
         fireEvent.changeText(getByPlaceholderText('Insira o valor'), '200.00');
@@ -76,16 +55,6 @@ describe('Deposity Component', () => {
     });
 
     it('should show error message on failed deposit', async () => {
-        const accountProps: AccountProps['account'] = {
-            id: 1,
-            transferKey: '1234567890',
-            bankBalance: 1000,
-            user: {
-                id: 1,
-                email: 'test@email.com',
-                name: 'Teste'
-            }
-        }
         const { getByPlaceholderText, getByText } = render(<Deposity account={accountProps} />);
 
         fireEvent.changeText(getByPlaceholderText('Insira o valor'), '300.00');

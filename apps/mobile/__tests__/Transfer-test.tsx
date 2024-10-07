@@ -13,18 +13,16 @@ describe('Transfer Component', () => {
             transfer: mockTransfer,
         });
     });
-
-    it('should render correctly', () => {
-        const accountProps: AccountProps['account'] = {
+    const accountProps: AccountProps['account'] = {
+        id: 1,
+        transferKey: '1234567890',
+        bankBalance: 1000,
+        user: {
             id: 1,
-            transferKey: '1234567890',
-            bankBalance: 1000,
-            user: {
-                id: 1,
-                email: 'test@email.com',
-                name: 'Teste'
-            }
-        };
+            email: 'test@email.com',
+        },
+    };
+    it('should render correctly', () => {
         const { getByText } = render(<Transfer account={accountProps} />);
         expect(getByText('Transferir Dinheiro')).toBeTruthy();
         expect(getByText('Chave de Transferência')).toBeTruthy();
@@ -57,17 +55,6 @@ describe('Transfer Component', () => {
     });
 
     it('should show success message on successful transfer', async () => {
-        const accountProps: AccountProps['account'] = {
-            id: 1,
-            transferKey: '1234567890',
-            bankBalance: 1000,
-            user: {
-                id: 1,
-                email: 'test@email.com',
-                name: 'Teste'
-            }
-        };
-
         const { getByPlaceholderText, getByText} = render(<Transfer account={accountProps} />);
 
         fireEvent.changeText(getByPlaceholderText('Insira a chave de transferência'), '0987654321');
@@ -81,17 +68,6 @@ describe('Transfer Component', () => {
         })
     });
     it('should show error message on failed transfer', async () => {
-        const accountProps: AccountProps['account'] = {
-            id: 1,
-            transferKey: '1234567890',
-            bankBalance: 1000,
-            user: {
-                id: 1,
-                email: 'test@email.com',
-                name: 'Teste'
-            }
-        };
-
         const { getByPlaceholderText, getByText} = render(<Transfer account={accountProps} />);
 
         fireEvent.changeText(getByPlaceholderText('Insira a chave de transferência'), '0987654321');
