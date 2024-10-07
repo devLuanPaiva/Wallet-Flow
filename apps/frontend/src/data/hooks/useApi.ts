@@ -67,8 +67,8 @@ export default function useAPI() {
     const content = await resp.text();
     const contentType = resp.headers.get("content-type");
     if (![200, 201, 204].includes(resp.status)) {
-        const error = JSON.parse(content);
-        throw new Error(error.message || 'Erro na requisição');
+      const error = JSON.parse(content);
+      throw new Error(error.message || "Erro na requisição");
     }
     if (contentType?.includes("application/json")) {
       return JSON.parse(content);

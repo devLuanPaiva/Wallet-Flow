@@ -6,8 +6,8 @@ export default interface RepositoryAccount {
   deposity(value: number, id: number): Promise<void>;
   transfer(value: number, id: number, transferKey: bigint): Promise<void>;
   checkBalance(id: number): Promise<number>;
-  searchAccountKey(transferKey: bigint): Promise<AccountI>;
-  searchAccount(userId: number): Promise<AccountI>;
-  getAccountTransactions(accountId: number): Promise<TransactionsI[]>
+  searchAccountKey(transferKey: bigint): Promise<AccountI | null>;
+  searchAccount(userId: number): Promise<AccountI | null>;
+  getAccountTransactions(account: Partial<AccountI>): Promise<TransactionsI[]>
   reverse(transactionId: number, reversed: boolean): Promise<void>
 }
