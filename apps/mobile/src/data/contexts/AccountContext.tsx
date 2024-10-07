@@ -34,18 +34,18 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
     const createAccount = useCallback(async (account: Partial<AccountI>) => {
         if (!user) return
         try {
-            const request = await httpPOST('account/register', {
+            await httpPOST('account/register', {
                 user: user,
                 transferKey: account.transferKey?.toString(),
                 bankBalance: account.bankBalance,
             })
-            if (request.ok) {
-                Toast.show({
-                    type: 'success',
-                    text1: 'Registro bem-sucedido!',
-                    text2: 'Conta registrada com sucesso.',
-                });
-            }
+
+            Toast.show({
+                type: 'success',
+                text1: 'Registro bem-sucedido!',
+                text2: 'Conta registrada com sucesso.',
+            });
+
 
         } catch (error: any) {
             Toast.show({
@@ -58,17 +58,17 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
 
     const deposit = useCallback(async (value: number, accountId: number) => {
         try {
-            const request = await httpPUT(`account/deposity/${accountId}`, { value: value })
-            if (request.ok) {
-                Toast.show({
-                    type: 'success',
-                    text1: 'Depósito bem-sucedido!',
-                    text2: `Você realizou um depósito de ${value.toLocaleString("pt-br", {
-                        style: "currency",
-                        currency: "BRL",
-                    })}.`,
-                });
-            }
+            await httpPUT(`account/deposity/${accountId}`, { value: value })
+
+            Toast.show({
+                type: 'success',
+                text1: 'Depósito bem-sucedido!',
+                text2: `Você realizou um depósito de ${value.toLocaleString("pt-br", {
+                    style: "currency",
+                    currency: "BRL",
+                })}.`,
+            });
+
         } catch (error: any) {
             Toast.show({
                 type: 'error',
@@ -89,22 +89,22 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
 
     const transfer = useCallback(async (value: number, accountId: number, transferKey: bigint) => {
         try {
-            const request = await httpPUT(`account/transfer/${transferKey}`,
+            await httpPUT(`account/transfer/${transferKey}`,
                 {
                     value: value,
                     id: accountId
                 }
             )
-            if (request.ok) {
-                Toast.show({
-                    type: 'success',
-                    text1: 'Transferência bem-sucedida!',
-                    text2: `Você realizou uma transferência de ${value.toLocaleString("pt-br", {
-                        style: "currency",
-                        currency: "BRL",
-                    })}.`,
-                })
-            }
+
+            Toast.show({
+                type: 'success',
+                text1: 'Transferência bem-sucedida!',
+                text2: `Você realizou uma transferência de ${value.toLocaleString("pt-br", {
+                    style: "currency",
+                    currency: "BRL",
+                })}.`,
+            })
+
         } catch (error: any) {
             Toast.show({
                 type: 'error',
@@ -125,17 +125,17 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
 
     const reverse = useCallback(async (transactionId: number, reversed: boolean) => {
         try {
-            const request = await httpPUT(`account/reversalOperation`, {
+            await httpPUT(`account/reversalOperation`, {
                 transactionId: transactionId,
                 reversed: reversed,
             })
-            if (request.ok) {
-                Toast.show({
-                    type: 'success',
-                    text1: 'Operação reversada com sucesso!',
-                    text2: 'A operação foi revertida com sucesso.',
-                });
-            }
+
+            Toast.show({
+                type: 'success',
+                text1: 'Operação reversada com sucesso!',
+                text2: 'A operação foi revertida com sucesso.',
+            });
+
         } catch (error: any) {
             Toast.show({
                 type: 'error',
