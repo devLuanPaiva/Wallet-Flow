@@ -32,5 +32,26 @@ describe('Deposity Component', () => {
         expect(getByText('Depositar')).toBeTruthy();
     });
 
+    it('should call deposit function with correct parameters', async () => {
+        const accountProps: AccountProps['account'] = {
+            id: 1,
+            transferKey: '1234567890',
+            bankBalance: 1000,
+            user: {
+                id: 1,
+                email: 'test@email.com',
+                name: 'Teste'
+            }
+        }
+        const { getByPlaceholderText, getByText } = render(<Deposity account={accountProps} />);
+
+        fireEvent.changeText(getByPlaceholderText('Insira o valor'), '100.50');
+        fireEvent.press(getByText('Depositar'));
+
+        await waitFor(() => {
+            expect(mockDeposit).toHaveBeenCalledWith(100.50, 1);
+        });
+    });
+
     
 });
