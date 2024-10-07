@@ -75,5 +75,28 @@ describe('Deposity Component', () => {
         });
     });
 
-    
+    it('should show error message on failed deposit', async () => {
+        const accountProps: AccountProps['account'] = {
+            id: 1,
+            transferKey: '1234567890',
+            bankBalance: 1000,
+            user: {
+                id: 1,
+                email: 'test@email.com',
+                name: 'Teste'
+            }
+        }
+        const { getByPlaceholderText, getByText } = render(<Deposity account={accountProps} />);
+
+        fireEvent.changeText(getByPlaceholderText('Insira o valor'), '300.00');
+        fireEvent.press(getByText('Depositar'));
+
+        mockDeposit.mockImplementationOnce(() => {
+            throw new Error('Erro no depósito');
+        });
+
+        await waitFor(() => {
+            expect(mockDeposit).toHaveBeenCalledWith(300.00, 1);
+        });
+    });
 });
