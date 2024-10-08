@@ -116,9 +116,8 @@ export default function ExtractAccount({ account }: Readonly<AccountProps>) {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        padding: 20,
-        backgroundColor: "#F5F5F5",
+        justifyContent: "center",
+        marginTop: 10
     },
     loadingContainer: {
         flex: 1,
