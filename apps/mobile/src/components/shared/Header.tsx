@@ -36,12 +36,13 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         padding: 10,
+        paddingHorizontal: 15
     },
     title: {
         fontSize: 24,
         color: "#fff",
-        fontWeight: "bold",
-        fontFamily: "sans-serif",
+        fontWeight: "900",
+        fontFamily: "Roboto",
     },
     menuButton: {
         position: "relative",
