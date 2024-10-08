@@ -13,11 +13,7 @@ export class AccountRepository implements RepositoryAccount {
       },
     });
 
-    if (!account) {
-      throw new Error('Conta não encontrada.');
-    }
-
-    return account.bankBalance;
+    return account ? account.bankBalance : null;
   }
 
   async createAccount(account: AccountI): Promise<void> {
@@ -30,7 +26,6 @@ export class AccountRepository implements RepositoryAccount {
         },
       });
     } catch (error) {
-      console.error('Error creating appointment:', error);
       throw error;
     }
   }
@@ -51,24 +46,18 @@ export class AccountRepository implements RepositoryAccount {
         },
       });
     } catch (error) {
-      console.error('Error updating appointment:', error);
       throw error;
     }
   }
   async searchAccount(userId: number): Promise<AccountI> {
-    const result: any = await this.prismaService.account.findMany({
+    const account = await this.prismaService.account.findFirst({
       where: { userId: Number(userId) },
       include: { user: true },
     });
 
-    if (result.length === 0) {
-      throw new Error('Conta não encontrada.');
-    }
-
-    return result.map((account: AccountI) => ({
-      ...account,
-      transferKey: account.transferKey.toString(),
-    }))[0];
+    return account
+      ? { ...account, transferKey: account.transferKey.toString() }
+      : null;
   }
   async searchAccountKey(transferKey: bigint): Promise<AccountI> {
     const account = await this.prismaService.account.findFirst({
@@ -76,14 +65,9 @@ export class AccountRepository implements RepositoryAccount {
       include: { user: true },
     });
 
-    if (!account) {
-      throw new Error('Conta não encontrada.');
-    }
-
-    return {
-      ...account,
-      transferKey: account.transferKey.toString(),
-    };
+    return account
+      ? { ...account, transferKey: account.transferKey.toString() }
+      : null;
   }
 
   async transfer(
@@ -91,9 +75,6 @@ export class AccountRepository implements RepositoryAccount {
     id: number,
     transferKey: bigint,
   ): Promise<void> {
-    if ((await this.checkBalance(id)) < value) {
-      throw new Error('Saldo insuficiente.');
-    }
     try {
       await this.prismaService.account.update({
         where: { id: Number(id) },
@@ -101,15 +82,9 @@ export class AccountRepository implements RepositoryAccount {
           bankBalance: { decrement: value },
         },
       });
-      const recipientAccount = await this.prismaService.account.findFirst({
-        where: { transferKey: BigInt(transferKey) },
-      });
-      if (!recipientAccount) {
-        throw new Error('Conta do destinatário não encontrada.');
-      }
 
       await this.prismaService.account.update({
-        where: { id: recipientAccount.id },
+        where: { transferKey: BigInt(transferKey) },
         data: {
           bankBalance: { increment: value },
         },
@@ -119,7 +94,7 @@ export class AccountRepository implements RepositoryAccount {
           type: 'TRANSFER',
           value: value,
           accountId: Number(id),
-          recipientAccountId: Number(recipientAccount.id),
+          recipientAccountKey: BigInt(transferKey),
         },
       });
     } catch (error) {
@@ -128,13 +103,15 @@ export class AccountRepository implements RepositoryAccount {
     }
   }
 
-  async getAccountTransactions(accountId: number): Promise<TransactionsI[]> {
+  async getAccountTransactions(
+    account: Partial<AccountI>,
+  ): Promise<TransactionsI[]> {
     try {
       const transactions = await this.prismaService.transactionLog.findMany({
         where: {
           OR: [
-            { accountId: Number(accountId) },
-            { recipientAccountId: Number(accountId) },
+            { accountId: Number(account.id) },
+            { recipientAccountKey: BigInt(account.transferKey) },
           ],
         },
         include: {
@@ -188,9 +165,9 @@ export class AccountRepository implements RepositoryAccount {
         },
       });
 
-      if (transaction.recipientAccountId) {
+      if (transaction.recipientAccountKey) {
         await this.prismaService.account.update({
-          where: { id: transaction.recipientAccountId },
+          where: { transferKey: BigInt(transaction.recipientAccountKey) },
           data: {
             bankBalance: { decrement: transaction.value },
           },

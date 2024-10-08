@@ -1,9 +1,9 @@
-'use client'
-import React, { createContext, useCallback, useMemo } from "react";
+import { createContext, useCallback, useMemo } from "react";
 import { AccountContextProps } from "../interfaces";
+import useAPI from "../hooks/useAPI";
 import useUser from "../hooks/useUser";
-import useAPI from "../hooks/useApi";
 import { AccountI, TransactionsI } from "@wallet/core";
+import Toast from 'react-native-toast-message';
 
 export const AccountContext = createContext({} as AccountContextProps)
 export function AccountProvider({ children, }: { readonly children: React.ReactNode; }) {
@@ -26,7 +26,6 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
                 return response
 
             } catch (error: any) {
-
                 throw error.message
             }
         }, [httpGET]
@@ -41,8 +40,19 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
                 bankBalance: account.bankBalance,
             })
 
+            Toast.show({
+                type: 'success',
+                text1: 'Registro bem-sucedido!',
+                text2: 'Conta registrada com sucesso.',
+            });
+
+
         } catch (error: any) {
-            throw error.message
+            Toast.show({
+                type: 'error',
+                text1: 'Erro no registro',
+                text2: error.message,
+            });
         }
     }, [httpPOST, user])
 
@@ -50,8 +60,21 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
         try {
             await httpPUT(`account/deposity/${accountId}`, { value: value })
 
+            Toast.show({
+                type: 'success',
+                text1: 'Depósito bem-sucedido!',
+                text2: `Você realizou um depósito de ${value.toLocaleString("pt-br", {
+                    style: "currency",
+                    currency: "BRL",
+                })}.`,
+            });
+
         } catch (error: any) {
-            throw error.message
+            Toast.show({
+                type: 'error',
+                text1: 'Erro no depósito',
+                text2: error.message,
+            });
         }
     }, [httpPUT])
 
@@ -66,13 +89,28 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
 
     const transfer = useCallback(async (value: number, accountId: number, transferKey: bigint) => {
         try {
-            await httpPUT(`account/transfer/${transferKey}`, {
-                value: value,
-                id: accountId
-            }
+            await httpPUT(`account/transfer/${transferKey}`,
+                {
+                    value: value,
+                    id: accountId
+                }
             )
+
+            Toast.show({
+                type: 'success',
+                text1: 'Transferência bem-sucedida!',
+                text2: `Você realizou uma transferência de ${value.toLocaleString("pt-br", {
+                    style: "currency",
+                    currency: "BRL",
+                })}.`,
+            })
+
         } catch (error: any) {
-            throw error.message
+            Toast.show({
+                type: 'error',
+                text1: 'Erro na transferência',
+                text2: error.message,
+            });
         }
     }, [httpPUT])
 
@@ -84,14 +122,26 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
             throw error.message
         }
     }, [httpGET])
+
     const reverse = useCallback(async (transactionId: number, reversed: boolean) => {
         try {
             await httpPUT(`account/reversalOperation`, {
                 transactionId: transactionId,
                 reversed: reversed,
             })
+
+            Toast.show({
+                type: 'success',
+                text1: 'Operação reversada com sucesso!',
+                text2: 'A operação foi revertida com sucesso.',
+            });
+
         } catch (error: any) {
-            throw error.message
+            Toast.show({
+                type: 'error',
+                text1: 'Erro ao reverter operação',
+                text2: error.message,
+            });
         }
     }, [httpPUT])
 
