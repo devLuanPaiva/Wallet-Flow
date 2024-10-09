@@ -4,6 +4,7 @@ import Balance from "../components/account/Balance";
 import ErrorContainer from "../components/shared/ErrorContainer";
 import Operations from "../components/account/Operations";
 import UserData from "../components/user/User";
+import Header from "../components/shared/Header";
 
 export default function Home({ navigation }: any) {
   const { account, loading, error } = useAccountData()
@@ -17,8 +18,9 @@ export default function Home({ navigation }: any) {
 
   return account ? (
     <SafeAreaView style={styles.areaView}>
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+      <ScrollView contentContainerStyle={styles.scrollViewContent} style={styles.scrollView}>
         <View style={styles.view}>
+          <Header/>
           <UserData account={account} />
           <Balance account={account} />
           <Operations account={account} />
@@ -33,17 +35,20 @@ const styles = StyleSheet.create({
   areaView: {
     flex: 1,
     width: "100%",
-    backgroundColor: "#F3f3f3",
+    backgroundColor: "#1f1b2e",
   },
   scrollViewContent: {
+    flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
+  },
+  scrollView:{
+    flexGrow: 1,
+    width: "100%",
   },
   view: {
     width: "100%",
     justifyContent: "flex-start",
-    paddingVertical: 30,
-    paddingHorizontal: 15,
-    height: "100%"
+    paddingTop: 30,
   }
 });

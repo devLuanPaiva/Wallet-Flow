@@ -54,12 +54,12 @@ export default function Operations({ account }: Readonly<AccountProps>) {
 }
 
 const styles = StyleSheet.create({
-    sectionOperations:{
+    sectionOperations: {
         backgroundColor: "#F5F5F5",
         padding: 20,
         borderTopStartRadius: 40,
         borderTopEndRadius: 40,
-        height: '90%'
+        flex: 1,  
     },
     operations: {
         width: "100%",
@@ -95,3 +95,4 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
 });
+
