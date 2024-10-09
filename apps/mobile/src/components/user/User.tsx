@@ -1,15 +1,12 @@
-import useUser from "@/src/data/hooks/useUser";
 import { AccountProps } from "@/src/data/interfaces";
-import { useEffect, useRef } from "react";
-import { Animated, Easing, Pressable, Text, View, StyleSheet } from "react-native";
-import Icon from "../shared/Icon";
+import React, { useRef } from "react";
+import { Animated, Easing, Text, View, StyleSheet } from "react-native";
 
 export default function UserData({ account }: Readonly<AccountProps>) {
-    const { logout } = useUser();
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const slideAnim = useRef(new Animated.Value(-50)).current;
 
-    useEffect(() => {
+    React.useEffect(() => {
         Animated.timing(fadeAnim, {
             toValue: 1,
             duration: 1000,
@@ -27,15 +24,10 @@ export default function UserData({ account }: Readonly<AccountProps>) {
 
     return (
         <View style={styles.container}>
-            <Icon nameIcon="user" lib="AntDesign" size={40} color="#00ffea" />
-            <Text style={styles.greeting}>Olá, {account.user.name}</Text>
-            <Text style={styles.email}>{account.user.email}</Text>
-            <Pressable onPress={logout} style={styles.logoutButton}>
-                <Animated.View style={{ opacity: fadeAnim, transform: [{ translateY: slideAnim }] }}>
-                    <Icon nameIcon="logout" lib="SimpleLineIcons" size={20} color="#ff006e"/>
-                    <Text style={styles.logoutText}>Sair</Text>
-                </Animated.View>
-            </Pressable>
+            <Animated.View style={{ opacity: fadeAnim, transform: [{ translateY: slideAnim }] }}>
+                <Text style={styles.title}>Olá, {account.user.name}!</Text>
+                <Text style={styles.text}>Aqui está o seu saldo atual.</Text>
+            </Animated.View>
         </View>
     );
 }
@@ -43,36 +35,18 @@ export default function UserData({ account }: Readonly<AccountProps>) {
 const styles = StyleSheet.create({
     container: {
         padding: 20,
-        backgroundColor: '#0a0f24',
-        borderRadius: 15,
-        borderColor: '#00ffea', 
-        borderWidth: 1,
-        shadowColor: '#00ffea',
-        shadowOpacity: 0.8,
-        shadowRadius: 20,
-        shadowOffset: { width: 0, height: 0 },
     },
-    greeting: {
+    title: {
+        fontSize: 30,
+        color: '#fff',
+        fontFamily: "Roboto",
+        fontWeight: "600",
+    },
+    text: {
         fontSize: 22,
-        color: '#f4faff',
-        fontWeight: '600',
-        marginTop: 10,
-    },
-    email: {
-        fontSize: 16,
         color: '#a0aec0',
         marginBottom: 20,
-    },
-    logoutButton: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#1b2c44',
-        paddingVertical: 10,
-        borderRadius: 10,
-    },
-    logoutText: {
-        fontSize: 16,
-        color: '#ff006e', 
-        fontWeight: 'bold',
+        fontFamily: "Roboto",
+        fontWeight: "400",
     },
 });
