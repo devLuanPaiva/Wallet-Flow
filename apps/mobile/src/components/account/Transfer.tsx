@@ -1,43 +1,24 @@
 import useAccount from "@/src/data/hooks/useAccount";
 import { AccountProps } from "@/src/data/interfaces";
-import React, { useRef, useState } from "react";
-import {  Animated, Easing, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import AnimatedOperations from "../shared/AnimatedOperations";
 
 export default function Transfer({ account }: Readonly<AccountProps>) {
     const [transferKey, setTransferKey] = useState<bigint | undefined>();
     const [valueDeposity, setValueDeposity] = useState<number | null>(null);
     const { transfer, } = useAccount();
 
-    const fadeAnim = useRef(new Animated.Value(0)).current;
-    const slideAnim = useRef(new Animated.Value(-50)).current;
-
     const handleSubmit = async () => {
         await transfer(valueDeposity!, account?.id!, transferKey!)
     };
 
-    React.useEffect(() => {
-        Animated.timing(fadeAnim, {
-            toValue: 1,
-            duration: 1000,
-            easing: Easing.ease,
-            useNativeDriver: true,
-        }).start();
+   
 
-        Animated.timing(slideAnim, {
-            toValue: 0,
-            duration: 1000,
-            easing: Easing.out(Easing.ease),
-            useNativeDriver: true,
-        }).start();
-    }, []);
-  
     return (
-        <View style={styles.container}>
-            <Animated.Text style={[styles.title, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}>
-                Transferir Dinheiro
-            </Animated.Text>
 
-            <Animated.View style={[styles.form, { opacity: fadeAnim }]}>
+        <AnimatedOperations title="Transferir Dinheiro">
+            <View style={styles.form}>
                 <Text style={styles.label}>Chave de Transferência</Text>
                 <TextInput
                     style={styles.input}
@@ -45,7 +26,6 @@ export default function Transfer({ account }: Readonly<AccountProps>) {
                     keyboardType="numeric"
                     onChangeText={(text) => setTransferKey(BigInt(text))}
                 />
-
                 <Text style={styles.label}>Valor da Transferência</Text>
                 <TextInput
                     style={styles.input}
@@ -53,26 +33,16 @@ export default function Transfer({ account }: Readonly<AccountProps>) {
                     keyboardType="numeric"
                     onChangeText={(text) => setValueDeposity(parseFloat(text))}
                 />
-
                 <TouchableOpacity style={styles.buttonContainer} onPress={handleSubmit}>
                     <Text style={styles.buttonText}>Transferir</Text>
                 </TouchableOpacity>
-            </Animated.View>
-        </View>
+            </View>
+        </AnimatedOperations>
+
     )
 }
 const styles = StyleSheet.create({
-    container: {
-        justifyContent: "center",
-        marginTop: 10
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: "bold",
-        color: "#340057",
-        textAlign: "center",
-        marginVertical: 20,
-    },
+
     form: {
         backgroundColor: "#fff",
         borderRadius: 8,

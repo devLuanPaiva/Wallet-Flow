@@ -1,18 +1,16 @@
-import { ActivityIndicator, Animated, Easing, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useEffect, useRef, useState } from "react";
+import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useEffect, useState } from "react";
 import { TransactionsI } from "@wallet/core";
 import useAccount from "@/src/data/hooks/useAccount";
 import Icon from "../shared/Icon";
 import { AccountProps } from "@/src/data/interfaces";
+import AnimatedOperations from "../shared/AnimatedOperations";
 
 export default function ExtractAccount({ account }: Readonly<AccountProps>) {
     const [loadingTransactions, setLoadingTransactions] = useState(true);
     const [transactions, setTransactions] = useState<TransactionsI[]>([]);
     const { getAccountTransactions, reverse } = useAccount();
     const reverseTransactions = true;
-    const fadeAnim = useRef(new Animated.Value(0)).current;
-    const slideAnim = useRef(new Animated.Value(-50)).current;
-
     useEffect(() => {
         async function loadTransactions() {
             try {
@@ -31,21 +29,7 @@ export default function ExtractAccount({ account }: Readonly<AccountProps>) {
         loadTransactions();
     }, [getAccountTransactions, account]);
 
-    useEffect(() => {
-        Animated.timing(fadeAnim, {
-            toValue: 1,
-            duration: 1000,
-            easing: Easing.ease,
-            useNativeDriver: true,
-        }).start();
-
-        Animated.timing(slideAnim, {
-            toValue: 0,
-            duration: 1000,
-            easing: Easing.out(Easing.ease),
-            useNativeDriver: true,
-        }).start();
-    }, []);
+   
 
     const handleReverseTransaction = async (transactionId: number) => {
         try {
@@ -72,7 +56,7 @@ export default function ExtractAccount({ account }: Readonly<AccountProps>) {
                         lib="AntDesign"
                         nameIcon={item.type === "DEPOSIT" ? "caretup" : "caretdown"}
                         color="#FFF"
-                        size={24}
+                        size={20}
                     />
                 </View>
                 <Text style={styles.transactionType}>
@@ -105,40 +89,22 @@ export default function ExtractAccount({ account }: Readonly<AccountProps>) {
     }
 
     return transactions ? (
-        <View style={styles.container}>
-            <Animated.Text style={[styles.title, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}>
-                Extrato Bancário
-            </Animated.Text>
-
-            <Animated.View style={[styles.transactionsContainer, { opacity: fadeAnim }]}>
-                <FlatList
-                    data={transactions}
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.id!.toString()}
-                    showsVerticalScrollIndicator={false}
-                />
-            </Animated.View>
-        </View>
+        <AnimatedOperations title="Extrato Bancário">
+            <FlatList
+                data={transactions}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.id!.toString()}
+                showsVerticalScrollIndicator={false}
+            />
+        </AnimatedOperations>
     ) : null;
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 20,
-        backgroundColor: "#F5F5F5",
-    },
     loadingContainer: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: "bold",
-        color: "#340057",
-        textAlign: "center",
-        marginBottom: 20,
     },
     transactionsContainer: {
         flex: 1,
@@ -152,7 +118,7 @@ const styles = StyleSheet.create({
         padding: 15,
         borderRadius: 10,
         marginBottom: 15,
-        width: "90%",
+        width: "100%",
         alignSelf: "center",
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },
@@ -172,25 +138,25 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     depositBackground: {
-        backgroundColor: "#4CAF50", 
+        backgroundColor: "#4CAF50",
     },
     withdrawBackground: {
-        backgroundColor: "#E74C3C", 
+        backgroundColor: "#E74C3C",
     },
     transactionType: {
-        fontSize: 14,
+        fontSize: 12,
         marginTop: 5,
         color: "#340057",
         fontWeight: "500",
     },
     transactionValue: {
-        fontSize: 18,
+        fontSize: 14,
         fontWeight: "bold",
         color: "#27AE60",
     },
     reverseButton: {
-        padding: 10,
-        borderRadius: 5,
+        padding: 8,
+        borderRadius: 3,
     },
     reversedButton: {
         backgroundColor: "#E74C3C",
@@ -200,7 +166,7 @@ const styles = StyleSheet.create({
     },
     reverseButtonText: {
         color: "#FFF",
-        fontSize: 14,
+        fontSize: 12,
         fontWeight: "bold",
     },
 });
