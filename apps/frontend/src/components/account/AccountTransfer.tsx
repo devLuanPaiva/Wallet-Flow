@@ -19,7 +19,7 @@ import { Alert, AlertTitle, AlertDescription } from "../ui/alert";
 export default function AccountTransfer({ account }: Readonly<AccountProps>) {
     const { transfer } = useAccount();
     const [valueDeposity, setValueDeposity] = useState<number | null>(null);
-    const [transferKey, setTransferKey] = useState<bigint>();
+    const [transferKey, setTransferKey] = useState<string>();
 
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
@@ -57,10 +57,10 @@ export default function AccountTransfer({ account }: Readonly<AccountProps>) {
                 <label className="w-[100%] flex justify-center relative">
                     <IconKey size={20} className="absolute left-2 top-3 text-purple-500" />
                     <input
-                        type="number"
+                        type="string"
                         placeholder="Chave de Transferência"
                         value={transferKey?.toString() ?? ''}
-                        onChange={e => setTransferKey(Number(e.target.value) > 0 ? BigInt(e.target.value) : undefined)}
+                        onChange={e => setTransferKey(e.target.value)}
                         className="bg-purple-100 text-gray-900 w-[100%] px-4 py-2 rounded-md border border-purple-300 indent-3"
                     />
                 </label>

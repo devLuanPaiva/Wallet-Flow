@@ -5,7 +5,7 @@ import { AccountI } from "@wallet/core";
 import Toast from "react-native-toast-message";
 
 export default function CreateAccount({ navigation }: any) {
-    const [transferKey, setTransferKey] = useState<bigint | undefined>();
+    const [transferKey, setTransferKey] = useState<string | undefined>();
     const [initialBalance, setInitialBalance] = useState<number | undefined>();
     const { createAccount } = useAccount();
 
@@ -59,7 +59,7 @@ export default function CreateAccount({ navigation }: any) {
                     style={styles.input}
                     placeholder="Insira a chave de transferência"
                     keyboardType="numeric"
-                    onChangeText={(text) => setTransferKey(BigInt(text))}
+                    onChangeText={(text) => setTransferKey(text)}
                 />
 
                 <Text style={styles.label}>Saldo Inicial</Text>

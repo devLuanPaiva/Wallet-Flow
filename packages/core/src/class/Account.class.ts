@@ -16,9 +16,7 @@ export default class Account {
       );
     }
 
-    const existingAccount = await this.repo.searchAccountKey(
-      BigInt(account.transferKey)
-    );
+    const existingAccount = await this.repo.searchAccountKey(account.transferKey);
     if (existingAccount) {
       throw new Error("Chave de transferência já cadastrada.");
     }
@@ -47,7 +45,7 @@ export default class Account {
   async transfer(
     value: number,
     id: number,
-    transferKey: bigint
+    transferKey: string
   ): Promise<void> {
     if (!value || !transferKey) {
       throw new Error("Todos os dados devem ser preenchidos.");
