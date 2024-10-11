@@ -11,6 +11,7 @@ export default function ExtractAccount({ account }: Readonly<AccountProps>) {
     const [transactions, setTransactions] = useState<TransactionsI[]>([]);
     const { getAccountTransactions, reverse } = useAccount();
     const reverseTransactions = true;
+
     useEffect(() => {
         async function loadTransactions() {
             try {
@@ -28,8 +29,6 @@ export default function ExtractAccount({ account }: Readonly<AccountProps>) {
         }
         loadTransactions();
     }, [getAccountTransactions, account]);
-
-   
 
     const handleReverseTransaction = async (transactionId: number) => {
         try {
@@ -51,7 +50,12 @@ export default function ExtractAccount({ account }: Readonly<AccountProps>) {
     const renderItem = ({ item }: { item: TransactionsI }) => (
         <View style={styles.transactionCard}>
             <View style={styles.iconContainer}>
-                <View style={[styles.iconBackground, item.type === "DEPOSIT" ? styles.depositBackground : styles.withdrawBackground]}>
+                <View
+                    style={[
+                        styles.iconBackground,
+                        item.type === "DEPOSIT" ? styles.depositBackground : styles.withdrawBackground,
+                    ]}
+                >
                     <Icon
                         lib="AntDesign"
                         nameIcon={item.type === "DEPOSIT" ? "caretup" : "caretdown"}
@@ -90,12 +94,16 @@ export default function ExtractAccount({ account }: Readonly<AccountProps>) {
 
     return transactions ? (
         <AnimatedOperations title="Extrato Bancário">
-            <FlatList
-                data={transactions}
-                renderItem={renderItem}
-                keyExtractor={(item) => item.id!.toString()}
-                showsVerticalScrollIndicator={false}
-            />
+            <View style={styles.listContainer}>
+                <FlatList
+                    data={transactions}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item.id!.toString()}
+                    showsVerticalScrollIndicator={false}
+                    nestedScrollEnabled={true}
+                    contentContainerStyle={styles.transactionsContainer}
+                />
+            </View>
         </AnimatedOperations>
     ) : null;
 }
@@ -106,9 +114,11 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
+    listContainer: {
+        flex: 1, 
+    },
     transactionsContainer: {
-        flex: 1,
-        marginTop: 10,
+        padding: 10, 
     },
     transactionCard: {
         flexDirection: "row",

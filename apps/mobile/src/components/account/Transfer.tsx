@@ -5,7 +5,7 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-nativ
 import AnimatedOperations from "../shared/AnimatedOperations";
 
 export default function Transfer({ account }: Readonly<AccountProps>) {
-    const [transferKey, setTransferKey] = useState<bigint | undefined>();
+    const [transferKey, setTransferKey] = useState<string | undefined>();
     const [valueDeposity, setValueDeposity] = useState<number | null>(null);
     const { transfer, } = useAccount();
 
@@ -24,7 +24,7 @@ export default function Transfer({ account }: Readonly<AccountProps>) {
                     style={styles.input}
                     placeholder="Insira a chave de transferência"
                     keyboardType="numeric"
-                    onChangeText={(text) => setTransferKey(BigInt(text))}
+                    onChangeText={(text) => setTransferKey(text)}
                 />
                 <Text style={styles.label}>Valor da Transferência</Text>
                 <TextInput
