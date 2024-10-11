@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { Animated, Easing, StyleSheet, Text, TextInput, View, TouchableOpacity } from "react-native";
 import useAccount from "../data/hooks/useAccount";
 import { AccountI } from "@wallet/core";
+import { FormatPixKey } from "@wallet/ui";
 import Toast from "react-native-toast-message";
 import ConfirmationModal from "../components/shared/Modal";
 
@@ -59,7 +60,21 @@ export default function CreateAccount({ navigation }: any) {
                     style={styles.input}
                     placeholder="Insira a chave de transferência"
                     keyboardType="numeric"
-                    onChangeText={(text) => setTransferKey(text)}
+                    value={transferKey ?? ""} 
+                    onChangeText={(text) => {
+                        const unformattedKey = FormatPixKey.unformat(text);
+                        setTransferKey(unformattedKey);
+                    }}
+                    onBlur={() => {
+                        if (transferKey) {
+                            setTransferKey(FormatPixKey.format(transferKey));
+                        }
+                    }}
+                    onFocus={() => {
+                        if (transferKey) {
+                            setTransferKey(FormatPixKey.unformat(transferKey));
+                        }
+                    }}
                 />
 
                 <Text style={styles.label}>Saldo Inicial</Text>
@@ -70,7 +85,7 @@ export default function CreateAccount({ navigation }: any) {
                     onChangeText={(text) => setInitialBalance(parseFloat(text))}
                 />
 
-                <TouchableOpacity style={styles.buttonContainer} onPress={() => setIsModalVisible}>
+                <TouchableOpacity style={styles.buttonContainer} onPress={() => setIsModalVisible(true)}>
                     <Text style={styles.buttonText}>Criar Conta</Text>
                 </TouchableOpacity>
                 <ConfirmationModal
