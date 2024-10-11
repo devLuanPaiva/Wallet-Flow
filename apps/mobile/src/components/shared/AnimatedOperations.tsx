@@ -38,7 +38,6 @@ export default function AnimatedOperations({ title, children }: Readonly<Animate
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: "#F5F5F5",
     },
     title: {
