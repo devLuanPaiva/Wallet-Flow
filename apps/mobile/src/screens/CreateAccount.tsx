@@ -3,13 +3,13 @@ import { Animated, Easing, StyleSheet, Text, TextInput, View, TouchableOpacity }
 import useAccount from "../data/hooks/useAccount";
 import { AccountI } from "@wallet/core";
 import Toast from "react-native-toast-message";
+import ConfirmationModal from "../components/shared/Modal";
 
 export default function CreateAccount({ navigation }: any) {
     const [transferKey, setTransferKey] = useState<string | undefined>();
     const [initialBalance, setInitialBalance] = useState<number | undefined>();
     const { createAccount } = useAccount();
-
-    // Animated values
+    const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const slideAnim = useRef(new Animated.Value(-50)).current;
 
@@ -28,9 +28,9 @@ export default function CreateAccount({ navigation }: any) {
             bankBalance: initialBalance,
         };
         await createAccount(newAccount)
+        setIsModalVisible(false)
     };
 
-    // Start animations when the component mounts
     React.useEffect(() => {
         Animated.timing(fadeAnim, {
             toValue: 1,
@@ -70,9 +70,18 @@ export default function CreateAccount({ navigation }: any) {
                     onChangeText={(text) => setInitialBalance(parseFloat(text))}
                 />
 
-                <TouchableOpacity style={styles.buttonContainer} onPress={handleSubmit}>
+                <TouchableOpacity style={styles.buttonContainer} onPress={() => setIsModalVisible}>
                     <Text style={styles.buttonText}>Criar Conta</Text>
                 </TouchableOpacity>
+                <ConfirmationModal
+                    visible={isModalVisible}
+                    onClose={() => setIsModalVisible(false)}
+                    onConfirm={handleSubmit}
+                    title="Confirmação"
+                    message="Você confirma o cadastro de uma nova conta bancária?"
+                    confirmText="Confirmar"
+                    cancelText="Cancelar"
+                />
             </Animated.View>
         </View>
     );

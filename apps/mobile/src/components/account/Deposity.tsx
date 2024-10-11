@@ -3,14 +3,15 @@ import { AccountProps } from "@/src/data/interfaces";
 import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import AnimatedOperations from "../shared/AnimatedOperations";
-
+import ConfirmationModal from "../shared/Modal";
 export default function Deposity({ account }: Readonly<AccountProps>) {
     const [valueDeposity, setValueDeposity] = useState<number | null>(null);
+    const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
     const { deposit } = useAccount();
     const handleSubmit = async () => {
         await deposit(valueDeposity!, account?.id!)
+        setIsModalVisible(false)
     };
-
     return (
         <AnimatedOperations title="Depositar Dinheiro">
             <View style={styles.form}>
@@ -21,10 +22,22 @@ export default function Deposity({ account }: Readonly<AccountProps>) {
                     keyboardType="numeric"
                     onChangeText={(text) => setValueDeposity(parseFloat(text))}
                 />
-                <TouchableOpacity style={styles.buttonContainer} onPress={handleSubmit}>
+                <TouchableOpacity style={styles.buttonContainer} onPress={() => setIsModalVisible(true)}>
                     <Text style={styles.buttonText}>Depositar</Text>
                 </TouchableOpacity>
             </View>
+            <ConfirmationModal
+                visible={isModalVisible}
+                onClose={() => setIsModalVisible(false)}
+                onConfirm={handleSubmit}
+                title="Confirmação"
+                message={`Você confirma o depósito de ${valueDeposity ? valueDeposity.toLocaleString("pt-br", {
+                    style: "currency",
+                    currency: "BRL",
+                }) : 'R$0,00'} ?`}
+                confirmText="Confirmar"
+                cancelText="Cancelar"
+            />
         </AnimatedOperations>
     )
 }

@@ -5,12 +5,15 @@ import useAccount from "@/src/data/hooks/useAccount";
 import Icon from "../shared/Icon";
 import { AccountProps } from "@/src/data/interfaces";
 import AnimatedOperations from "../shared/AnimatedOperations";
+import ConfirmationModal from "../shared/Modal";
 
 export default function ExtractAccount({ account }: Readonly<AccountProps>) {
     const [loadingTransactions, setLoadingTransactions] = useState(true);
     const [transactions, setTransactions] = useState<TransactionsI[]>([]);
+    const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
     const { getAccountTransactions, reverse } = useAccount();
     const reverseTransactions = true;
+    const [transactionId, setTransactionId] = useState<number | undefined>()
 
     useEffect(() => {
         async function loadTransactions() {
@@ -41,6 +44,7 @@ export default function ExtractAccount({ account }: Readonly<AccountProps>) {
                             : transaction
                     )
                 );
+                setIsModalVisible(false)
             }
         } catch (error) {
             console.error(`${error}`);
@@ -74,7 +78,10 @@ export default function ExtractAccount({ account }: Readonly<AccountProps>) {
 
             <TouchableOpacity
                 style={[styles.reverseButton, item.reversed ? styles.reversedButton : styles.notReversedButton]}
-                onPress={() => handleReverseTransaction(item.id!)}
+                onPress={() => {
+                    setIsModalVisible(true);
+                    setTransactionId(item.id)
+                }}
                 disabled={item.reversed}
             >
                 <Text style={styles.reverseButtonText}>
@@ -97,6 +104,15 @@ export default function ExtractAccount({ account }: Readonly<AccountProps>) {
             <ScrollView style={styles.scrollView}>
                 {transactions.map((transaction) => renderItem(transaction))}
             </ScrollView>
+            <ConfirmationModal
+                visible={isModalVisible}
+                onClose={() => setIsModalVisible(false)}
+                onConfirm={() => handleReverseTransaction(transactionId!)}
+                title="Confirmação"
+                message="Você confirma a reversão desta operação?"
+                confirmText="Confirmar"
+                cancelText="Cancelar"
+            />
         </AnimatedOperations>
     ) : null;
 }

@@ -3,20 +3,19 @@ import { AccountProps } from "@/src/data/interfaces";
 import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import AnimatedOperations from "../shared/AnimatedOperations";
-
+import ConfirmationModal from "../shared/Modal";
 export default function Transfer({ account }: Readonly<AccountProps>) {
     const [transferKey, setTransferKey] = useState<string | undefined>();
     const [valueDeposity, setValueDeposity] = useState<number | null>(null);
+    const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
     const { transfer, } = useAccount();
 
     const handleSubmit = async () => {
         await transfer(valueDeposity!, account?.id!, transferKey!)
+        setIsModalVisible(false)
     };
 
-   
-
     return (
-
         <AnimatedOperations title="Transferir Dinheiro">
             <View style={styles.form}>
                 <Text style={styles.label}>Chave de Transferência</Text>
@@ -33,10 +32,22 @@ export default function Transfer({ account }: Readonly<AccountProps>) {
                     keyboardType="numeric"
                     onChangeText={(text) => setValueDeposity(parseFloat(text))}
                 />
-                <TouchableOpacity style={styles.buttonContainer} onPress={handleSubmit}>
+                <TouchableOpacity style={styles.buttonContainer} onPress={() => setIsModalVisible(true)}>
                     <Text style={styles.buttonText}>Transferir</Text>
                 </TouchableOpacity>
             </View>
+            <ConfirmationModal
+                visible={isModalVisible}
+                onClose={() => setIsModalVisible(false)}
+                onConfirm={handleSubmit}
+                title="Confirmação"
+                message={`Você confirma a transferência de ${valueDeposity ? valueDeposity.toLocaleString("pt-br", {
+                    style: "currency",
+                    currency: "BRL",
+                }) : 'R$0,00'} ?`}
+                confirmText="Confirmar"
+                cancelText="Cancelar"
+            />
         </AnimatedOperations>
 
     )
