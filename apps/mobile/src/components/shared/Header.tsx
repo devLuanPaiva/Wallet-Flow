@@ -54,12 +54,18 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         borderRadius: 5,
         padding: 10,
+        zIndex: 1000,
+        elevation: 5,
+        pointerEvents: "auto",
     },
     logoutButton: {
         width: 50,
         flexDirection: "row",
         alignItems: "center",
-        zIndex: 1000
+        zIndex: 1001,
+        elevation: 6,
+        pointerEvents: "auto",
+        cursor: "pointer"
     },
     logoutText: {
         marginLeft: 5,
