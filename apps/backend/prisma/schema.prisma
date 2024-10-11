@@ -9,7 +9,7 @@ datasource db {
 
 model Account {
   id                   Int              @id @default(autoincrement())
-  transferKey          BigInt           @unique
+  transferKey          String           @unique
   bankBalance          Float
   user                 User             @relation(fields: [userId], references: [id])
   userId               Int              @unique
@@ -36,7 +36,7 @@ model TransactionLog {
   account             Account  @relation("AccountTransactions", fields: [accountId], references: [id])
   accountId           Int
   recipientAccount    Account? @relation("RecipientTransactions", fields: [recipientAccountKey], references: [transferKey])
-  recipientAccountKey BigInt?
+  recipientAccountKey String?
   reversed            Boolean  @default(false)
   createdAt           DateTime @default(now())
 
