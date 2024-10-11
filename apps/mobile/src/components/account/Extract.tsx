@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useEffect, useState } from "react";
 import { TransactionsI } from "@wallet/core";
 import useAccount from "@/src/data/hooks/useAccount";
@@ -47,8 +47,8 @@ export default function ExtractAccount({ account }: Readonly<AccountProps>) {
         }
     };
 
-    const renderItem = ({ item }: { item: TransactionsI }) => (
-        <View style={styles.transactionCard}>
+    const renderItem = (item: TransactionsI) => (
+        <View style={styles.transactionCard} key={item.id!.toString()}>
             <View style={styles.iconContainer}>
                 <View
                     style={[
@@ -94,16 +94,9 @@ export default function ExtractAccount({ account }: Readonly<AccountProps>) {
 
     return transactions ? (
         <AnimatedOperations title="Extrato Bancário">
-            <View style={styles.listContainer}>
-                <FlatList
-                    data={transactions}
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.id!.toString()}
-                    showsVerticalScrollIndicator={false}
-                    nestedScrollEnabled={true}
-                    contentContainerStyle={styles.transactionsContainer}
-                />
-            </View>
+            <ScrollView style={styles.scrollView}>
+                {transactions.map((transaction) => renderItem(transaction))}
+            </ScrollView>
         </AnimatedOperations>
     ) : null;
 }
@@ -114,12 +107,10 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
-    listContainer: {
-        flex: 1, 
+    scrollView: {
+        flex: 1,
     },
-    transactionsContainer: {
-        padding: 10, 
-    },
+
     transactionCard: {
         flexDirection: "row",
         alignItems: "center",
