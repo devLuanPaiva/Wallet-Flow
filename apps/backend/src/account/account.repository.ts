@@ -21,7 +21,7 @@ export class AccountRepository implements RepositoryAccount {
       await this.prismaService.account.create({
         data: {
           user: { connect: { id: account.user.id } },
-          transferKey: BigInt(account.transferKey),
+          transferKey: account.transferKey,
           bankBalance: account.bankBalance,
         },
       });
@@ -59,9 +59,9 @@ export class AccountRepository implements RepositoryAccount {
       ? { ...account, transferKey: account.transferKey.toString() }
       : null;
   }
-  async searchAccountKey(transferKey: bigint): Promise<AccountI> {
+  async searchAccountKey(transferKey: string): Promise<AccountI> {
     const account = await this.prismaService.account.findFirst({
-      where: { transferKey: BigInt(transferKey) },
+      where: { transferKey: transferKey },
       include: { user: true },
     });
 
@@ -73,7 +73,7 @@ export class AccountRepository implements RepositoryAccount {
   async transfer(
     value: number,
     id: number,
-    transferKey: bigint,
+    transferKey: string,
   ): Promise<void> {
     try {
       await this.prismaService.account.update({
@@ -84,7 +84,7 @@ export class AccountRepository implements RepositoryAccount {
       });
 
       await this.prismaService.account.update({
-        where: { transferKey: BigInt(transferKey) },
+        where: { transferKey: transferKey },
         data: {
           bankBalance: { increment: value },
         },
@@ -94,7 +94,7 @@ export class AccountRepository implements RepositoryAccount {
           type: 'TRANSFER',
           value: value,
           accountId: Number(id),
-          recipientAccountKey: BigInt(transferKey),
+          recipientAccountKey: transferKey,
         },
       });
     } catch (error) {
@@ -111,7 +111,7 @@ export class AccountRepository implements RepositoryAccount {
         where: {
           OR: [
             { accountId: Number(account.id) },
-            { recipientAccountKey: BigInt(account.transferKey) },
+            { recipientAccountKey: account.transferKey },
           ],
         },
         include: {
@@ -122,7 +122,6 @@ export class AccountRepository implements RepositoryAccount {
           createdAt: 'desc',
         },
       });
-
       return transactions.map((transaction: TransactionsI) => ({
         ...transaction,
         account: {
@@ -167,7 +166,7 @@ export class AccountRepository implements RepositoryAccount {
 
       if (transaction.recipientAccountKey) {
         await this.prismaService.account.update({
-          where: { transferKey: BigInt(transaction.recipientAccountKey) },
+          where: { transferKey: transaction.recipientAccountKey },
           data: {
             bankBalance: { decrement: transaction.value },
           },
