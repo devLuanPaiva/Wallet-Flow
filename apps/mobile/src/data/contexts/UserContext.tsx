@@ -7,7 +7,7 @@ import useSection from '../hooks/useSection';
 import { UserI } from '@wallet/core';
 
 type RootStackParamList = {
-  Register: undefined;
+  Access: undefined;
 };
 const UserContext = createContext<UserContextProps>({} as any);
 export function UserProvider({ children }: any) {
@@ -45,7 +45,7 @@ export function UserProvider({ children }: any) {
   }, [createSection, httpPOST]);
 
   const logout = useCallback(() => {
-    navigation.navigate("Register");
+    navigation.navigate("Access");
     clearSection();
   }, [clearSection, navigation]);
 
