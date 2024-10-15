@@ -31,7 +31,7 @@ describe("CreateAccount Component", () => {
 
         await waitFor(() => {
             expect(mockCreateAccount).toHaveBeenCalledWith({
-                transferKey: BigInt('1234567890'),
+                transferKey:'1234567890',
                 bankBalance: 1000,
             });
         });

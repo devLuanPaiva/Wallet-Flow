@@ -2,14 +2,15 @@ import React, { useState, useRef } from "react";
 import { Animated, Easing, StyleSheet, Text, TextInput, View, TouchableOpacity } from "react-native";
 import useAccount from "../data/hooks/useAccount";
 import { AccountI } from "@wallet/core";
+import { FormatPixKey } from "@wallet/ui";
 import Toast from "react-native-toast-message";
+import ConfirmationModal from "../components/shared/Modal";
 
 export default function CreateAccount({ navigation }: any) {
-    const [transferKey, setTransferKey] = useState<bigint | undefined>();
+    const [transferKey, setTransferKey] = useState<string | undefined>();
     const [initialBalance, setInitialBalance] = useState<number | undefined>();
     const { createAccount } = useAccount();
-
-    // Animated values
+    const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const slideAnim = useRef(new Animated.Value(-50)).current;
 
@@ -28,9 +29,9 @@ export default function CreateAccount({ navigation }: any) {
             bankBalance: initialBalance,
         };
         await createAccount(newAccount)
+        setIsModalVisible(false)
     };
 
-    // Start animations when the component mounts
     React.useEffect(() => {
         Animated.timing(fadeAnim, {
             toValue: 1,
@@ -59,7 +60,21 @@ export default function CreateAccount({ navigation }: any) {
                     style={styles.input}
                     placeholder="Insira a chave de transferência"
                     keyboardType="numeric"
-                    onChangeText={(text) => setTransferKey(BigInt(text))}
+                    value={transferKey ?? ""} 
+                    onChangeText={(text) => {
+                        const unformattedKey = FormatPixKey.unformat(text);
+                        setTransferKey(unformattedKey);
+                    }}
+                    onBlur={() => {
+                        if (transferKey) {
+                            setTransferKey(FormatPixKey.format(transferKey));
+                        }
+                    }}
+                    onFocus={() => {
+                        if (transferKey) {
+                            setTransferKey(FormatPixKey.unformat(transferKey));
+                        }
+                    }}
                 />
 
                 <Text style={styles.label}>Saldo Inicial</Text>
@@ -70,9 +85,18 @@ export default function CreateAccount({ navigation }: any) {
                     onChangeText={(text) => setInitialBalance(parseFloat(text))}
                 />
 
-                <TouchableOpacity style={styles.buttonContainer} onPress={handleSubmit}>
+                <TouchableOpacity style={styles.buttonContainer} onPress={() => setIsModalVisible(true)}>
                     <Text style={styles.buttonText}>Criar Conta</Text>
                 </TouchableOpacity>
+                <ConfirmationModal
+                    visible={isModalVisible}
+                    onClose={() => setIsModalVisible(false)}
+                    onConfirm={handleSubmit}
+                    title="Confirmação"
+                    message="Você confirma o cadastro de uma nova conta bancária?"
+                    confirmText="Confirmar"
+                    cancelText="Cancelar"
+                />
             </Animated.View>
         </View>
     );

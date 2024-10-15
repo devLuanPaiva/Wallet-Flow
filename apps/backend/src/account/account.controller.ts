@@ -62,7 +62,7 @@ export class AccountController {
 
   @Get('search/:transferKey')
   async searchAccountKey(
-    @Param('transferKey') transferKey: bigint,
+    @Param('transferKey') transferKey: string,
   ): Promise<AccountI> {
     try {
       return await this.repo.searchAccountKey(transferKey);
@@ -83,7 +83,7 @@ export class AccountController {
 
   @Put('transfer/:transferKey')
   async transfer(
-    @Param('transferKey') transferKey: bigint,
+    @Param('transferKey') transferKey: string,
     @Body('value') value: number,
     @Body('id') id: number,
     @UserLogged() userLogged: UserI,
@@ -103,7 +103,7 @@ export class AccountController {
   @Get('getAccountTransactions/:accountId/:key')
   async getAccountTransactions(
     @Param('accountId') accountId: number,
-    @Param('key') key: bigint,
+    @Param('key') key: string,
   ): Promise<TransactionsI[]> {
     const ParseAccount = {
       id: accountId,

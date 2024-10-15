@@ -50,7 +50,7 @@ describe('Transfer Component', () => {
         fireEvent.press(getByText('Transferir'));
 
         await waitFor(() => {
-            expect(mockTransfer).toHaveBeenCalledWith(250, 1, BigInt('0987654321'));
+            expect(mockTransfer).toHaveBeenCalledWith(250, 1,'0987654321');
         });
     });
 
@@ -63,7 +63,7 @@ describe('Transfer Component', () => {
         fireEvent.press(getByText('Transferir'));
 
         await waitFor(() => {
-            expect(mockTransfer).toHaveBeenCalledWith(250, 1, BigInt('0987654321'));
+            expect(mockTransfer).toHaveBeenCalledWith(250, 1,'0987654321');
             expect(mockTransfer).toHaveBeenCalledTimes(2);
         })
     });
@@ -79,7 +79,7 @@ describe('Transfer Component', () => {
         })
 
         await waitFor(() => {
-            expect(mockTransfer).toHaveBeenCalledWith(25000, 1, BigInt('0987654321'));
+            expect(mockTransfer).toHaveBeenCalledWith(25000, 1,'0987654321');
         })
     })
 });

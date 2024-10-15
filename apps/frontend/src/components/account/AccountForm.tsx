@@ -17,7 +17,7 @@ import {
 import { Alert, AlertTitle, AlertDescription } from "../ui/alert";
 
 export default function AccountForm() {
-    const [transferKey, setTransferKey] = useState<bigint | undefined>()
+    const [transferKey, setTransferKey] = useState<string | undefined>()
     const [initialBalance, setInitialBalance] = useState<number | undefined>()
     const { createAccount } = useAccount()
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -58,10 +58,10 @@ export default function AccountForm() {
                 <label className="w-[100%] flex justify-center relative">
                     <IconKey size={20} className="absolute left-2 top-3 text-purple-500" />
                     <input
-                        type="number"
+                        type="text"
                         placeholder="Chave de Transferência"
                         value={transferKey?.toString() ?? ''}
-                        onChange={e => setTransferKey(e.target.value ? BigInt(e.target.value) : undefined)}
+                        onChange={e => setTransferKey(e.target.value )}
                         className="bg-purple-100 text-gray-900 w-[100%] px-4 py-2 rounded-md border border-purple-300 indent-3"
                     />
 

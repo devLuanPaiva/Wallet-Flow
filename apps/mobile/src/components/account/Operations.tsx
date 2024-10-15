@@ -7,10 +7,10 @@ import Deposity from "./Deposity";
 import ExtractAccount from "./Extract";
 
 export default function Operations({ account }: Readonly<AccountProps>) {
-    const [selectedOption, setSelectedOption] = useState<string>("");
+    const [selectedOption, setSelectedOption] = useState<string>("transfer");
 
     return (
-        <View>
+        <View style={styles.sectionOperations}>
             <View style={styles.operations}>
                 <TouchableOpacity
                     style={[
@@ -54,6 +54,13 @@ export default function Operations({ account }: Readonly<AccountProps>) {
 }
 
 const styles = StyleSheet.create({
+    sectionOperations: {
+        backgroundColor: "#f3f3f3",
+        padding: 20,
+        borderTopStartRadius: 40,
+        borderTopEndRadius: 40,
+        height: "100%"
+    },
     operations: {
         width: "100%",
         flexDirection: "row",
@@ -88,3 +95,4 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
 });
+

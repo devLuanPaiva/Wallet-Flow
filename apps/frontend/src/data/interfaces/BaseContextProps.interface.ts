@@ -20,7 +20,7 @@ export interface AccountContextProps {
   transfer: (
     value: number,
     accountId: number,
-    transferKey: bigint
+    transferKey: string
   ) => Promise<void>;
   checkBalance: (accountId: number) => Promise<number>;
   fetchAccount: () => Promise<AccountI>;

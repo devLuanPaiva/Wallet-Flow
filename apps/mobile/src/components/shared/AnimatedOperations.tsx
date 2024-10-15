@@ -1,11 +1,14 @@
-import { AccountProps } from "@/src/data/interfaces";
 import React, { useRef } from "react";
-import { Animated, Easing, Text, View, StyleSheet } from "react-native";
+import { Animated, Easing, StyleSheet, View } from "react-native";
 
-export default function UserData({ account }: Readonly<AccountProps>) {
+interface AnimatedProps {
+    children: React.ReactNode;
+    title: string
+}
+
+export default function AnimatedOperations({ title, children }: Readonly<AnimatedProps>) {
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const slideAnim = useRef(new Animated.Value(-50)).current;
-
     React.useEffect(() => {
         Animated.timing(fadeAnim, {
             toValue: 1,
@@ -23,30 +26,25 @@ export default function UserData({ account }: Readonly<AccountProps>) {
     }, []);
 
     return (
-        <View style={styles.container}>
+        <View>
+            <Animated.Text style={[styles.title, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}>
+                {title}
+            </Animated.Text>
             <Animated.View style={{ opacity: fadeAnim, transform: [{ translateY: slideAnim }] }}>
-                <Text style={styles.title}>Olá, {account.user.name}!</Text>
-                <Text style={styles.text}>Aqui está o seu saldo atual.</Text>
+                {children}
             </Animated.View>
         </View>
-    );
+    )
 }
-
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
+        backgroundColor: "#F5F5F5",
     },
     title: {
-        fontSize: 30,
-        color: '#fff',
-        fontFamily: "Roboto",
-        fontWeight: "600",
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "#340057",
+        textAlign: "center",
+        marginBottom: 15,
     },
-    text: {
-        fontSize: 22,
-        color: '#a0aec0',
-        marginBottom: 20,
-        fontFamily: "Roboto",
-        fontWeight: "400",
-    },
-});
+})
