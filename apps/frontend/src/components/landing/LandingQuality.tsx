@@ -21,7 +21,7 @@ export default function LandingQuality() {
     ];
 
     return (
-        <section className="relative w-full flex justify-around flex-wrap items-center px-10 pt-5 box-border">
+        <section className="relative w-full min-h-[600px] flex justify-around flex-wrap items-center px-10 pt-5 box-border">
             <HoverEffect items={qualities} />
         </section>
     );
