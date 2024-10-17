@@ -1,3 +1,4 @@
+import LandingAdvertising from "@/components/landing/LandingAdvertising";
 import LandingApresentation from "@/components/landing/LandingApresentation";
 import LandingHeader from "@/components/landing/LandingHeader";
 import LandingQuality from "@/components/landing/LandingQuality";
@@ -9,6 +10,7 @@ export default function Page() {
                 <main className="min-w-full mx-auto flex-1 flex-col ">
                     <LandingApresentation/>
                     <LandingQuality/>
+                    <LandingAdvertising/>
                 </main>
             </div>
         
