@@ -4,7 +4,7 @@ import { IconBrandFacebook, IconBrandInstagram, IconBrandLinkedin, IconBrandWhat
 
 export default function Footer() {
     return (
-        <footer className="flex items-center bg-black">
+        <footer className="flex items-center bg-purple-950 px-4">
             <section className="container flex flex-col gap-7 py-10">
                 <div className="flex flex-col md:flex-row items-center md:items-start md:justify-between gap-5">
                     <Image src={Logo} alt="Logo" width={120} height={120} />
