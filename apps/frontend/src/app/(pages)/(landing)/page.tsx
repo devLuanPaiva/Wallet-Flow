@@ -2,6 +2,7 @@ import LandingAdvertising from "@/components/landing/LandingAdvertising";
 import LandingApresentation from "@/components/landing/LandingApresentation";
 import LandingHeader from "@/components/landing/LandingHeader";
 import LandingQuality from "@/components/landing/LandingQuality";
+import Footer from "@/components/shared/Footer";
 
 export default function Page() {
     return (
@@ -12,6 +13,7 @@ export default function Page() {
                     <LandingQuality/>
                     <LandingAdvertising/>
                 </main>
+                <Footer/>
             </div>
         
     );
