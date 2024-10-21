@@ -4,7 +4,7 @@ import { BcryptProvider } from './bcrypt.provider';
 import { User, UserI } from '@wallet/core';
 import * as jwt from 'jsonwebtoken';
 
-@Controller('user')
+@Controller('api/user')
 export class UserController {
   constructor(
     private readonly repo: UserRepository,

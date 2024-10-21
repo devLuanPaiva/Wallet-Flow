@@ -11,7 +11,7 @@ import { AccountRepository } from './account.repository';
 import { Account, AccountI, TransactionsI, UserI } from '@wallet/core';
 import { UserLogged } from '../user/user.decorator';
 
-@Controller('account')
+@Controller('api/account')
 export class AccountController {
   constructor(private readonly repo: AccountRepository) {}
 
