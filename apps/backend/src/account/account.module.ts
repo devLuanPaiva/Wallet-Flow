@@ -3,7 +3,7 @@ import { PrismaModule } from '../db/prima.module';
 import { UserModule } from '../user/user.module';
 import { AccountController } from './account.controller';
 import { AccountRepository } from './account.repository';
-import { UserMidddleware } from 'src/user/user.middleware';
+import { UserMiddleware } from '../user/user.middleware';
 
 @Module({
   imports: [PrismaModule, UserModule],
@@ -12,6 +12,6 @@ import { UserMidddleware } from 'src/user/user.middleware';
 })
 export class AccountModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(UserMidddleware).forRoutes(AccountController);
+    consumer.apply(UserMiddleware).forRoutes(AccountController);
   }
 }
