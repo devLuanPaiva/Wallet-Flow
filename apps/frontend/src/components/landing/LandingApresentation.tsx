@@ -14,7 +14,7 @@ export default function LandingApresentation() {
     }, []);
 
     return (
-        <section className="relative w-full flex flex-col items-center min-h-[600px] px-10 pt-5 bg-gradient-to-b from-purple-50 via-purple-100 to-purple-300 space-y-2 overflow-hidden shadow-xl">
+        <section className="relative w-full flex flex-col items-center h-screen px-10 pt-5 bg-gradient-to-b from-purple-50 via-purple-100 to-purple-300 space-y-2 overflow-hidden shadow-xl">
             <TitleAnimated titleTop='Revolucione' titleBottom='sua carteira' slogan='Simples, Rapida e Segura'/>
 
             <div className="absolute top-1/2 w-full flex justify-center">
