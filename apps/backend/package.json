@@ -17,8 +17,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
-    
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "vercel-build": "npx prisma generate && npx prisma migrate deploy"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -26,7 +26,9 @@
     "@nestjs/platform-express": "^10.0.0",
     "@prisma/client": "^5.19.0",
     "@wallet/core": "*",
+    "bcryptjs": "^2.4.3",
     "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
   },

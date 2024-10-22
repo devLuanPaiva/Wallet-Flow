@@ -2,11 +2,11 @@
 import useUser from "@/data/hooks/useUser";
 import { IconEye, IconEyeOff, IconMail, IconPassword, IconUser } from "@tabler/icons-react";
 import Image from "next/image";
-import imgBunner from '../../../public/banners/4234239.jpg';
 import logo from '../../../public/banners/8490233.png';
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Alert, AlertTitle, AlertDescription } from "../ui/alert";
+import TitleAnimated from "../shared/TitleAnimated";
 
 export default function UserForm() {
     const [mode, setMode] = useState<'access' | 'register'>('access');
@@ -63,8 +63,7 @@ export default function UserForm() {
     }
 
     return (
-
-        <section className="flex justify-center items-center min-h-screen relative bg-purple-200">
+        <section className="flex flex-col justify-evenly h-screen bg-gradient-to-b from-purple-50 via-purple-100 to-purple-300 space-y-2">
             <Alert
                 show={showAlert}
                 onClose={() => setShowAlert(false)}
@@ -73,8 +72,10 @@ export default function UserForm() {
                 <AlertTitle>{errorMessage ? "Erro" : "Sucesso"}</AlertTitle>
                 <AlertDescription>{errorMessage ?? successMessage}</AlertDescription>
             </Alert>
-            <Image src={imgBunner} fill alt="cartões empilhados" className="object-cover" />
-            <section className="flex justify-center items-center gap-6 absolute inset-0 px-6 md:px-10">
+            <header>
+                {mode === 'access' ? <TitleAnimated titleTop="Acese" titleBottom="sua conta" slogan="Faça login e tenha o controle da sua carteira." /> : <TitleAnimated titleTop="Registre" titleBottom="sua conta" slogan="Junte-se a nós e comece a gerenciar suas finanças." />}
+            </header>
+            <article className="flex justify-center items-center gap-6 px-6 md:px-10">
                 <form className="flex flex-col justify-center items-center gap-4 rounded-lg bg-white p-4 shadow-lg w-full max-w-[400px] md:max-w-[550px] md:p-6 h-auto">
                     <figure className="mb-4">
                         <Image src={logo} alt="logo" width={150} height={120} />
@@ -150,7 +151,7 @@ export default function UserForm() {
                         )}
                     </div>
                 </form>
-            </section>
+            </article>
         </section>
     );
 }
