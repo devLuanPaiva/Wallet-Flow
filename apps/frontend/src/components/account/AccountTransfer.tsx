@@ -41,9 +41,9 @@ export default function AccountTransfer({ account }: Readonly<AccountProps>) {
 
 
     return (
-        <section className="mt-5">
-            <form className="flex flex-col justify-center items-center gap-4 rounded-lg bg-white px-6 shadow-lg w-[550px] h-[300px]">
-                <h2 className="text-2xl relative z-20 md:text-3xl lg:text-5xl font-bold text-center text-purple-950 dark:text-purple-900 font-sans tracking-tight">Realizar Transferência</h2>
+        <section className="w-full">
+            <form className="flex flex-col justify-center items-center gap-4 rounded-lg bg-white px-6 shadow-lg h-[300px] transition-all duration-500 hover:shadow-2xl">
+                <h3 className="text-2xl relative z-20 md:text-3xl lg:text-5xl font-bold text-center text-purple-950 dark:text-purple-900 font-sans tracking-tight">Realizar Transferência</h3>
                 <label className="w-[100%] flex justify-center relative">
                     <IconCurrencyDollar size={20} className="absolute left-2 top-3 text-purple-500" />
                     <input
@@ -51,7 +51,7 @@ export default function AccountTransfer({ account }: Readonly<AccountProps>) {
                         placeholder="Valor"
                         value={valueDeposity ?? ""}
                         onChange={e => setValueDeposity(Number(e.target.value) > 0 ? Number(e.target.value) : null)}
-                        className="bg-purple-100 text-gray-900 w-[100%] px-4 py-2 rounded-md border border-purple-300 indent-3"
+                        className="bg-purple-100 text-gray-900 w-[100%] px-4 py-2 rounded-md border border-purple-300 indent-3 transition duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
                     />
                 </label>
                 <label className="w-[100%] flex justify-center relative">
@@ -61,15 +61,15 @@ export default function AccountTransfer({ account }: Readonly<AccountProps>) {
                         placeholder="Chave de Transferência"
                         value={transferKey?.toString() ?? ''}
                         onChange={e => setTransferKey(e.target.value)}
-                        className="bg-purple-100 text-gray-900 w-[100%] px-4 py-2 rounded-md border border-purple-300 indent-3"
+                        className="bg-purple-100 text-gray-900 w-[100%] px-4 py-2 rounded-md border border-purple-300 indent-3 transition duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
                     />
                 </label>
                 <AlertDialog open={isAlertDialogOpen} onOpenChange={setIsAlertDialogOpen}>
                     <AlertDialogTrigger asChild>
                         <button
                             type="button"
-                            
-                            className="bg-gradient-to-r from-purple-500 to-purple-600 text-white font-semibold text-base md:text-lg py-2 px-4 hover:from-purple-600 hover:to-purple-700 rounded"
+
+                            className="bg-gradient-to-r from-purple-500 to-purple-600 text-white font-semibold py-2 px-4 rounded transition transform hover:scale-105 hover:bg-gradient-to-r hover:from-purple-600 hover:to-purple-700"
                         >
                             Transferir
                         </button>
