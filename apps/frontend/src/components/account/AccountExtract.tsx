@@ -5,7 +5,7 @@ import { TransactionsI } from "@wallet/core";
 import { useEffect, useState } from "react";
 import LoadingComponent from "../shared/LoadingComponent";
 import { Alert, AlertTitle, AlertDescription } from "../ui/alert";
-import NotAccount from "../shared/NotAccount";
+import NotTransfer from "./NotTransfer";
 
 export default function AccountExtract() {
     const { getAccountTransactions, reverse } = useAccount();
@@ -107,7 +107,7 @@ export default function AccountExtract() {
             </ul>
         </section>
     ) : (
-        <NotAccount />
+        <NotTransfer />
     )
 
 }
