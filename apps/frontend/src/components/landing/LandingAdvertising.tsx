@@ -37,11 +37,11 @@ export default function LandingAdvertising() {
                             </button>
                         </div>
                     </article>
-                </WobbleCard>
+            </WobbleCard>
 
-                <div className="md:col-span-2 flex justify-center">
-                    <WobbleCard className="bg-purple-500 hover:bg-purple-400 transition-transform transform hover:-translate-y-2 hover:scale-105 rounded-lg shadow-lg w-full w-full">
-                        <div className="flex items-center p-6 space-x-6">
+                <div className="md:col-span-2 md:flex md:justify-center">
+                    <WobbleCard className="bg-purple-500 hover:bg-purple-400 transition-transform transform hover:-translate-y-2 hover:scale-105 rounded-lg shadow-lg w-full">
+                        <article className="flex items-center p-6 space-x-6 flex-col md:flex-row">
                             <Image src={CreateAccount} alt="Mulher criando conta" className="w-48 h-auto rounded-lg shadow-xl" />
                             <div>
                                 <h3 className="text-2xl font-bold mb-2">Abra sua Conta</h3>
@@ -52,7 +52,7 @@ export default function LandingAdvertising() {
                                     Criar conta
                                 </button>
                             </div>
-                        </div>
+                        </article>
                     </WobbleCard>
                 </div>
             </div>
