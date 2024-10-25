@@ -36,7 +36,7 @@ describe('AccountTransfer Component', () => {
         expect(screen.getByPlaceholderText('Chave de Transferência')).toBeInTheDocument()
         expect(screen.getByText('Transferir')).toBeInTheDocument()
     })
-    it('should handle successful transfer', async () =>{
+    it('should handle successful transfer', async () => {
         mockTransfer.mockResolvedValueOnce({})
         render(
             <AccountProvider>
@@ -54,6 +54,24 @@ describe('AccountTransfer Component', () => {
 
         await waitFor(() => {
             expect(mockTransfer).toHaveBeenCalledWith(200, 1, '0987654321')
+        })
+    })
+    it('should show error message when some data was not sent', async () => {
+        mockTransfer.mockRejectedValueOnce(new Error("Todos os dados devem ser preenchidos."))
+        render(
+            <AccountProvider>
+                <AccountTransfer account={accountProps} />
+            </AccountProvider>
+        )
+        fireEvent.click(screen.getByText('Transferir'))
+
+        const confirmButton = await screen.findByText('Confirmar')
+        fireEvent.click(confirmButton)
+
+        await waitFor(() => expect(screen.getByText('Erro')).toBeInTheDocument())
+
+        await waitFor(() => {
+            expect(screen.getByText(/todos os dados devem ser preenchidos/i)).toBeInTheDocument()
         })
     })
 })
