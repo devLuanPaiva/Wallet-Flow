@@ -36,4 +36,24 @@ describe('AccountTransfer Component', () => {
         expect(screen.getByPlaceholderText('Chave de Transferência')).toBeInTheDocument()
         expect(screen.getByText('Transferir')).toBeInTheDocument()
     })
+    it('should handle successful transfer', async () =>{
+        mockTransfer.mockResolvedValueOnce({})
+        render(
+            <AccountProvider>
+                <AccountTransfer account={accountProps} />
+            </AccountProvider>
+        )
+        fireEvent.change(screen.getByPlaceholderText('Valor'), { target: { value: '200' } })
+        fireEvent.change(screen.getByPlaceholderText('Chave de Transferência'), { target: { value: '0987654321' } })
+        fireEvent.click(screen.getByText('Transferir'))
+
+        const confirmButton = await screen.findByText('Confirmar')
+        fireEvent.click(confirmButton)
+
+        await waitFor(() => expect(screen.getByText('Sucesso')).toBeInTheDocument())
+
+        await waitFor(() => {
+            expect(mockTransfer).toHaveBeenCalledWith(200, 1, '0987654321')
+        })
+    })
 })
