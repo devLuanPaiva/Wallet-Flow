@@ -54,11 +54,29 @@ describe('AccountDeposity Component', () => {
         fireEvent.click(confirmButton)
 
         await waitFor(() => expect(screen.getByText('Sucesso')).toBeInTheDocument())
-        
+
         await waitFor(() => {
             expect(mockDeposity).toHaveBeenCalledWith(500, 1)
 
         })
     })
-    
+
+    it('should show error message', async () => {
+        mockDeposity.mockRejectedValueOnce(new Error("Deve existir algum valor para ser depositado!"))
+        render(
+            <AccountProvider>
+                <AccountDeposity account={accountProps} />
+            </AccountProvider>
+        )
+        const input = screen.getByPlaceholderText('Valor')
+        const depositButton = screen.getByText('Depositar')
+
+        fireEvent.change(input, { target: { value: '0' } })
+        fireEvent.click(depositButton)
+
+        const confirmButton = await screen.findByText('Confirmar')
+        fireEvent.click(confirmButton)
+        await waitFor(() => expect(screen.getByText('Erro')).toBeInTheDocument())
+        expect(screen.getByText("Deve existir algum valor para ser depositado!")).toBeInTheDocument()
+    })
 })
