@@ -5,7 +5,7 @@ import { AccountProvider } from "../src/data/contexts/AccountContext";
 import { AccountProps } from "../src/data/interfaces";
 import "@testing-library/jest-dom"
 
-jest.mock('../data/hooks/useAccount')
+jest.mock('../src/data/hooks/useAccount')
 describe('AccountDeposity Component', () => {
     const mockDeposity = jest.fn()
     const accountProps: AccountProps['account'] = {
@@ -33,7 +33,7 @@ describe('AccountDeposity Component', () => {
                 <AccountDeposity account={accountProps} />
             </AccountProvider>
         )
-        expect(screen.getByText('Realizar Deposito')).toBeInTheDocument()
+        expect(screen.getByText('Realizar Depósito')).toBeInTheDocument()
         expect(screen.getByPlaceholderText('Valor')).toBeInTheDocument()
         expect(screen.getByText('Depositar')).toBeInTheDocument()
     })
@@ -49,6 +49,12 @@ describe('AccountDeposity Component', () => {
 
         fireEvent.change(input, { target: { value: '500' } })
         fireEvent.click(button)
+
+        const confirmButton = await screen.findByText('Confirmar')
+        fireEvent.click(confirmButton)
+
+        await waitFor(() => expect(screen.getByText('Sucesso')).toBeInTheDocument())
+        
         await waitFor(() => {
             expect(mockDeposity).toHaveBeenCalledWith(500, 1)
 
