@@ -63,6 +63,8 @@ describe('AccountTransfer Component', () => {
                 <AccountTransfer account={accountProps} />
             </AccountProvider>
         )
+        fireEvent.change(screen.getByPlaceholderText('Valor'), { target: { value: '2000' } })
+        fireEvent.change(screen.getByPlaceholderText('Chave de Transferência'), { target: { value: '0987654321' } })
         fireEvent.click(screen.getByText('Transferir'))
 
         const confirmButton = await screen.findByText('Confirmar')
@@ -72,6 +74,25 @@ describe('AccountTransfer Component', () => {
 
         await waitFor(() => {
             expect(screen.getByText(/todos os dados devem ser preenchidos/i)).toBeInTheDocument()
+        })
+    })
+
+    it('should show error message when balance insufficient', async () => {
+        mockTransfer.mockRejectedValueOnce(new Error("Saldo insuficiente"))
+        render(
+            <AccountProvider>
+                <AccountTransfer account={accountProps} />
+            </AccountProvider>
+        )
+        fireEvent.click(screen.getByText('Transferir'))
+
+        const confirmButton = await screen.findByText('Confirmar')
+        fireEvent.click(confirmButton)
+
+        await waitFor(() => expect(screen.getByText('Erro')).toBeInTheDocument())
+
+        await waitFor(() => {
+            expect(screen.getByText(/saldo insuficiente/i)).toBeInTheDocument()
         })
     })
 })
