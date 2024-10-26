@@ -1,4 +1,4 @@
-# Wallet Flow
+# 🤑 Wallet Flow 💴
 
 **Wallet Flow** é uma aplicação web de carteira virtual, onde o usuário pode:
 
@@ -21,6 +21,7 @@ O projeto foi desenvolvido com foco em aprendizado e boas práticas de arquitetu
 - **SQLite**: Banco de dados leve e eficiente.
 - **Jest**: Para testes unitários e de integração.
 - **Git Flow**: Para gerenciamento de versão com uma estratégia clara de branches.
+- **React Native Expo**: Para o desenvolvimento da versão mobile.
 
 ## 🛠️ Funcionalidades
 
@@ -38,7 +39,6 @@ Este projeto foi desenvolvido com o objetivo de ser enviado como parte de um tes
 - Uso das tecnologias mencionadas de forma eficiente
 
 ## 🚧 Status do Projeto
-
 O projeto está **concluído**, com as seguintes etapas ainda em andamento:
 - Implementação de responsividade e refinamento de estilo
 
@@ -79,6 +79,28 @@ yarn install
         bun dev
         ```
 5. Abra o navegador e acesse `http://localhost:3000`.
+
+## 🕹️ Como Usar
+
+### 💻 Versão Web
+1. **Login**: Ao realizar o login, você será direcionado diretamente para a página inicial (Home).
+2. **Página Inicial**: Na Home, você verá os dados da sua conta, incluindo saldo e histórico de transações.
+3. **Depósitos e Transferências**:
+   - Na mesma página, abaixo dos dados da conta, haverá dois formulários:
+     - **Depósito**: Informe o valor e clique no botão para realizar o depósito.
+     - **Transferência**: Informe a chave e o valor e clique no botão para realizar a transferência.
+4. **Criar Conta**: 
+   - Caso ainda não tenha uma conta, um botão de "Criar Conta" será exibido na página inicial.
+   - Ao clicar no botão, você será direcionado para a página de criação de conta, onde deverá informar a chave e o saldo inicial.
+
+### 📱 Versão Mobile
+1. **Login**: Após o login, três opções principais estarão disponíveis:
+   - **Depósito**: Clique para acessar o formulário de depósito. Basta informar o valor e confirmar.
+   - **Transferência**: Clique para acessar o formulário de transferência. Informe a chave e o valor, e clique no botão para confirmar a transação.
+   - **Extrato**: Exibe o histórico de transações da conta.
+2. **Criar Conta**:
+   - Semelhante à versão web, caso não tenha uma conta, uma opção de "Criar Conta" estará disponível.
+   - Ao selecionar essa opção, informe a chave e o saldo inicial para criar a conta.
 
 ## ✍️ Contribuições
 Sinta-se à vontade para contribuir com este projeto. Sugestões, correções de bugs e melhorias são sempre bem-vindas. Por favor, siga o fluxo de trabalho do Git Flow para submissão de pull requests.
