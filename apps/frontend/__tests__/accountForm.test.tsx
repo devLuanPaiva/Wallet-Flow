@@ -39,4 +39,22 @@ describe('AccountForm Component', () => {
         expect(screen.getByPlaceholderText('Saldo Inicial')).toBeInTheDocument()
         expect(screen.getByText('Cadastrar')).toBeInTheDocument()
     })
+    it('should create account', async () => {
+        mockCreateAccount.mockResolvedValueOnce({})
+        render(
+            <AccountProvider>
+                <AccountForm />
+            </AccountProvider>
+        )
+        const inputTransferKey = screen.getByPlaceholderText('Chave de Transferência')
+        fireEvent.change(inputTransferKey, { target: { value: accountSubmit.transferKey } })
+        const inputInitialBalance = screen.getByPlaceholderText('Saldo Inicial')
+        fireEvent.change(inputInitialBalance, { target: { value: accountSubmit.bankBalance } })
+        fireEvent.click(screen.getByText('Cadastrar'))
+
+        const confirmButton = await screen.findByText('Confirmar')
+        fireEvent.click(confirmButton)
+
+        await waitFor(() => expect(screen.getByText('Sucesso')).toBeInTheDocument())
+    })
 })
