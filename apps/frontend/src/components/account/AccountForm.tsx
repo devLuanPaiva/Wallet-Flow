@@ -54,7 +54,7 @@ export default function AccountForm() {
     return (
         <section className="mt-5">
             <form className="flex flex-col justify-center items-center gap-4 rounded-lg bg-white px-6 shadow-lg w-[550px] h-[300px]">
-                <h2 className="text-2xl relative z-20 md:text-3xl lg:text-5xl font-bold text-center text-purple-950 dark:text-purple-900 font-sans tracking-tight">Criar Conta</h2>
+                <h2 className="text-2xl relative z-20 md:text-3xl lg:text-5xl font-bold text-center text-purple-950 dark:text-purple-900 font-sans tracking-tight">Registrar Conta</h2>
                 <label className="w-[100%] flex justify-center relative">
                     <IconKey size={20} className="absolute left-2 top-3 text-purple-500" />
                     <input
@@ -79,7 +79,7 @@ export default function AccountForm() {
                 </label>
                 <AlertDialog open={isAlertDialogOpen} onOpenChange={setIsAlertDialogOpen}>
                     <AlertDialogTrigger asChild>
-                        <button className="bg-purple-600 text-white font-semibold text-base md:text-lg py-2 px-4 rounded-md hover:bg-purple-700 ">Criar Conta</button>
+                        <button className="bg-purple-600 text-white font-semibold text-base md:text-lg py-2 px-4 rounded-md hover:bg-purple-700 ">Cadastrar</button>
 
                     </AlertDialogTrigger>
                     <AlertDialogContent>

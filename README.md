@@ -39,14 +39,11 @@ Este projeto foi desenvolvido com o objetivo de ser enviado como parte de um tes
 
 ## 🚧 Status do Projeto
 
-O projeto está **em desenvolvimento**, com as seguintes etapas ainda em andamento:
+O projeto está **concluído**, com as seguintes etapas ainda em andamento:
 - Implementação de responsividade e refinamento de estilo
-- Finalização de regras de negócio
-- Testes em toda a aplicação (usando Jest)
 
-## 🧩 Próximos Passos
-- Desenvolver a versão mobile
-- Realizar o deploy de todo o sistema
+## 🌐 Deploy
+O projeto foi desenvolvido e está disponível na Vercel, podendo ser acessado em: ['Wallet-Flow'](https://wallet-flow.vercel.app/)
 
 ## 📦 Como rodar o projeto
 
