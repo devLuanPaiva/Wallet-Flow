@@ -5,7 +5,7 @@ import { TransactionsI } from "@wallet/core";
 import { useEffect, useState } from "react";
 import LoadingComponent from "../shared/LoadingComponent";
 import { Alert, AlertTitle, AlertDescription } from "../ui/alert";
-import NotAccount from "../shared/NotAccount";
+import NotTransfer from "./NotTransfer";
 
 export default function AccountExtract() {
     const { getAccountTransactions, reverse } = useAccount();
@@ -65,8 +65,8 @@ export default function AccountExtract() {
 
 
     return account ? (
-        <section className="mt-5">
-            <ul className="flex flex-col justify-center items-center gap-4 rounded-lg bg-white px-6 py-4 shadow-lg min-w-[550px] min-h-[200px]">
+        <section className="w-full">
+            <ul className="flex flex-col justify-center items-center gap-4 rounded-lg bg-white px-6 py-4 shadow-lg min-w-[550px] min-h-[200px] transition-all duration-500 hover:shadow-2xl">
                 <Alert
                     show={showAlert}
                     onClose={() => setShowAlert(false)}
@@ -75,7 +75,7 @@ export default function AccountExtract() {
                     <AlertTitle>{errorMessage ? "Erro" : "Sucesso"}</AlertTitle>
                     <AlertDescription>{errorMessage ?? successMessage}</AlertDescription>
                 </Alert>
-                <h2 className="text-2xl relative z-20 md:text-3xl lg:text-5xl font-bold text-center text-purple-950 dark:text-purple-900 font-sans tracking-tight">Transações Bancárias</h2>
+                <h3 className="text-2xl relative z-20 md:text-3xl lg:text-5xl font-bold text-center text-purple-950 dark:text-purple-900 font-sans tracking-tight">Transações Bancárias</h3>
                 <div className="w-full flex flex-col gap-5">
                     {transactions.map((transaction) => (
                         <li
@@ -107,7 +107,7 @@ export default function AccountExtract() {
             </ul>
         </section>
     ) : (
-        <NotAccount />
+        <NotTransfer />
     )
 
 }

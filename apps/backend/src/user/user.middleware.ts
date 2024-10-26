@@ -5,7 +5,7 @@ import { UserRepository } from './user.repository';
 import { UserI } from '@wallet/core';
 
 @Injectable()
-export class UserMidddleware implements NestMiddleware {
+export class UserMiddleware implements NestMiddleware {
   constructor(private readonly repo: UserRepository) {}
 
   async use(req: Request, res: Response, next: NextFunction) {

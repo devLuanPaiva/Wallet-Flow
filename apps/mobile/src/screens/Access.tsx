@@ -3,19 +3,24 @@ import { Ionicons } from "@expo/vector-icons";
 import useUser from "../data/hooks/useUser";
 import useFormUser from "../data/hooks/useFormUser";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import ConfirmationModal from "../components/shared/Modal";
 
 export default function Access({ navigation }: any) {
     const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
     const [mode, setMode] = useState<'access' | 'register'>('access');
     const { user } = useUser()
     const { email, setEmail, password, setPassword, name, setName, errors, registerUser, loginUser } = useFormUser()
+    const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
     useEffect(() => {
         if (user) {
             navigation.replace('Main')
         }
     }, [user])
-
+    const handleRegister = () => {
+        registerUser()
+        setIsModalVisible(false)
+    }
     return (
         <View style={styles.container}>
             <View style={styles.content}>
@@ -83,7 +88,7 @@ export default function Access({ navigation }: any) {
                     </View>
 
                 </View>
-                <Pressable style={styles.button} onPress={mode === 'access' ? loginUser : registerUser}>
+                <Pressable style={styles.button} onPress={mode === 'access' ? loginUser : () => setIsModalVisible(true)}>
                     <Text style={styles.buttonText}>{mode === 'access' ? 'Entrar' : 'Cadastrar'}</Text>
                 </Pressable>
 
@@ -92,7 +97,15 @@ export default function Access({ navigation }: any) {
                         {mode === 'access' ? 'Ainda não tem conta? Cadastre-se!' : 'Já tem conta? Entre na plataforma!'}
                     </Text>
                 </Pressable>
-
+                <ConfirmationModal
+                    visible={isModalVisible}
+                    onClose={() => setIsModalVisible(false)}
+                    onConfirm={handleRegister}
+                    title="Confirmação"
+                    message="Você confirma o cadastro dos seus dados?"
+                    confirmText="Confirmar"
+                    cancelText="Cancelar"
+                />
             </View>
         </View >
     );

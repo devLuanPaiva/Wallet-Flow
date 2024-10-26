@@ -20,7 +20,7 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
     }, [httpGET, user])
 
     const searchAccountKey = useCallback(
-        async function (transferKey: bigint): Promise<AccountI> {
+        async function (transferKey: string): Promise<AccountI> {
             try {
                 const response = await httpGET(`account/search/${transferKey}`)
                 return response
@@ -87,7 +87,7 @@ export function AccountProvider({ children, }: { readonly children: React.ReactN
         }
     }, [httpGET])
 
-    const transfer = useCallback(async (value: number, accountId: number, transferKey: bigint) => {
+    const transfer = useCallback(async (value: number, accountId: number, transferKey: string) => {
         try {
             await httpPUT(`account/transfer/${transferKey}`,
                 {

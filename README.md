@@ -39,20 +39,11 @@ Este projeto foi desenvolvido com o objetivo de ser enviado como parte de um tes
 - Uso das tecnologias mencionadas de forma eficiente
 
 ## 🚧 Status do Projeto
+O projeto está **concluído**, com as seguintes etapas ainda em andamento:
+- Implementação de responsividade e refinamento de estilo
 
-O projeto esta em **fase de acabamento**, com as versões web e mobile já possindo as seguintes funcionalidades:
-- Autenticação
-- Criar conta bancária
-- Realizar depósitos
-- Realizar transferências
-- Vizualizar extrato
-- Desfazer operações
-
-Todas as funcionalidades já foram testadas e aprovadas.
-
-## 🧩 Proóximos Passos:
-- Melhorar o estilo de ambas as versões
-- Melhorar a qualidade do código
+## 🌐 Deploy
+O projeto foi desenvolvido e está disponível na Vercel, podendo ser acessado em: ['Wallet-Flow'](https://wallet-flow.vercel.app/)
 
 ## 📦 Como rodar o projeto
 

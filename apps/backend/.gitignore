@@ -59,3 +59,6 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 prisma/migrations/
 prisma/dev.db
 prisma/dev.db-journal
+
+#http
+*.http
